@@ -1,0 +1,89 @@
+/* ButtonPrimaryGlass Component - Matching Header CTA Style */
+
+.btn-primary-glass {
+  /* Base Styles - Matching Header CTA */
+  background: linear-gradient(135deg, #9d8f78, #827460);
+  color: #fff;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  font-weight: 600;
+  padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.2rem, 3vw, 1.75rem);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  /* Remove default button styles */
+  outline: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hover State - Matching Header CTA */
+.btn-primary-glass:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #a89a83, #8d7f6b);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Active State */
+.btn-primary-glass:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Disabled State */
+.btn-primary-glass:disabled {
+  background: linear-gradient(135deg, rgba(157, 143, 120, 0.5), rgba(130, 116, 96, 0.5));
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Focus Visible State */
+.btn-primary-glass:focus-visible {
+  outline: 2px solid #a89a83;
+  outline-offset: 2px;
+}
+
+/* Responsive Design - Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .btn-primary-glass {
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.2rem, 3vw, 1.75rem);
+  }
+}
+
+/* Responsive Design - Mobile (< 768px) */
+@media (max-width: 768px) {
+  .btn-primary-glass {
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1.2rem, 3vw, 1.75rem);
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Responsive Design - Small Mobile (< 480px) */
+@media (max-width: 480px) {
+  .btn-primary-glass {
+    font-size: 0.9rem;
+    padding: 0.65rem 1.5rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary-glass {
+    /* Increase touch target size for mobile */
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+

@@ -1,0 +1,71 @@
+<header class="header">
+  <div class="header-container">
+    <button class="logo-button" type="button" (click)="scrollToSection('hero')" aria-label="Back to hero">
+      @if (!logoError) {
+        <img 
+          src="/images/logo_white.png" 
+          alt="ROURE Personal Training" 
+          class="logo-image"
+          (error)="onLogoError()"
+        />
+      }
+      @if (logoError) {
+        <span class="logo-text">
+          <span class="logo-wordmark">ROURE</span>
+          <span class="logo-caption">Personal Training</span>
+        </span>
+      }
+    </button>
+    <button
+      type="button"
+      class="cta-button"
+      (click)="scrollToSection('promotion')"
+    >
+      Free intake
+    </button>
+    <button
+      class="menu-toggle"
+      type="button"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      aria-label="Toggle navigation menu"
+      aria-controls="mobile-navigation"
+    >
+      <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
+      <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
+      <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
+    </button>
+  </div>
+  
+  <!-- Mobile Menu Overlay -->
+  @if (isMobileMenuOpen) {
+    <div class="mobile-menu-backdrop" (click)="toggleMobileMenu()"></div>
+    <div class="mobile-menu-overlay">
+      <nav class="mobile-menu-nav" id="mobile-navigation" aria-label="Mobile Navigation">
+        <ul class="mobile-nav-list">
+          @for (item of navigationItems; track item.anchor) {
+            <li class="mobile-nav-item">
+              <button
+                type="button"
+                class="mobile-nav-link"
+                (click)="scrollToSection(item.anchor)"
+                [class.active]="activeAnchor === item.anchor"
+                [attr.aria-current]="activeAnchor === item.anchor ? 'page' : null"
+              >
+                {{ item.label }}
+              </button>
+            </li>
+          }
+        </ul>
+        <button
+          type="button"
+          class="mobile-menu-cta"
+          (click)="scrollToSection('promotion')"
+        >
+          Free intake
+        </button>
+      </nav>
+    </div>
+  }
+</header>
+

@@ -1,0 +1,69 @@
+.promotion {
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.promotion-content {
+  text-align: center;
+}
+
+.promotion-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.promotion-subtitle {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+}
+
+.promotion-description {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.promotion-button {
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: #fff;
+  color: #667eea;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.promotion-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .promotion {
+    padding: 3rem 1rem;
+  }
+
+  .promotion-title {
+    font-size: 2.2rem;
+  }
+
+  .promotion-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .promotion-description {
+    font-size: 1rem;
+  }
+}
+
