@@ -17,6 +17,13 @@ export class HeaderComponent {
     { label: 'Testimonials', anchor: 'testimonials' },
     { label: 'FAQ', anchor: 'faq' }
   ];
+
+  actionItems = [
+    { label: 'View Plans', anchor: 'plans', showArrow: false },
+    { label: 'Book Free Consultation', anchor: 'promotion', showArrow: false },
+    { label: 'Start Your Journey', anchor: 'promotion', showArrow: true }
+  ];
+
   activeAnchor = 'hero';
   isMobileMenuOpen = false;
   logoError = false;
@@ -34,10 +41,30 @@ export class HeaderComponent {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  @HostListener('window:resize')
-  onResize(): void {
-    // Close mobile menu on resize to desktop
-    if (window.innerWidth > 768) {
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const menuToggle = target.closest('.menu-toggle');
+    const dropdownMenu = target.closest('.dropdown-menu');
+    
+    // Fecha o menu se clicar fora dele (exceto no botão toggle)
+    if (this.isMobileMenuOpen && !menuToggle && !dropdownMenu) {
+      this.isMobileMenuOpen = false;
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    // Opcional: fecha o menu ao rolar a página
+    // Descomente se quiser que o menu feche ao rolar
+    // if (this.isMobileMenuOpen) {
+    //   this.isMobileMenuOpen = false;
+    // }
+  }
+
+  @HostListener('window:keydown.escape')
+  onEscapeKey(): void {
+    if (this.isMobileMenuOpen) {
       this.isMobileMenuOpen = false;
     }
   }
