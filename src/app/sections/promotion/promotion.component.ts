@@ -1,13 +1,118 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ButtonPrimaryGlassComponent } from '../../shared/components/button-primary-glass/button-primary-glass.component';
 
 @Component({
   selector: 'app-promotion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonPrimaryGlassComponent],
   templateUrl: './promotion.component.html',
   styleUrl: './promotion.component.css'
 })
 export class PromotionComponent {
-}
+  intakeForm: FormGroup;
+  isSubmitting = false;
+  isSubmitted = false;
 
+  goals = [
+    { id: 'improve-health', label: 'Improve my overall health' },
+    { id: 'confidence', label: 'Feel more confident / improve my appearance' },
+    { id: 'flexibility', label: 'Increase flexibility' },
+    { id: 'tone', label: 'Tone and shape my body' },
+    { id: 'posture', label: 'Improve posture' },
+    { id: 'lose-weight', label: 'Lose weight' },
+    { id: 'strength', label: 'Get stronger' },
+    { id: 'other', label: 'Other' }
+  ];
+
+  exerciseFrequencyOptions = [
+    { value: '', label: 'Select' },
+    { value: 'daily', label: 'Daily' },
+    { value: '4-5-times', label: '4-5 times per week' },
+    { value: '2-3-times', label: '2-3 times per week' },
+    { value: 'once-week', label: 'Once per week' },
+    { value: 'occasionally', label: 'Occasionally' },
+    { value: 'rarely', label: 'Rarely / Never' }
+  ];
+
+  experienceOptions = [
+    { value: '', label: 'Select' },
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'some-experience', label: 'Some experience' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+    { value: 'expert', label: 'Expert' }
+  ];
+
+  constructor(private fb: FormBuilder) {
+    this.intakeForm = this.fb.group({
+      goals: this.fb.group(
+        this.goals.reduce((acc, goal) => {
+          acc[goal.id] = [false];
+          return acc;
+        }, {} as Record<string, [boolean]>)
+      ),
+      otherGoal: [''],
+      exerciseFrequency: ['', Validators.required],
+      experience: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      questions: [''],
+      receiveCommunications: [false]
+    });
+  }
+
+  get goalsFormGroup(): FormGroup {
+    return this.intakeForm.get('goals') as FormGroup;
+  }
+
+  get showOtherInput(): boolean {
+    return this.goalsFormGroup.get('other')?.value || false;
+  }
+
+  onSubmit(): void {
+    if (this.intakeForm.valid) {
+      this.isSubmitting = true;
+      
+      // Simulate form submission
+      setTimeout(() => {
+        console.log('Form submitted:', this.intakeForm.value);
+        this.isSubmitting = false;
+        this.isSubmitted = true;
+        this.intakeForm.reset();
+        
+        // Reset submitted state after 5 seconds
+        setTimeout(() => {
+          this.isSubmitted = false;
+        }, 5000);
+      }, 1000);
+    } else {
+      // Mark all fields as touched to show validation errors
+      Object.keys(this.intakeForm.controls).forEach(key => {
+        const control = this.intakeForm.get(key);
+        if (control) {
+          control.markAsTouched();
+        }
+      });
+    }
+  }
+
+  hasError(controlName: string): boolean {
+    const control = this.intakeForm.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.intakeForm.get(controlName);
+    if (control?.hasError('required')) {
+      return 'This field is required';
+    }
+    if (control?.hasError('email')) {
+      return 'Please enter a valid email address';
+    }
+    return '';
+  }
+}
