@@ -37,17 +37,16 @@
     </button>
   </div>
   
-  <!-- Mobile Menu Overlay -->
+  <!-- Dropdown Menu Estilo Luna -->
   @if (isMobileMenuOpen) {
-    <div class="mobile-menu-backdrop" (click)="toggleMobileMenu()"></div>
-    <div class="mobile-menu-overlay">
-      <nav class="mobile-menu-nav" id="mobile-navigation" aria-label="Mobile Navigation">
-        <ul class="mobile-nav-list">
+    <div class="dropdown-menu">
+      <nav class="dropdown-menu-nav" id="dropdown-navigation" aria-label="Main Navigation">
+        <ul class="dropdown-nav-list">
           @for (item of navigationItems; track item.anchor) {
-            <li class="mobile-nav-item">
+            <li class="dropdown-nav-item">
               <button
                 type="button"
-                class="mobile-nav-link"
+                class="dropdown-nav-link"
                 (click)="scrollToSection(item.anchor)"
                 [class.active]="activeAnchor === item.anchor"
                 [attr.aria-current]="activeAnchor === item.anchor ? 'page' : null"
@@ -57,13 +56,29 @@
             </li>
           }
         </ul>
-        <button
-          type="button"
-          class="mobile-menu-cta"
-          (click)="scrollToSection('promotion')"
-        >
-          Free intake
-        </button>
+
+        <div class="menu-divider"></div>
+
+        <ul class="dropdown-nav-list dropdown-nav-actions">
+          @for (action of actionItems; track action.anchor) {
+            <li class="dropdown-nav-item">
+              <button
+                type="button"
+                class="dropdown-nav-link dropdown-nav-action"
+                (click)="scrollToSection(action.anchor)"
+              >
+                {{ action.label }}
+                @if (action.showArrow) {
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-arrow">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 16 16 12 12 8"></polyline>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                  </svg>
+                }
+              </button>
+            </li>
+          }
+        </ul>
       </nav>
     </div>
   }
