@@ -1,16 +1,16 @@
 <section id="promotion" class="promotion">
   <div class="promotion-container">
     <div class="promotion-header">
-      <h2 class="promotion-title">Book your intake session with us</h2>
-      <p class="promotion-subtitle">Let's start your fitness journey together</p>
+      <h2 class="promotion-title headline-1">Book your intake session with us</h2>
+      <p class="promotion-subtitle featured-3">Let's start your fitness journey together</p>
     </div>
 
     <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
       <!-- Goals Section -->
       <div class="form-section">
-        <label class="form-label">
+        <label class="form-label strong-1">
           What would you like to achieve with your training?
-          <span class="form-hint">(Feel free to select more than one!)</span>
+          <span class="form-hint small-1">(Feel free to select more than one!)</span>
         </label>
         <div formGroupName="goals" class="checkbox-group">
           @for (goal of goals; track goal.id) {
@@ -21,7 +21,7 @@
                 class="checkbox-input"
               />
               <span class="checkbox-custom"></span>
-              <span class="checkbox-text">{{ goal.label }}</span>
+              <span class="checkbox-text body-1">{{ goal.label }}</span>
             </label>
           }
         </div>
@@ -32,7 +32,7 @@
               type="text"
               formControlName="otherGoal"
               placeholder="Please specify"
-              class="form-input"
+              class="form-input body-1"
             />
           </div>
         }
@@ -40,12 +40,12 @@
 
       <!-- Exercise Frequency -->
       <div class="form-section">
-        <label class="form-label">
+        <label class="form-label strong-1">
           How often do you usually have time to exercise?
-          <span class="form-hint">(Choose the option that fits you best)</span>
+          <span class="form-hint small-1">(Choose the option that fits you best)</span>
         </label>
         <div class="form-field">
-          <select formControlName="exerciseFrequency" class="form-select" [class.error]="hasError('exerciseFrequency')">
+          <select formControlName="exerciseFrequency" class="form-select body-1" [class.error]="hasError('exerciseFrequency')">
             @for (option of exerciseFrequencyOptions; track option.value) {
               <option [value]="option.value">{{ option.label }}</option>
             }
@@ -58,11 +58,11 @@
 
       <!-- Experience -->
       <div class="form-section">
-        <label class="form-label">
+        <label class="form-label strong-1">
           How would you describe your experience with working out?
         </label>
         <div class="form-field">
-          <select formControlName="experience" class="form-select" [class.error]="hasError('experience')">
+          <select formControlName="experience" class="form-select body-1" [class.error]="hasError('experience')">
             @for (option of experienceOptions; track option.value) {
               <option [value]="option.value">{{ option.label }}</option>
             }
@@ -79,12 +79,12 @@
         
         <div class="form-row">
           <div class="form-field">
-            <label class="field-label">Name</label>
+            <label class="field-label emphasized-1">Name</label>
             <input
               type="text"
               formControlName="firstName"
               placeholder="Enter your first name"
-              class="form-input"
+              class="form-input body-1"
               [class.error]="hasError('firstName')"
             />
             @if (hasError('firstName')) {
@@ -93,12 +93,12 @@
           </div>
 
           <div class="form-field">
-            <label class="field-label">Last name</label>
+            <label class="field-label emphasized-1">Last name</label>
             <input
               type="text"
               formControlName="lastName"
               placeholder="Enter your last name"
-              class="form-input"
+              class="form-input body-1"
               [class.error]="hasError('lastName')"
             />
             @if (hasError('lastName')) {
@@ -109,12 +109,12 @@
 
         <div class="form-row">
           <div class="form-field">
-            <label class="field-label">Phone number <span class="required">*</span></label>
+            <label class="field-label emphasized-1">Phone number <span class="required">*</span></label>
             <input
               type="tel"
               formControlName="phoneNumber"
               placeholder="Enter your phone number"
-              class="form-input"
+              class="form-input body-1"
               [class.error]="hasError('phoneNumber')"
             />
             @if (hasError('phoneNumber')) {
@@ -123,12 +123,12 @@
           </div>
 
           <div class="form-field">
-            <label class="field-label">E-mail <span class="required">*</span></label>
+            <label class="field-label emphasized-1">E-mail <span class="required">*</span></label>
             <input
               type="email"
               formControlName="email"
               placeholder="Enter your email address"
-              class="form-input"
+              class="form-input body-1"
               [class.error]="hasError('email')"
             />
             @if (hasError('email')) {
@@ -140,14 +140,14 @@
 
       <!-- Questions -->
       <div class="form-section">
-        <label class="form-label">
+        <label class="form-label strong-1">
           Do you have any questions or anything you'd like us to know?
         </label>
         <div class="form-field">
           <textarea
             formControlName="questions"
             placeholder="Share any questions or information you'd like us to know..."
-            class="form-textarea"
+            class="form-textarea body-1"
             rows="4"
           ></textarea>
         </div>
@@ -156,8 +156,8 @@
       <!-- Privacy Notice -->
       <div class="form-section">
         <div class="privacy-notice">
-          <p class="privacy-text">
-            <strong>Privacy notice</strong><br>
+          <p class="privacy-text body-2">
+            <strong class="strong-2">Privacy notice</strong><br>
             Roure Personal Training respects your privacy. We will only use your information to contact you regarding your session.
           </p>
         </div>

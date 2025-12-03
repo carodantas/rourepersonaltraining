@@ -1,42 +1,31 @@
 <section id="plans" class="plans">
-  <div class="container">
-    <h2 class="section-title">Training Plans</h2>
+  <div class="plans-container">
+    <div class="plans-header">
+      <h2 class="plans-title headline-1">Training Programs</h2>
+      <p class="plans-subtitle featured-3">Choose your program</p>
+    </div>
+    
     <div class="plans-grid">
       <div class="plan-card">
-        <h3 class="plan-name">Basic Plan</h3>
-        <div class="plan-price">$99<span class="plan-period">/month</span></div>
-        <ul class="plan-features">
-          <li>2 sessions per week</li>
-          <li>Custom workout plan</li>
-          <li>Progress tracking</li>
-        </ul>
-        <button class="plan-button">Choose Plan</button>
+        <h3 class="plan-name strong-1">Duo Rate</h3>
+        <div class="plan-price display-3">€60</div>
+        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
-      <div class="plan-card featured">
-        <div class="plan-badge">Popular</div>
-        <h3 class="plan-name">Premium Plan</h3>
-        <div class="plan-price">$149<span class="plan-period">/month</span></div>
-        <ul class="plan-features">
-          <li>3 sessions per week</li>
-          <li>Custom workout plan</li>
-          <li>Nutrition guidance</li>
-          <li>Progress tracking</li>
-        </ul>
-        <button class="plan-button">Choose Plan</button>
+      
+      <div class="plan-card plan-featured">
+        <h3 class="plan-name strong-1">Flex Rate</h3>
+        <div class="plan-price plan-price-featured display-3">€85</div>
+        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
+      
       <div class="plan-card">
-        <h3 class="plan-name">Elite Plan</h3>
-        <div class="plan-price">$199<span class="plan-period">/month</span></div>
-        <ul class="plan-features">
-          <li>5 sessions per week</li>
-          <li>Custom workout plan</li>
-          <li>Nutrition guidance</li>
-          <li>24/7 support</li>
-          <li>Progress tracking</li>
-        </ul>
-        <button class="plan-button">Choose Plan</button>
+        <h3 class="plan-name strong-1">3-Sessions</h3>
+        <div class="plan-price display-3">€149</div>
+        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
     </div>
   </div>
 </section>
-

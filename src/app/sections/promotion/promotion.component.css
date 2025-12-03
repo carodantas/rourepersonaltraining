@@ -21,17 +21,12 @@
 }
 
 .promotion-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
   margin-bottom: 1rem;
   color: #ffffff;
-  letter-spacing: -0.02em;
 }
 
 .promotion-subtitle {
-  font-size: clamp(1rem, 2vw, 1.3rem);
   color: rgba(245, 242, 234, 0.8);
-  font-weight: 400;
 }
 
 /* Floating Glass Form Container */
@@ -57,15 +52,11 @@
 }
 
 .form-section-title {
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
-  font-weight: 600;
   color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .form-label {
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-  font-weight: 500;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -73,15 +64,11 @@
 }
 
 .form-hint {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
-  font-weight: 400;
   color: rgba(245, 242, 234, 0.6);
   font-style: italic;
 }
 
 .field-label {
-  font-size: clamp(0.9rem, 1.6vw, 1rem);
-  font-weight: 500;
   color: rgba(245, 242, 234, 0.9);
   margin-bottom: 0.5rem;
   display: block;
@@ -231,20 +218,16 @@
 }
 
 .privacy-text {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   color: rgba(245, 242, 234, 0.8);
-  line-height: 1.6;
   margin: 0;
 }
 
 .privacy-text strong {
   color: #ffffff;
-  font-weight: 600;
 }
 
 /* Error Messages */
 .error-message {
-  font-size: clamp(0.8rem, 1.4vw, 0.9rem);
   color: rgba(255, 100, 100, 0.9);
   margin-top: 0.25rem;
 }
@@ -265,8 +248,6 @@
   border: 1px solid rgba(76, 175, 80, 0.3);
   border-radius: 12px;
   color: #4caf50;
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  font-weight: 500;
 }
 
 .success-message svg {

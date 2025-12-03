@@ -9,5 +9,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './plans.component.css'
 })
 export class PlansComponent {
+  scrollToForm(): void {
+    const element = document.getElementById('promotion');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
-

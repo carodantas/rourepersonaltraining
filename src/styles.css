@@ -10,8 +10,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Typography System - Font Families */
+:root {
+  --font-display: 'Oxanium', sans-serif;
+  --font-featured: 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-headline: 'Anton', sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.6;
   color: #f5f2ea;
   background-color: #050505;
@@ -24,6 +32,88 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography System - Small Screen (575px and smaller) */
+/* Display */
+.display-1 { font-family: var(--font-display); font-size: 40px; line-height: 52px; font-weight: 800; }
+.display-2 { font-family: var(--font-display); font-size: 36px; line-height: 48px; font-weight: 800; }
+.display-3 { font-family: var(--font-display); font-size: 32px; line-height: 40px; font-weight: 800; }
+
+/* Featured */
+.featured-1, .featured-2, .featured-3 { font-family: var(--font-featured); font-size: 20px; line-height: 28px; font-weight: 400; }
+
+/* Headline */
+.headline-1 { font-family: var(--font-headline); font-size: 32px; line-height: 40px; font-weight: 400; }
+.headline-2 { font-family: var(--font-headline); font-size: 24px; line-height: 32px; font-weight: 400; }
+.headline-3 { font-family: var(--font-headline); font-size: 20px; line-height: 28px; font-weight: 400; }
+
+/* Strong */
+.strong-1 { font-family: var(--font-body); font-size: 16px; line-height: 24px; font-weight: 700; }
+.strong-2 { font-family: var(--font-body); font-size: 14px; line-height: 20px; font-weight: 700; }
+
+/* Emphasized */
+.emphasized-1 { font-family: var(--font-body); font-size: 16px; line-height: 24px; font-weight: 500; }
+.emphasized-2 { font-family: var(--font-body); font-size: 14px; line-height: 20px; font-weight: 500; }
+
+/* Body */
+.body-1 { font-family: var(--font-body); font-size: 16px; line-height: 24px; font-weight: 400; }
+.body-2 { font-family: var(--font-body); font-size: 14px; line-height: 20px; font-weight: 400; }
+
+/* Small */
+.small-1 { font-family: var(--font-body); font-size: 12px; line-height: 18px; font-weight: 500; }
+.small-2 { font-family: var(--font-body); font-size: 10px; line-height: 16px; font-weight: 500; }
+
+/* Typography System - Medium Screen (576px and wider) */
+@media (min-width: 576px) {
+  .display-1 { font-size: 64px; line-height: 72px; }
+  .display-2 { font-size: 56px; line-height: 64px; }
+  .display-3 { font-size: 48px; line-height: 62px; }
+  
+  .featured-1 { font-size: 32px; line-height: 40px; }
+  .featured-2 { font-size: 24px; line-height: 32px; }
+  .featured-3 { font-size: 20px; line-height: 28px; }
+  
+  .headline-1 { font-size: 32px; line-height: 40px; }
+  .headline-2 { font-size: 24px; line-height: 32px; }
+  .headline-3 { font-size: 20px; line-height: 28px; }
+  
+  .strong-1 { font-size: 16px; line-height: 24px; }
+  .strong-2 { font-size: 14px; line-height: 20px; }
+  
+  .emphasized-1 { font-size: 16px; line-height: 24px; }
+  .emphasized-2 { font-size: 14px; line-height: 20px; }
+  
+  .body-1 { font-size: 16px; line-height: 24px; }
+  .body-2 { font-size: 14px; line-height: 20px; }
+  
+  .small-1, .small-2 { font-size: 12px; line-height: 18px; }
+}
+
+/* Typography System - Large Screen (1024px and wider) */
+@media (min-width: 1024px) {
+  .display-1 { font-size: 96px; line-height: 108px; }
+  .display-2 { font-size: 64px; line-height: 72px; }
+  .display-3 { font-size: 48px; line-height: 62px; }
+  
+  .featured-1 { font-size: 32px; line-height: 40px; }
+  .featured-2 { font-size: 24px; line-height: 32px; }
+  .featured-3 { font-size: 20px; line-height: 28px; }
+  
+  .headline-1 { font-size: 32px; line-height: 40px; }
+  .headline-2 { font-size: 24px; line-height: 32px; }
+  .headline-3 { font-size: 20px; line-height: 28px; }
+  
+  .strong-1 { font-size: 16px; line-height: 24px; }
+  .strong-2 { font-size: 14px; line-height: 20px; }
+  
+  .emphasized-1 { font-size: 16px; line-height: 24px; }
+  .emphasized-2 { font-size: 14px; line-height: 20px; }
+  
+  .body-1 { font-size: 16px; line-height: 24px; }
+  .body-2 { font-size: 14px; line-height: 20px; }
+  
+  .small-1, .small-2 { font-size: 12px; line-height: 18px; }
 }
 
 body::before,

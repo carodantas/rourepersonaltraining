@@ -1,32 +1,59 @@
 <section id="testimonials" class="testimonials">
-  <div class="container">
-    <h2 class="section-title">What Our Clients Say</h2>
-    <div class="testimonials-grid">
+  <div class="testimonials-container">
+    <h2 class="testimonials-title headline-1">Hear It From Them</h2>
+    
+    <div class="testimonials-content">
+      <!-- Testimonial Card -->
       <div class="testimonial-card">
-        <div class="testimonial-rating">★★★★★</div>
-        <p class="testimonial-text">"Amazing results! The personalized training plan helped me achieve my fitness goals faster than I ever imagined."</p>
-        <div class="testimonial-author">
-          <strong>John Doe</strong>
-          <span>Client since 2023</span>
-        </div>
+        <p class="testimonial-text body-1">{{ currentTestimonial.text }}</p>
+        <p class="testimonial-author strong-1">{{ currentTestimonial.author }}</p>
       </div>
-      <div class="testimonial-card">
-        <div class="testimonial-rating">★★★★★</div>
-        <p class="testimonial-text">"Professional, knowledgeable, and supportive. Best personal trainer I've ever worked with!"</p>
-        <div class="testimonial-author">
-          <strong>Jane Smith</strong>
-          <span>Client since 2022</span>
+
+      <!-- Image Collage -->
+      <div class="testimonial-images">
+        <div class="image-left">
+          <img src="/images/testimonial-1.jpg" alt="Fitness training" class="testimonial-image" />
         </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-rating">★★★★★</div>
-        <p class="testimonial-text">"The nutrition guidance combined with the workout plan made all the difference. Highly recommend!"</p>
-        <div class="testimonial-author">
-          <strong>Mike Johnson</strong>
-          <span>Client since 2023</span>
+        <div class="image-right">
+          <img src="/images/testimonial-2.jpg" alt="Gym workout" class="testimonial-image" />
         </div>
       </div>
     </div>
+
+    <!-- Navigation Arrows -->
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-left"
+      (click)="prevTestimonial()"
+      aria-label="Previous testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-right"
+      (click)="nextTestimonial()"
+      aria-label="Next testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- Pagination Dots -->
+    <div class="pagination-dots">
+      @for (testimonial of testimonials; track $index) {
+        <button
+          type="button"
+          class="pagination-dot"
+          [class.active]="currentIndex === $index"
+          (click)="goToTestimonial($index)"
+          [attr.aria-label]="'Go to testimonial ' + ($index + 1)"
+        ></button>
+      }
+    </div>
   </div>
 </section>
-

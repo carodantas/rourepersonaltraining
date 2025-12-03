@@ -10,5 +10,11 @@ import { ButtonPrimaryGlassComponent } from '../../shared/components/button-prim
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
+  scrollToForm(): void {
+    const element = document.getElementById('promotion');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
 
