@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ButtonPrimaryGlassComponent } from '../../shared/components/button-primary-glass/button-primary-glass.component';
+import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 
 @Component({
   selector: 'app-promotion',
