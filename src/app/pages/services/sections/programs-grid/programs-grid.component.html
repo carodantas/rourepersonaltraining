@@ -1,0 +1,29 @@
+<section id="programs-grid" class="programs-grid">
+  <div class="programs-container">
+    <div class="programs-header">
+      <h2 class="programs-title headline-1">Where are you on your fitness journey?</h2>
+      <p class="programs-subtitle body-1">Choose the program that aligns with your goals</p>
+    </div>
+    
+    <div class="programs-cards">
+      <div class="program-card" *ngFor="let program of programs">
+        <div class="program-image">
+          <img [src]="program.image" [alt]="program.title" />
+        </div>
+        <div class="program-content">
+          <h3 class="program-title headline-2">{{ program.title }}</h3>
+          <ul class="program-benefits">
+            <li class="benefit-item body-2" *ngFor="let benefit of program.benefits">
+              <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              {{ benefit }}
+            </li>
+          </ul>
+          <button class="program-button" (click)="scrollToPromotion()">Learn more</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

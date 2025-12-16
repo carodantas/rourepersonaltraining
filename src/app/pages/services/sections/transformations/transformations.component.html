@@ -1,0 +1,24 @@
+<section id="transformations" class="transformations">
+  <div class="transformations-container">
+    <div class="transformations-header">
+      <h2 class="transformations-title headline-1">Real transformations from people like you</h2>
+      <p class="transformations-subtitle body-1">See what's possible when you commit to your goals</p>
+    </div>
+    
+    <div class="transformations-grid">
+      <div class="transformation-card" *ngFor="let transformation of transformations">
+        <div class="transformation-image">
+          <img [src]="transformation.image" [alt]="transformation.name" />
+        </div>
+        <div class="transformation-content">
+          <p class="transformation-quote body-1">"{{ transformation.quote }}"</p>
+          <div class="transformation-author">
+            <div class="author-name strong-1">{{ transformation.name }}</div>
+            <div class="author-program body-2">{{ transformation.program }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

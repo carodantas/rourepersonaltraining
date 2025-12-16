@@ -1,0 +1,160 @@
+.designed-success {
+  padding: 5rem 2rem;
+  background: transparent;
+  color: #f5f2ea;
+  position: relative;
+}
+
+.designed-success-container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.designed-success-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Image Section */
+.designed-success-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.content-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+  min-height: 500px;
+}
+
+/* Text Content */
+.designed-success-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+.designed-success-title {
+  color: #ffffff;
+  margin: 0;
+}
+
+.designed-success-description {
+  color: #ffffff;
+  margin: 0;
+  text-align: left;
+}
+
+/* Benefits List */
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.benefit-item {
+  color: rgba(245, 242, 234, 0.9);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.6;
+}
+
+.check-icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+  color: #9d8f78;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) {
+  .designed-success {
+    padding: 4rem 2rem;
+  }
+
+  .designed-success-container {
+    padding: 0 1.5rem;
+  }
+
+  .designed-success-content {
+    gap: 3rem;
+  }
+}
+
+/* Mobile Styles (< 768px) */
+@media (max-width: 768px) {
+  .designed-success {
+    padding: 3rem 1rem;
+  }
+
+  .designed-success-container {
+    width: calc(100% - 24px);
+  }
+
+  .designed-success-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .designed-success-image {
+    display: none;
+  }
+
+  .designed-success-text {
+    order: 1;
+    text-align: left;
+  }
+
+  .designed-success-description {
+    text-align: left;
+  }
+
+  .content-image {
+    min-height: 300px;
+  }
+}
+
+/* Small Mobile (< 480px) */
+@media (max-width: 480px) {
+  .designed-success {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .designed-success-container {
+    width: 100%;
+  }
+
+  .designed-success-content {
+    gap: 1.5rem;
+  }
+
+  .benefits-list {
+    gap: 0.875rem;
+  }
+
+  .benefit-item {
+    gap: 0.625rem;
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+

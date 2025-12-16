@@ -1,0 +1,31 @@
+<section id="designed-success" class="designed-success">
+  <div class="designed-success-container">
+    <div class="designed-success-content">
+      <!-- Image on Left -->
+      <div class="designed-success-image">
+        <img src="/images/no-image.jpg" alt="Designed for success" class="content-image" />
+      </div>
+
+      <!-- Text Content on Right -->
+      <div class="designed-success-text">
+        <h2 class="designed-success-title headline-1">Designed for you to succeed</h2>
+        <p class="designed-success-description body-1">
+          Every program is built around your unique needs, goals, and lifestyle. 
+          We don't believe in one-size-fits-all solutions. Your success is our priority, 
+          and we provide everything you need to achieve lasting transformation.
+        </p>
+        
+        <!-- Benefits List -->
+        <ul class="benefits-list">
+          <li class="benefit-item body-2" *ngFor="let benefit of benefits">
+            <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            {{ benefit }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
