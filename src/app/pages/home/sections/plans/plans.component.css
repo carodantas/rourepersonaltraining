@@ -32,89 +32,187 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  align-items: stretch;
+  align-items: center;
+  justify-items: center;
 }
 
 /* Plan Card - Glass/Floating Style */
 .plan-card {
-  background: rgba(15, 15, 15, 0.95);
+  background: rgba(10, 10, 10, 0.98);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: clamp(2rem, 3vw, 2.5rem);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4),
-              0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
+  min-height: 520px;
+  width: 100%;
+  max-width: 420px;
 }
 
 .plan-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.5),
-              0 0 1px rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
   transform: translateY(-4px);
 }
 
 .plan-card.plan-featured {
-  border-color: rgba(157, 143, 120, 0.3);
-  transform: scale(1.1);
+  border-color: rgba(157, 143, 120, 0.4);
+  transform: scale(1.08);
   z-index: 1;
+  min-height: 560px;
 }
 
 .plan-card.plan-featured:hover {
-  transform: scale(1.1) translateY(-4px);
+  transform: scale(1.08) translateY(-4px);
 }
 
 /* Plan Name */
 .plan-name {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
   color: #ffffff;
   text-align: center;
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Plan Price Wrapper */
+.plan-price-wrapper {
+  margin: 0 0 2rem 0;
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 120px;
+}
+
+.plan-price-wrapper-custom {
+  justify-content: center;
+  align-items: baseline;
 }
 
 /* Plan Price */
 .plan-price {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 800;
   color: #ffffff;
-  margin: 0 0 1.5rem 0;
-  text-align: center;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
 }
 
 .plan-price-featured {
   color: #9d8f78;
 }
 
+.plan-price-symbol {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  margin-right: 0.25rem;
+}
+
+.plan-price-symbol-featured {
+  color: #9d8f78;
+}
+
+.plan-price-suffix {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Custom Pricing */
+.custom-pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Oxanium', var(--font-display);
+  position: relative;
+  text-align: center;
+  line-height: 0.9;
+  vertical-align: baseline;
+}
+
+.custom-pricing-line {
+  width: 60%;
+  height: 1px;
+  border-top: 2px dashed #4a90e2;
+  margin-bottom: 0.5rem;
+}
+
+.custom-text-top {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.custom-text-bottom {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1;
+}
+
 /* Plan Description */
 .plan-description {
-  color: rgba(245, 242, 234, 0.7);
-  margin: 0 0 2rem 0;
+  color: rgba(245, 242, 234, 0.6);
+  margin: 0 0 1.5rem 0;
   flex: 1;
   text-align: center;
+  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+/* Plan Note */
+.plan-note {
+  color: rgba(157, 143, 120, 0.8);
+  margin: 0 0 2rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  font-family: var(--font-body);
 }
 
 /* Plan Button */
 .plan-button {
-  width: 100%;
-  padding: clamp(0.875rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  font-weight: 600;
-  background: linear-gradient(135deg, #9d8f78, #827460);
+  width: auto;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  background: #9d8f78;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: auto;
+  margin: auto auto 0 auto;
   outline: none;
+  text-transform: none;
+  letter-spacing: 0.01em;
 }
 
 .plan-button:hover {
-  background: linear-gradient(135deg, #a89a83, #8d7f6b);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #a89a83;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(157, 143, 120, 0.3);
 }
 
 .plan-button:active {
@@ -145,11 +243,30 @@
   }
 
   .plan-card {
-    padding: clamp(1.75rem, 2.5vw, 2rem);
+    padding: 2.5rem 2rem;
+    min-height: 480px;
   }
 
   .plan-card.plan-featured {
     transform: scale(1.05);
+    min-height: 500px;
+  }
+
+  .plan-price {
+    font-size: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .plan-price-symbol {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .plan-price-suffix {
+    font-size: 1.25rem;
+  }
+
+  .custom-text-top,
+  .custom-text-bottom {
+    font-size: 1.75rem;
   }
 }
 
@@ -173,11 +290,35 @@
   }
 
   .plan-card {
-    padding: 2rem;
+    padding: 2.5rem 2rem;
+    min-height: auto;
   }
 
   .plan-card.plan-featured {
     transform: scale(1);
+    min-height: auto;
+  }
+
+  .plan-price {
+    font-size: 5rem;
+  }
+
+  .plan-price-symbol {
+    font-size: 2.5rem;
+  }
+
+  .plan-price-suffix {
+    font-size: 1.25rem;
+  }
+
+  .custom-text-top,
+  .custom-text-bottom {
+    font-size: 2rem;
+  }
+
+  .plan-button {
+    padding: 0.875rem 2.5rem;
+    font-size: 1rem;
   }
 }
 
@@ -196,6 +337,36 @@
   }
 
   .plan-card {
-    padding: 1.75rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .plan-price {
+    font-size: 4.5rem;
+  }
+
+  .plan-price-symbol {
+    font-size: 2.25rem;
+  }
+
+  .plan-price-suffix {
+    font-size: 1rem;
+  }
+
+  .custom-text-top,
+  .custom-text-bottom {
+    font-size: 1.75rem;
+  }
+
+  .plan-description {
+    font-size: 0.9rem;
+  }
+
+  .plan-note {
+    font-size: 0.75rem;
+  }
+
+  .plan-button {
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
   }
 }
