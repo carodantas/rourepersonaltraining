@@ -3,6 +3,7 @@
   background: transparent;
   color: #f5f2ea;
   position: relative;
+  scroll-margin-top: 100px;
 }
 
 .why-us-container {
@@ -15,7 +16,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* Image Section */
@@ -23,6 +24,8 @@
   position: relative;
   overflow: hidden;
   border-radius: 16px;
+  display: flex;
+  align-items: stretch;
 }
 
 .content-image {
@@ -42,17 +45,54 @@
   text-align: left;
   justify-content: flex-start;
   padding-top: 0;
+  height: 100%;
 }
 
 .why-us-title {
   color: #ffffff;
   margin: 0;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  font-weight: 700;
 }
 
 .why-us-description {
   color: #ffffff;
   margin: 0;
   text-align: left;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.why-us-description p {
+  margin: 0 0 1rem 0;
+}
+
+.why-us-description p:last-of-type {
+  margin-bottom: 0.5rem;
+}
+
+.why-us-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 1.5rem;
+  color: #ffffff;
+}
+
+.why-us-list li {
+  margin: 0 0 0.5rem 0;
+  padding: 0 0 0 1rem;
+  text-align: left;
+  position: relative;
+}
+
+.why-us-list li::before {
+  content: "•";
+  position: absolute;
+  left: -1rem;
+  color: #ffffff;
+  font-size: 1.2em;
+  line-height: 1;
 }
 
 /* Statistics */
@@ -88,6 +128,7 @@
 @media (max-width: 1024px) {
   .why-us {
     padding: 4rem 2rem;
+    scroll-margin-top: 90px;
   }
 
   .why-us-container {
@@ -115,6 +156,7 @@
 @media (max-width: 768px) {
   .why-us {
     padding: 3rem 1rem;
+    scroll-margin-top: 85px;
   }
 
   .why-us-container {

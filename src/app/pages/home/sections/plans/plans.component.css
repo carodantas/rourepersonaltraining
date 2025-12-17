@@ -3,6 +3,7 @@
   background: transparent;
   color: #f5f2ea;
   position: relative;
+  scroll-margin-top: 100px;
 }
 
 .plans-container {
@@ -228,6 +229,7 @@
 @media (max-width: 1024px) {
   .plans {
     padding: 4rem 2rem;
+    scroll-margin-top: 90px;
   }
 
   .plans-container {
@@ -274,6 +276,7 @@
 @media (max-width: 768px) {
   .plans {
     padding: 3rem 1rem;
+    scroll-margin-top: 85px;
   }
 
   .plans-container {

@@ -56,23 +56,6 @@
         </div>
       </div>
 
-      <!-- Experience -->
-      <div class="form-section">
-        <label class="form-label strong-1">
-          How would you describe your experience with working out?
-        </label>
-        <div class="form-field">
-          <select formControlName="experience" class="form-select body-1" [class.error]="hasError('experience')">
-            @for (option of experienceOptions; track option.value) {
-              <option [value]="option.value">{{ option.label }}</option>
-            }
-          </select>
-          @if (hasError('experience')) {
-            <span class="error-message">{{ getErrorMessage('experience') }}</span>
-          }
-        </div>
-      </div>
-
       <!-- Personal Information -->
       <div class="form-section">
         <h3 class="form-section-title">Personal Information</h3>
