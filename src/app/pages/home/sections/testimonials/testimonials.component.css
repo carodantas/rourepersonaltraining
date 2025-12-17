@@ -4,6 +4,7 @@
   color: #f5f2ea;
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 100px;
 }
 
 .testimonials-container {
@@ -182,6 +183,7 @@
 @media (max-width: 1024px) {
   .testimonials {
     padding: 4rem 2rem;
+    scroll-margin-top: 90px;
   }
 
   .testimonials-container {
@@ -206,6 +208,7 @@
 @media (max-width: 768px) {
   .testimonials {
     padding: 3rem 1rem;
+    scroll-margin-top: 85px;
   }
 
   .testimonials-container {

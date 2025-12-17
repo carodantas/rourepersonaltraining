@@ -36,15 +36,6 @@ export class PromotionComponent {
     { value: 'rarely', label: 'Rarely / Never' }
   ];
 
-  experienceOptions = [
-    { value: '', label: 'Select' },
-    { value: 'beginner', label: 'Beginner' },
-    { value: 'some-experience', label: 'Some experience' },
-    { value: 'intermediate', label: 'Intermediate' },
-    { value: 'advanced', label: 'Advanced' },
-    { value: 'expert', label: 'Expert' }
-  ];
-
   constructor(private fb: FormBuilder) {
     this.intakeForm = this.fb.group({
       goals: this.fb.group(
@@ -55,7 +46,6 @@ export class PromotionComponent {
       ),
       otherGoal: [''],
       exerciseFrequency: ['', Validators.required],
-      experience: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
