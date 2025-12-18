@@ -7,23 +7,41 @@
     
     <div class="plans-grid">
       <div class="plan-card">
-        <h3 class="plan-name strong-1">Duo Rate</h3>
-        <div class="plan-price display-3">€60</div>
-        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h3 class="plan-name featured-2">Duo / Buddy</h3>
+        <div class="plan-price" aria-label="60 euros each">
+          <span class="plan-price-amount">€60</span>
+          <span class="plan-price-suffix">Each</span>
+        </div>
+        <p class="plan-description body-2">
+          Train together, motivate each other.
+          Best for friends, partners or anyone who loves shared motivation.
+        </p>
+        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
       
       <div class="plan-card plan-featured">
-        <h3 class="plan-name strong-1">Flex Rate</h3>
-        <div class="plan-price plan-price-featured display-3">€85</div>
-        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h3 class="plan-name featured-2">Solo Standard</h3>
+        <div class="plan-price plan-price-featured" aria-label="85 euros">
+          <span class="plan-price-amount">€85</span>
+        </div>
+        <p class="plan-description body-2">
+          Ideal if you want 1 on 1 coaching fully tailored to your goals, level, &amp; pace.
+        </p>
+        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
       
       <div class="plan-card">
-        <h3 class="plan-name strong-1">3-Sessions</h3>
-        <div class="plan-price display-3">€149</div>
-        <p class="plan-description body-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h3 class="plan-name featured-2">Long-Term</h3>
+        <div class="plan-price plan-price-custom" aria-label="Custom pricing">
+          <span class="plan-price-amount plan-price-amount--symbol-only">€</span>
+          <span class="plan-price-custom-text">Custom<br />Pricing</span>
+        </div>
+        <p class="plan-description body-2">
+          For those ready to commit and build lasting results over time.
+        </p>
+        <p class="plan-footnote small-1">Best option for sustainable results &amp; better value</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
     </div>
