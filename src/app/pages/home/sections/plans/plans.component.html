@@ -7,39 +7,41 @@
     
     <div class="plans-grid">
       <div class="plan-card">
-        <h3 class="plan-name">Duo / Buddy</h3>
-        <div class="plan-price-wrapper">
-          <span class="plan-price-symbol">€</span>
-          <span class="plan-price">60</span>
+        <h3 class="plan-name featured-2">Duo / Buddy</h3>
+        <div class="plan-price" aria-label="60 euros each">
+          <span class="plan-price-amount">€60</span>
           <span class="plan-price-suffix">Each</span>
         </div>
-        <p class="plan-description">Best for friends, partners or anyone who loves shared motivation.</p>
-        <p class="plan-note">Up to 10% discount available with commitment plans</p>
+        <p class="plan-description body-2">
+          Train together, motivate each other.
+          Best for friends, partners or anyone who loves shared motivation.
+        </p>
+        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
       
       <div class="plan-card plan-featured">
-        <h3 class="plan-name">Solo Standard</h3>
-        <div class="plan-price-wrapper">
-          <span class="plan-price-symbol plan-price-symbol-featured">€</span>
-          <span class="plan-price plan-price-featured">85</span>
+        <h3 class="plan-name featured-2">Solo Standard</h3>
+        <div class="plan-price plan-price-featured" aria-label="85 euros">
+          <span class="plan-price-amount">€85</span>
         </div>
-        <p class="plan-description">Ideal if you would like 1 on 1 coaching fully tailored to your goals, level, and pace.</p>
-        <p class="plan-note">Up to 10% discount available with commitment plans</p>
+        <p class="plan-description body-2">
+          Ideal if you want 1 on 1 coaching fully tailored to your goals, level, &amp; pace.
+        </p>
+        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
       
       <div class="plan-card">
-        <h3 class="plan-name">Long-Term</h3>
-        <div class="plan-price-wrapper plan-price-wrapper-custom">
-          <div class="custom-pricing">
-            <div class="custom-pricing-line"></div>
-            <span class="custom-text-top">Custom</span>
-            <span class="custom-text-bottom">Pricing</span>
-          </div>
+        <h3 class="plan-name featured-2">Long-Term</h3>
+        <div class="plan-price plan-price-custom" aria-label="Custom pricing">
+          <span class="plan-price-amount plan-price-amount--symbol-only">€</span>
+          <span class="plan-price-custom-text">Custom<br />Pricing</span>
         </div>
-        <p class="plan-description">This plan is designed around your goals and lifestyle with benefits and better value.</p>
-        <p class="plan-note">Best option for sustainable results & better value</p>
+        <p class="plan-description body-2">
+          For those ready to commit and build lasting results over time.
+        </p>
+        <p class="plan-footnote small-1">Best option for sustainable results &amp; better value</p>
         <button class="plan-button" (click)="scrollToForm()">Get started</button>
       </div>
     </div>
