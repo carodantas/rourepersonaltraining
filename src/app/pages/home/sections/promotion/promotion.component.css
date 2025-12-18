@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  scroll-margin-top: 100px;
 }
 
 .promotion-container {
@@ -275,6 +276,7 @@
 @media (max-width: 1024px) {
   .promotion {
     padding: 4rem 2rem;
+    scroll-margin-top: 90px;
   }
 
   .intake-form {
@@ -291,6 +293,7 @@
 @media (max-width: 768px) {
   .promotion {
     padding: 3rem 1rem;
+    scroll-margin-top: 85px;
   }
 
   .promotion-container {

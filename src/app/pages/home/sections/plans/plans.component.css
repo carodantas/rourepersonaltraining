@@ -3,6 +3,7 @@
   background: transparent;
   color: #f5f2ea;
   position: relative;
+  scroll-margin-top: 100px;
 }
 
 .plans::before {
@@ -114,7 +115,7 @@
 
 /* Plan Name */
 .plan-name {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
   color: #ffffff;
   text-align: center;
   letter-spacing: -0.01em;
@@ -180,6 +181,19 @@
   margin: 0 0 1.25rem 0;
   flex: 1;
   text-align: center;
+  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+/* Plan Note */
+.plan-note {
+  color: rgba(157, 143, 120, 0.8);
+  margin: 0 0 2rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  font-family: var(--font-body);
 }
 
 .plan-footnote {
@@ -200,15 +214,15 @@
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: auto;
+  margin: auto auto 0 auto;
   outline: none;
   align-self: center;
 }
 
 .plan-button:hover {
-  background: linear-gradient(135deg, #a89a83, #8d7f6b);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #a89a83;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(157, 143, 120, 0.3);
 }
 
 .plan-button:active {
@@ -224,6 +238,7 @@
 @media (max-width: 1024px) {
   .plans {
     padding: 4rem 2rem;
+    scroll-margin-top: 90px;
   }
 
   .plans-container {
@@ -253,6 +268,7 @@
 @media (max-width: 768px) {
   .plans {
     padding: 3rem 1rem;
+    scroll-margin-top: 85px;
   }
 
   .plans-container {
@@ -294,6 +310,36 @@
   }
 
   .plan-card {
-    padding: 1.75rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .plan-price {
+    font-size: 4.5rem;
+  }
+
+  .plan-price-symbol {
+    font-size: 2.25rem;
+  }
+
+  .plan-price-suffix {
+    font-size: 1rem;
+  }
+
+  .custom-text-top,
+  .custom-text-bottom {
+    font-size: 1.75rem;
+  }
+
+  .plan-description {
+    font-size: 0.9rem;
+  }
+
+  .plan-note {
+    font-size: 0.75rem;
+  }
+
+  .plan-button {
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
   }
 }
