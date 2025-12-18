@@ -1,0 +1,25 @@
+<section class="team" aria-labelledby="team-title">
+  <div class="container">
+    <div class="team-header">
+      <h2 id="team-title" class="team-title headline-1">Our team</h2>
+      <p class="team-subtitle body-1">
+        The people behind Roure — here to support you with expertise, structure, and care.
+      </p>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card" *ngFor="let member of teamMembers">
+        <div class="card-media">
+          <img src="/images/no-image.jpg" [alt]="member.name" class="card-image" />
+        </div>
+        <div class="card-content">
+          <h3 class="card-name headline-2">{{ member.name }}</h3>
+          <div class="card-title strong-2">{{ member.title }}</div>
+          <p class="card-bio body-2" [style.white-space]="'pre-line'">{{ member.bio }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+

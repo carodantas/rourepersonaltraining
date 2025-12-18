@@ -1,0 +1,133 @@
+.about-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 0;
+  color: #f5f2ea;
+  background:
+    linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
+    url('/images/no-image.jpg') center center / cover no-repeat;
+}
+
+.about-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 5, 5, 0.85) 0%, rgba(5, 5, 5, 0.15) 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-decoration {
+  position: absolute;
+  top: -20%;
+  left: 45%;
+  width: clamp(80px, 12vw, 155px);
+  height: clamp(600px, 80vh, 1152px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  transform: rotate(-30deg);
+  pointer-events: none;
+  z-index: 1;
+  animation: shine 8s ease-in-out infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: rotate(-30deg) translateY(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: rotate(-30deg) translateY(20px);
+  }
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.hero-eyebrow {
+  letter-spacing: clamp(0.15rem, 0.5vw, 0.3rem);
+  text-transform: uppercase;
+  color: rgba(245, 242, 234, 0.7);
+}
+
+.hero-title {
+  text-transform: uppercase;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  color: rgba(245, 242, 234, 0.9);
+  max-width: clamp(280px, 90%, 520px);
+  margin-top: 0.75rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: clamp(1rem, 2vw, 2rem);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: clamp(80px, 12vw, 120px) 0 clamp(100px, 15vw, 150px);
+    min-height: calc(100vh - 70px);
+  }
+
+  .hero-decoration {
+    display: none;
+  }
+
+  .hero-container {
+    width: calc(100% - 24px);
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero {
+    padding: 70px 0 100px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+
+

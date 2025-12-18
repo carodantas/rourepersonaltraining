@@ -1,0 +1,70 @@
+.reasons {
+  padding: 4.5rem 2rem;
+  color: #f5f2ea;
+  scroll-margin-top: 110px;
+}
+
+.container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.reasons-header {
+  margin-bottom: 2rem;
+}
+
+.reasons-kicker {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 242, 234, 0.7);
+}
+
+.reasons-title {
+  margin: 0.75rem 0 0 0;
+  color: #ffffff;
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.reason-card {
+  border-radius: 18px;
+  padding: 1.5rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.45);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.reason-title {
+  margin: 0 0 0.75rem 0;
+  color: #ffffff;
+}
+
+.reason-description {
+  margin: 0;
+  color: rgba(245, 242, 234, 0.88);
+}
+
+@media (max-width: 900px) {
+  .reasons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .reasons {
+    padding: 3.25rem 1rem;
+    scroll-margin-top: 95px;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+}
+
+
