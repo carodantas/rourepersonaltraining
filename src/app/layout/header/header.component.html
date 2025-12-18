@@ -1,6 +1,6 @@
 <header class="header">
   <div class="header-container">
-    <button class="logo-button" type="button" (click)="scrollToSection('hero')" aria-label="Back to hero">
+    <button class="logo-button" type="button" (click)="scrollToSection('home')" aria-label="Back to home">
       @if (!logoError) {
         <img 
           src="/images/logo_white.png" 
@@ -19,7 +19,7 @@
     <button
       type="button"
       class="cta-button"
-      (click)="scrollToSection('promotion')"
+      (click)="scrollToSection('free-intake')"
     >
       Free intake
     </button>
@@ -29,7 +29,7 @@
       (click)="toggleMobileMenu()"
       [attr.aria-expanded]="isMobileMenuOpen"
       aria-label="Toggle navigation menu"
-      aria-controls="mobile-navigation"
+      aria-controls="dropdown-navigation"
     >
       <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
       <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
@@ -56,8 +56,6 @@
             </li>
           }
         </ul>
-
-        <div class="menu-divider"></div>
 
         <ul class="dropdown-nav-list dropdown-nav-actions">
           @for (action of actionItems; track action.anchor) {

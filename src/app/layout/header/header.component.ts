@@ -1,5 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-header',
@@ -9,32 +12,86 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  private pendingScrollAnchor: string | null = null;
+
+  private readonly routeByAnchor: Record<string, string> = {
+    home: '/',
+    'about-us': '/about-us',
+    methods: '/methods',
+    blog: '/blog',
+    programs: '/programs',
+    'free-intake': '/free-intake'
+  };
+
   navigationItems = [
-    { label: 'Home', anchor: 'hero' },
-    { label: 'About', anchor: 'why-us' },
-    { label: 'Qualifications', anchor: 'qualifications' },
-    { label: 'Services', anchor: 'plans' },
-    { label: 'Testimonials', anchor: 'testimonials' },
-    { label: 'FAQ', anchor: 'faq' }
+    { label: 'Home', anchor: 'home' },
+    { label: 'About us', anchor: 'about-us' },
+    { label: 'Methods', anchor: 'methods' },
+    { label: 'Programs', anchor: 'programs' },
+    { label: 'Blog', anchor: 'blog' }
   ];
 
   actionItems = [
-    { label: 'View Plans', anchor: 'plans', showArrow: false },
-    { label: 'Book Free Consultation', anchor: 'promotion', showArrow: false },
-    { label: 'Start Your Journey', anchor: 'promotion', showArrow: true }
+    { label: 'Free intake', anchor: 'free-intake', showArrow: false }
   ];
 
-  activeAnchor = 'hero';
+  activeAnchor = 'home';
   isMobileMenuOpen = false;
   logoError = false;
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        if (this.pendingScrollAnchor) {
+          const anchor = this.pendingScrollAnchor;
+          this.pendingScrollAnchor = null;
+          this.deferScrollToAnchor(anchor);
+        }
+      });
+  }
 
   scrollToSection(anchor: string): void {
     this.activeAnchor = anchor;
     this.isMobileMenuOpen = false; // Close mobile menu after navigation
-    const element = document.getElementById(anchor);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Só o "free-intake" deve fazer scroll (para a seção existente `id="promotion"`).
+    if (anchor === 'free-intake') {
+      const sectionId = 'promotion';
+      const targetRoute = this.routeByAnchor['free-intake'];
+
+      // Se não estiver na rota alvo, navega e faz scroll depois do NavigationEnd
+      if (!this.router.url.startsWith(targetRoute)) {
+        this.pendingScrollAnchor = sectionId;
+        void this.router.navigate([targetRoute]);
+        return;
+      }
+
+      this.deferScrollToAnchor(sectionId);
+      return;
     }
+
+    // Todos os outros links do dropdown são páginas/rotas.
+    const route = this.routeByAnchor[anchor];
+    if (route) {
+      void this.router.navigate([route]);
+      return;
+    }
+  }
+
+  private deferScrollToAnchor(anchor: string): void {
+    // dá um tick pro Angular atualizar o DOM antes de tentar pegar o elemento
+    setTimeout(() => {
+      const element = document.getElementById(anchor);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 0);
   }
 
   toggleMobileMenu(): void {
@@ -42,7 +99,7 @@ export class HeaderComponent {
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
+  onDocumentClick(event: MouseEvent): void { 
     const target = event.target as HTMLElement;
     const menuToggle = target.closest('.menu-toggle');
     const dropdownMenu = target.closest('.dropdown-menu');

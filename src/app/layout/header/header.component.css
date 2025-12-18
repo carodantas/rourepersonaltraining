@@ -196,6 +196,7 @@
   width: 95%;
   max-width: 420px;
   z-index: 999;
+  pointer-events: auto;
   
   /* Glassmorphism escuro como Luna */
   background: rgba(15, 15, 15, 0.95);

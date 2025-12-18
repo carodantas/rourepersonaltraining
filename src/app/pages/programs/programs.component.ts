@@ -17,9 +17,9 @@ import { PromotionComponent } from '../home/sections/promotion/promotion.compone
     TransformationsComponent,
     PromotionComponent
   ],
-  templateUrl: './services.component.html',
-  styleUrl: './services.component.css'
+  templateUrl: './programs.component.html',
+  styleUrl: './programs.component.css'
 })
-export class ServicesComponent {
+export class ProgramsComponent {
 }
 
