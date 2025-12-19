@@ -7,7 +7,37 @@
 
     <div class="reasons-grid">
       <article class="reason-card" *ngFor="let reason of reasons">
-        <h3 class="reason-title headline-2">{{ reason.title }}</h3>
+        <div class="reason-header">
+          <div class="reason-icon">
+            @if (reason.icon === 'calendar') {
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            }
+            @if (reason.icon === 'handshake') {
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Circle (head) -->
+                <circle cx="12" cy="12" r="10"></circle>
+                <!-- Two eyes (dots) - using stroke instead of fill for lighter appearance -->
+                <circle cx="9" cy="9" r="1" stroke-width="1.5" fill="none"></circle>
+                <circle cx="15" cy="9" r="1" stroke-width="1.5" fill="none"></circle>
+                <!-- Smile (upward curved line) - reduced stroke width -->
+                <path d="M8 14c0 2 1.5 3 4 3s4-1 4-3" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            }
+            @if (reason.icon === 'target') {
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            }
+          </div>
+          <h3 class="reason-title headline-2">{{ reason.title }}</h3>
+        </div>
         <p class="reason-description body-2">{{ reason.description }}</p>
       </article>
     </div>
