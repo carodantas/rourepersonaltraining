@@ -6,6 +6,20 @@
     </div>
 
     <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
+      <!-- Plan Selection -->
+      <div class="form-section">
+        <label class="form-label strong-1">
+          Which plan are you interested in?
+        </label>
+        <div class="form-field">
+          <select formControlName="plan" class="form-select body-1">
+            @for (option of planOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
       <!-- Goals Section -->
       <div class="form-section">
         <label class="form-label strong-1">
@@ -118,6 +132,21 @@
               <span class="error-message">{{ getErrorMessage('email') }}</span>
             }
           </div>
+        </div>
+      </div>
+
+      <!-- Discount Code -->
+      <div class="form-section">
+        <label class="form-label strong-1">
+          Discount code
+        </label>
+        <div class="form-field">
+          <input
+            type="text"
+            formControlName="discountCode"
+            placeholder="Enter discount code (optional)"
+            class="form-input body-1"
+          />
         </div>
       </div>
 
