@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { ButtonPrimaryGlassComponent } from '../../../../shared/components/butto
   templateUrl: './promotion.component.html',
   styleUrl: './promotion.component.css'
 })
-export class PromotionComponent {
+export class PromotionComponent implements OnInit {
   intakeForm: FormGroup;
   isSubmitting = false;
   isSubmitted = false;
@@ -36,8 +37,20 @@ export class PromotionComponent {
     { value: 'rarely', label: 'Rarely / Never' }
   ];
 
-  constructor(private fb: FormBuilder) {
+  planOptions = [
+    { value: '', label: 'Select a plan' },
+    { value: 'duo-buddy', label: 'Duo / Buddy' },
+    { value: 'solo-standard', label: 'Solo Standard' },
+    { value: 'long-term', label: 'Long-Term' }
+  ];
+
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.intakeForm = this.fb.group({
+      plan: [''],
       goals: this.fb.group(
         this.goals.reduce((acc, goal) => {
           acc[goal.id] = [false];
@@ -50,8 +63,29 @@ export class PromotionComponent {
       lastName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      discountCode: [''],
       questions: [''],
       receiveCommunications: [false]
+    });
+  }
+
+  ngOnInit(): void {
+    // Check for plan query parameter and pre-select it
+    this.route.queryParams.subscribe(params => {
+      if (params['plan']) {
+        const planValue = params['plan'];
+        // Validate that the plan value is valid
+        if (this.planOptions.some(option => option.value === planValue)) {
+          this.intakeForm.patchValue({ plan: planValue });
+          // Scroll to form after a short delay to ensure it's rendered
+          setTimeout(() => {
+            const element = document.getElementById('promotion');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
+        }
+      }
     });
   }
 

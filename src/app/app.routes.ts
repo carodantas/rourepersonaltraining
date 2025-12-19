@@ -3,6 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProgramsComponent } from './pages/programs/programs.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { MethodsComponent } from './pages/methods/methods.component';
+import { BlogComponent } from './pages/blog/blog.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'blog',
-    component: HomeComponent
+    component: BlogComponent
   },
   {
     path: 'programs',
