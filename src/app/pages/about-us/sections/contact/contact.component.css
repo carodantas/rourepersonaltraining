@@ -1,0 +1,156 @@
+.contact {
+  padding: 5rem 2rem 6rem;
+  color: #f5f2ea;
+  scroll-margin-top: 110px;
+}
+
+.container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  margin: 0 0 2.5rem 0;
+  color: #ffffff;
+  text-align: center;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.contact-card {
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.45);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-icon {
+  width: 40px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9d8f78;
+  flex-shrink: 0;
+}
+
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-title {
+  margin: 0;
+  color: #ffffff;
+  text-align: left;
+  flex: 1;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: calc(40px + 1rem);
+  text-align: left;
+}
+
+.card-text {
+  margin: 0;
+  color: rgba(245, 242, 234, 0.88);
+  text-align: left;
+}
+
+.card-link {
+  color: rgba(245, 242, 234, 0.95);
+  text-decoration: none;
+  margin: 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.card-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.card-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  text-align: left;
+}
+
+.contact-map {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.45);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.contact-map iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+@media (max-width: 900px) {
+  .contact-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 3.5rem 1rem 4.5rem;
+    scroll-margin-top: 95px;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .contact-title {
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .contact-cards {
+    margin-bottom: 2rem;
+  }
+
+  .contact-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .contact-map iframe {
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-map iframe {
+    height: 300px;
+  }
+}
+

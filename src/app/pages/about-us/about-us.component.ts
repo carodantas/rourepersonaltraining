@@ -5,7 +5,7 @@ import { StoryComponent } from './sections/story/story.component';
 import { WhyComponent } from './sections/why/why.component';
 import { TeamComponent } from './sections/team/team.component';
 import { ReasonsComponent } from './sections/reasons/reasons.component';
-import { CtaComponent } from './sections/cta/cta.component';
+import { ContactComponent } from './sections/contact/contact.component';
 
 @Component({
   selector: 'app-about-us',
@@ -17,7 +17,7 @@ import { CtaComponent } from './sections/cta/cta.component';
     WhyComponent,
     TeamComponent,
     ReasonsComponent,
-    CtaComponent
+    ContactComponent
   ],
   templateUrl: './about-us.component.html',
   styleUrl: './about-us.component.css'

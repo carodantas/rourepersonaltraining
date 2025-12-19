@@ -8,7 +8,10 @@
     </div>
 
     <div class="team-grid">
-      <article class="team-card" *ngFor="let member of teamMembers">
+      <article 
+        class="team-card" 
+        [class.team-card--reverse]="i % 2 === 1"
+        *ngFor="let member of teamMembers; let i = index">
         <div class="card-media">
           <img src="/images/no-image.jpg" [alt]="member.name" class="card-image" />
         </div>
