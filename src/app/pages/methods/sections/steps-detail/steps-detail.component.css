@@ -1,0 +1,140 @@
+.steps-detail {
+  padding: 4.5rem 2rem;
+  color: #f5f2ea;
+  scroll-margin-top: 110px;
+}
+
+.container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.section-title {
+  margin: 0 0 2rem 0;
+  color: #ffffff;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.detail-row {
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.detail-row--reverse .detail-text {
+  order: 2;
+}
+
+.detail-row--reverse .detail-media {
+  order: 1;
+}
+
+.detail-text {
+  padding: 2.25rem 2rem;
+}
+
+.detail-kicker {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(157, 143, 120, 0.95);
+  margin-bottom: 0.75rem;
+}
+
+.detail-title {
+  margin: 0 0 1.25rem 0;
+  color: #ffffff;
+}
+
+.detail-body {
+  color: rgba(245, 242, 234, 0.9);
+  max-width: 70ch;
+}
+
+.detail-body p {
+  margin: 0 0 1rem 0;
+}
+
+.detail-body p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.detail-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  color: rgba(245, 242, 234, 0.92);
+}
+
+.detail-list li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #9d8f78;
+}
+
+.detail-media {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  min-height: 360px;
+}
+
+@media (max-width: 900px) {
+  .detail-row {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-row--reverse .detail-text,
+  .detail-row--reverse .detail-media {
+    order: unset;
+  }
+
+  .detail-media {
+    height: 260px;
+  }
+
+  .detail-image {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .steps-detail {
+    padding: 3.25rem 1rem;
+    scroll-margin-top: 95px;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .detail-text {
+    padding: 1.75rem 1.25rem;
+  }
+}
+
+
