@@ -1,0 +1,42 @@
+.methods-intro {
+  padding: 4.5rem 2rem;
+  color: #f5f2ea;
+  scroll-margin-top: 110px;
+}
+
+.container {
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.intro-title {
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+}
+
+.intro-body {
+  color: rgba(245, 242, 234, 0.92);
+  max-width: 780px;
+}
+
+.intro-body p {
+  margin: 0 0 1rem 0;
+}
+
+.intro-body p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .methods-intro {
+    padding: 3.25rem 1rem;
+    scroll-margin-top: 95px;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+}
+
+

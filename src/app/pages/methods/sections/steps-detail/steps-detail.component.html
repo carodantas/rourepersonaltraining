@@ -1,0 +1,32 @@
+<section class="steps-detail" aria-labelledby="steps-detail-title">
+  <div class="container">
+    <h2 id="steps-detail-title" class="section-title headline-1">From assessment to momentum</h2>
+
+    <div class="rows">
+      <article
+        class="detail-row"
+        [class.detail-row--reverse]="i % 2 === 1"
+        *ngFor="let step of steps; let i = index"
+      >
+        <div class="detail-text">
+          <div class="detail-kicker small-1">{{ step.number }}</div>
+          <h3 class="detail-title headline-2">{{ step.title }}</h3>
+
+          <div class="detail-body body-1">
+            <p *ngFor="let paragraph of step.body">{{ paragraph }}</p>
+
+            <ul class="detail-list" *ngIf="step.bullets?.length">
+              <li *ngFor="let item of step.bullets">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="detail-media" aria-hidden="true">
+          <img class="detail-image" src="/images/no-image.jpg" [alt]="step.imageAlt" />
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
