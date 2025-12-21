@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 
 @Component({
@@ -10,11 +11,10 @@ import { ButtonPrimaryGlassComponent } from '../../../../shared/components/butto
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
+  constructor(private router: Router) {}
+
   scrollToForm(): void {
-    const element = document.getElementById('promotion');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    void this.router.navigate(['/free-intake']);
   }
 }
 

@@ -23,7 +23,7 @@ export class ContactComponent {
     hours: {
       weekdays: 'Mon - Fri: 07:00 - 22:00',
       saturday: 'Saturday: 09:00 - 17:00',
-      sunday: 'Sunday: Closed'
+      sunday: 'Sunday: 09:00 - 17:00'
     }
   };
 

@@ -4,6 +4,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { MethodsComponent } from './pages/methods/methods.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { FreeIntakeComponent } from './pages/free-intake/free-intake.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,6 @@ export const routes: Routes = [
   },
   {
     path: 'free-intake',
-    component: HomeComponent
+    component: FreeIntakeComponent
   }
 ];

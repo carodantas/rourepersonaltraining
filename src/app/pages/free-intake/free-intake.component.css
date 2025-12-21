@@ -1,0 +1,12 @@
+/* Free Intake Page Styles */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Ensure the promotion component has proper spacing */
+app-promotion {
+  display: block;
+  padding-top: 7rem; /* Add top padding to account for header */
+}
+

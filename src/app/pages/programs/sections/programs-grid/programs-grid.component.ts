@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface Program {
   title: string;
@@ -15,6 +16,8 @@ interface Program {
   styleUrl: './programs-grid.component.css'
 })
 export class ProgramsGridComponent {
+  constructor(private router: Router) {}
+
   programs: Program[] = [
     {
       title: 'Weight loss & muscle mass',
@@ -39,10 +42,7 @@ export class ProgramsGridComponent {
   ];
 
   scrollToPromotion(): void {
-    const element = document.getElementById('promotion');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    void this.router.navigate(['/free-intake']);
   }
 }
 

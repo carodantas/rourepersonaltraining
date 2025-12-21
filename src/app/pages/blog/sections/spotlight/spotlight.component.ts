@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-spotlight',
@@ -17,12 +16,5 @@ export class SpotlightComponent {
     image: '/images/no-image.jpg',
     slug: 'why-personal-trainers-are-worth-it'
   };
-
-  constructor(private router: Router) {}
-
-  openArticle(): void {
-    // Navigate to article detail page (to be implemented)
-    void this.router.navigate(['/blog', this.spotlightArticle.slug]);
-  }
 }
 

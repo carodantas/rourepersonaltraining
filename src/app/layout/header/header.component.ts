@@ -60,23 +60,7 @@ export class HeaderComponent {
     this.activeAnchor = anchor;
     this.isMobileMenuOpen = false; // Close mobile menu after navigation
 
-    // Só o "free-intake" deve fazer scroll (para a seção existente `id="promotion"`).
-    if (anchor === 'free-intake') {
-      const sectionId = 'promotion';
-      const targetRoute = this.routeByAnchor['free-intake'];
-
-      // Se não estiver na rota alvo, navega e faz scroll depois do NavigationEnd
-      if (!this.router.url.startsWith(targetRoute)) {
-        this.pendingScrollAnchor = sectionId;
-        void this.router.navigate([targetRoute]);
-        return;
-      }
-
-      this.deferScrollToAnchor(sectionId);
-      return;
-    }
-
-    // Todos os outros links do dropdown são páginas/rotas.
+    // Todos os links do dropdown são páginas/rotas.
     const route = this.routeByAnchor[anchor];
     if (route) {
       void this.router.navigate([route]);
