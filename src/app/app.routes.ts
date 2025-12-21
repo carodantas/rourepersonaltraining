@@ -6,6 +6,9 @@ import { MethodsComponent } from './pages/methods/methods.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { FreeIntakeComponent } from './pages/free-intake/free-intake.component';
 import { WeightLossMuscleMassComponent } from './pages/programs/weight-loss-muscle-mass/weight-loss-muscle-mass.component';
+import { PeakPerformanceComponent } from './pages/programs/peak-performance/peak-performance.component';
+import { VitalityLongevityComponent } from './pages/programs/vitality-longevity/vitality-longevity.component';
+import { PrenatalPostpartumComponent } from './pages/programs/prenatal-postpartum/prenatal-postpartum.component';
 
 export const routes: Routes = [
   {
@@ -35,5 +38,17 @@ export const routes: Routes = [
   {
     path: 'programs/weight-loss-muscle-mass',
     component: WeightLossMuscleMassComponent
+  },
+  {
+    path: 'programs/peak-performance',
+    component: PeakPerformanceComponent
+  },
+  {
+    path: 'programs/vitality-longevity',
+    component: VitalityLongevityComponent
+  },
+  {
+    path: 'programs/prenatal-postpartum',
+    component: PrenatalPostpartumComponent
   }
 ];

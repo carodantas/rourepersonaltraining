@@ -29,17 +29,20 @@ export class ProgramsGridComponent {
     {
       title: 'Peak performance',
       benefits: ['Competition readiness', 'Advanced athletic training'],
-      image: '/images/no-image.jpg'
+      image: '/images/no-image.jpg',
+      route: '/programs/peak-performance'
     },
     {
       title: 'Vitality & longevity',
       benefits: ['Anti-aging protocol', 'Health span extension'],
-      image: '/images/no-image.jpg'
+      image: '/images/no-image.jpg',
+      route: '/programs/vitality-longevity'
     },
     {
       title: 'Prenatal & postpartum',
       benefits: ['Safe pregnancy fitness', 'Postpartum recovery'],
-      image: '/images/no-image.jpg'
+      image: '/images/no-image.jpg',
+      route: '/programs/prenatal-postpartum'
     }
   ];
 

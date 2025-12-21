@@ -104,14 +104,14 @@ export class PromotionComponent implements OnInit {
         }
       }
       
-      // Scroll to form after a short delay to ensure it's rendered
+          // Scroll to form after a short delay to ensure it's rendered
       if (params['program'] || params['plan']) {
-        setTimeout(() => {
-          const element = document.getElementById('promotion');
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
+          setTimeout(() => {
+            const element = document.getElementById('promotion');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
       }
     });
   }
