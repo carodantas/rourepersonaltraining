@@ -5,6 +5,7 @@ import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { MethodsComponent } from './pages/methods/methods.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { FreeIntakeComponent } from './pages/free-intake/free-intake.component';
+import { WeightLossMuscleMassComponent } from './pages/programs/weight-loss-muscle-mass/weight-loss-muscle-mass.component';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'free-intake',
     component: FreeIntakeComponent
+  },
+  {
+    path: 'programs/weight-loss-muscle-mass',
+    component: WeightLossMuscleMassComponent
   }
 ];

@@ -20,6 +20,20 @@
         </div>
       </div>
 
+      <!-- Program Selection -->
+      <div class="form-section">
+        <label class="form-label strong-1">
+          Which program are you interested in?
+        </label>
+        <div class="form-field">
+          <select formControlName="program" class="form-select body-1">
+            @for (option of programOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
       <!-- Goals Section -->
       <div class="form-section">
         <label class="form-label strong-1">

@@ -15,6 +15,8 @@ export class PromotionComponent implements OnInit {
   intakeForm: FormGroup;
   isSubmitting = false;
   isSubmitted = false;
+  showProgramSelection = false;
+  selectedProgram = '';
 
   goals = [
     { id: 'improve-health', label: 'Improve my overall health' },
@@ -25,6 +27,15 @@ export class PromotionComponent implements OnInit {
     { id: 'lose-weight', label: 'Lose weight' },
     { id: 'strength', label: 'Get stronger' },
     { id: 'other', label: 'Other' }
+  ];
+
+  programOptions = [
+    { value: '', label: 'Select a program' },
+    { value: 'weight-loss-muscle-mass', label: 'Weight loss & muscle mass' },
+    { value: 'peak-performance', label: 'Peak performance' },
+    { value: 'vitality-longevity', label: 'Vitality & longevity' },
+    { value: 'prenatal-postpartum', label: 'Prenatal & postpartum' },
+    { value: 'not-sure', label: 'Not sure yet' }
   ];
 
   exerciseFrequencyOptions = [
@@ -41,7 +52,8 @@ export class PromotionComponent implements OnInit {
     { value: '', label: 'Select a plan' },
     { value: 'duo-buddy', label: 'Duo / Buddy' },
     { value: 'solo-standard', label: 'Solo Standard' },
-    { value: 'long-term', label: 'Long-Term' }
+    { value: 'long-term', label: 'Long-Term' },
+    { value: 'not-sure', label: 'Not sure yet' }
   ];
 
   constructor(
@@ -51,6 +63,7 @@ export class PromotionComponent implements OnInit {
   ) {
     this.intakeForm = this.fb.group({
       plan: [''],
+      program: [''],
       goals: this.fb.group(
         this.goals.reduce((acc, goal) => {
           acc[goal.id] = [false];
@@ -70,21 +83,35 @@ export class PromotionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check for plan query parameter and pre-select it
+    // Check for query parameters
     this.route.queryParams.subscribe(params => {
+      // Check for program parameter
+      if (params['program']) {
+        const programValue = params['program'];
+        if (this.programOptions.some(option => option.value === programValue)) {
+          this.showProgramSelection = true;
+          this.selectedProgram = programValue;
+          this.intakeForm.patchValue({ program: programValue });
+        }
+      }
+      
+      // Check for plan query parameter and pre-select it
       if (params['plan']) {
         const planValue = params['plan'];
         // Validate that the plan value is valid
         if (this.planOptions.some(option => option.value === planValue)) {
           this.intakeForm.patchValue({ plan: planValue });
-          // Scroll to form after a short delay to ensure it's rendered
-          setTimeout(() => {
-            const element = document.getElementById('promotion');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }, 100);
         }
+      }
+      
+      // Scroll to form after a short delay to ensure it's rendered
+      if (params['program'] || params['plan']) {
+        setTimeout(() => {
+          const element = document.getElementById('promotion');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
       }
     });
   }

@@ -6,6 +6,7 @@ interface Program {
   title: string;
   benefits: string[];
   image: string;
+  route?: string;
 }
 
 @Component({
@@ -22,7 +23,8 @@ export class ProgramsGridComponent {
     {
       title: 'Weight loss & muscle mass',
       benefits: ['Sustainable weight loss', 'Increased muscle strength'],
-      image: '/images/no-image.jpg'
+      image: '/images/no-image.jpg',
+      route: '/programs/weight-loss-muscle-mass'
     },
     {
       title: 'Peak performance',
@@ -41,8 +43,13 @@ export class ProgramsGridComponent {
     }
   ];
 
-  scrollToPromotion(): void {
-    void this.router.navigate(['/free-intake']);
+  goToProgram(program: Program): void {
+    if (program.route) {
+      void this.router.navigate([program.route]);
+    } else {
+      // Fallback to free intake if no route specified
+      void this.router.navigate(['/free-intake']);
+    }
   }
 }
 
