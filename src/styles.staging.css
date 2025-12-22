@@ -6,6 +6,7 @@
   /* Weight Loss & Muscle Mass Program Images */
   --weight-loss-hero-desktop: url('/staging/images/hero-weight-loss-muscle-mass.png');
   --weight-loss-hero-mobile: url('/staging/images/hero-weight-loss-muscle-mass-mobile.png');
+  --weight-loss-card: url('/staging/images/hero-weight-loss-muscle-mass-card.png');
   --weight-loss-about: url('/staging/images/weight-loss-muscle-mass-2.png');
   --weight-loss-analysis: url('/staging/images/weight-loss-muscle-mass-3.png');
   --jeroen-marre-before: url('/staging/images/jeroen-marre-before.png');
@@ -28,10 +29,12 @@
   /* Vitality & Longevity Page Images */
   --vitality-longevity-hero: url('/staging/images/hero-vitality-longevity.png');
   --vitality-longevity-hero-mobile: url('/staging/images/hero-vitality-longevity-mobile.png');
+  --vitality-longevity-card: url('/staging/images/hero-vitality-longevity-card.png');
   
   /* Peak Performance Page Images */
   --peak-performance-hero: url('/staging/images/hero-peak-performance.png');
   --peak-performance-hero-mobile: url('/staging/images/hero-peak-performance-mobile.png');
+  --peak-performance-card: url('/staging/images/hero-peak-performance-card.png');
 }
 
 

@@ -24,6 +24,7 @@ html {
   /* Weight Loss & Muscle Mass Program Images */
   --weight-loss-hero-desktop: url('/images/hero-weight-loss-muscle-mass.png');
   --weight-loss-hero-mobile: url('/images/hero-weight-loss-muscle-mass-mobile.png');
+  --weight-loss-card: url('/images/hero-weight-loss-muscle-mass-card.png');
   --weight-loss-about: url('/images/weight-loss-muscle-mass-2.png');
   --weight-loss-analysis: url('/images/weight-loss-muscle-mass-3.png');
   --jeroen-marre-before: url('/images/jeroen-marre-before.png');
@@ -46,10 +47,12 @@ html {
   /* Vitality & Longevity Page Images */
   --vitality-longevity-hero: url('/images/hero-vitality-longevity.png');
   --vitality-longevity-hero-mobile: url('/images/hero-vitality-longevity-mobile.png');
+  --vitality-longevity-card: url('/images/hero-vitality-longevity-card.png');
   
   /* Peak Performance Page Images */
   --peak-performance-hero: url('/images/hero-peak-performance.png');
   --peak-performance-hero-mobile: url('/images/hero-peak-performance-mobile.png');
+  --peak-performance-card: url('/images/hero-peak-performance-card.png');
 }
 
 body {
