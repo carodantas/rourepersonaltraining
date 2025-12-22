@@ -12,6 +12,13 @@
   --jeroen-marre-after: url('/staging/images/jeroen-marre-after.png');
   --reza-before: url('/staging/images/reza-before.png');
   --reza-after: url('/staging/images/reza-after.png');
+  
+  /* Methods Page Images */
+  --methods-hero: url('/staging/images/hero-methods.png');
+  --methods-hero-mobile: url('/staging/images/hero-methods-mobile.png');
+  
+  /* About Us Page Images */
+  --about-us-hero: url('/staging/images/hero-about-us.png');
 }
 
 

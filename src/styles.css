@@ -30,6 +30,13 @@ html {
   --jeroen-marre-after: url('/images/jeroen-marre-after.png');
   --reza-before: url('/images/reza-before.png');
   --reza-after: url('/images/reza-after.png');
+  
+  /* Methods Page Images */
+  --methods-hero: url('/images/hero-methods.png');
+  --methods-hero-mobile: url('/images/hero-methods-mobile.png');
+  
+  /* About Us Page Images */
+  --about-us-hero: url('/images/hero-about-us.png');
 }
 
 body {

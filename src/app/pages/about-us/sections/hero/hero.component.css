@@ -9,7 +9,7 @@
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-    url('/images/hero-about-us2.png') center center / cover no-repeat;
+    var(--about-us-hero) center center / cover no-repeat;
 }
 
 .about-hero::before {
