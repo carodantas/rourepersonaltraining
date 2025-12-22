@@ -11,7 +11,7 @@
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-    url('/images/hero.png') center center / cover no-repeat;
+    var(--hero-bg-desktop) center center / cover no-repeat;
 }
 
 .hero::before {
@@ -166,7 +166,7 @@
     min-height: calc(100vh - 70px);
     background:
       linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-      url('/images/hero_mobile.png') center center / cover no-repeat;
+      var(--hero-bg-mobile) center center / cover no-repeat;
   }
 
   .hero-decoration {
@@ -208,7 +208,7 @@
     min-height: calc(100vh - 70px);
     background:
       linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-      url('/images/hero_mobile.png') center center / cover no-repeat;
+      var(--hero-bg-mobile) center center / cover no-repeat;
   }
 
   .hero-container {
@@ -245,7 +245,7 @@
     padding: 60px 0 80px;
     background:
       linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-      url('/images/hero_mobile.png') center center / cover no-repeat;
+      var(--hero-bg-mobile) center center / cover no-repeat;
   }
 
   .hero-container {

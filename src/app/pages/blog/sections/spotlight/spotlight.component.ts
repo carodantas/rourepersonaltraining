@@ -13,7 +13,7 @@ export class SpotlightComponent {
     category: 'Personal Training',
     title: 'Why Personal Trainers Are Worth It',
     date: 'August 21, 2024',
-    image: '/images/no-image.jpg',
+    image: 'images/no-image.jpg',
     slug: 'why-personal-trainers-are-worth-it'
   };
 }

@@ -39,16 +39,37 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "20MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "20MB"
                 }
               ],
               "outputHashing": "all"
+            },
+            "staging": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5MB",
+                  "maximumError": "20MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "5MB",
+                  "maximumError": "20MB"
+                }
+              ],
+              "outputHashing": "all",
+              "baseHref": "/staging/",
+              "deployUrl": "/staging/",
+              "styles": [
+                "src/styles.css",
+                "src/styles.staging.css"
+              ]
             },
             "development": {
               "optimization": false,
@@ -63,6 +84,9 @@
           "configurations": {
             "production": {
               "buildTarget": "rourepersonaltraining:build:production"
+            },
+            "staging": {
+              "buildTarget": "rourepersonaltraining:build:staging"
             },
             "development": {
               "buildTarget": "rourepersonaltraining:build:development"

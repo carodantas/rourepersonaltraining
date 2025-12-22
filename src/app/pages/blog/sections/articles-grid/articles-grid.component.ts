@@ -31,7 +31,7 @@ export class ArticlesGridComponent {
       excerpt: "In today's fast-paced world, staying fit and healthy can be challenging. Many people turn to personal trainers to help them achieve their fitness goals.",
       date: 'August 21, 2024',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'why-personal-trainers-are-worth-it'
     },
     {
@@ -41,7 +41,7 @@ export class ArticlesGridComponent {
       excerpt: "Along with making sure you get enough sleep, regular exercise is the most common advice we hear whenever we go through a stressful period.",
       date: 'June 29, 2023',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'how-exercise-helps-to-relieve-stress'
     },
     {
@@ -51,7 +51,7 @@ export class ArticlesGridComponent {
       excerpt: "We all know that stretching is important. However, not all stretches are equal. In this blogpost we'll shed a light on static stretching versus dynamic stretching.",
       date: 'February 14, 2023',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'static-stretching-vs-dynamic-stretching'
     },
     {
@@ -61,7 +61,7 @@ export class ArticlesGridComponent {
       excerpt: "We probably don't need to tell you how important it is to drink enough water every day. When you're working up a sweat, proper hydration becomes even more crucial.",
       date: 'May 14, 2023',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'how-much-water-should-you-drink'
     },
     {
@@ -71,7 +71,7 @@ export class ArticlesGridComponent {
       excerpt: "Let's get one thing straight: there is absolutely nothing wrong with putting in your AirPods and listening to some tunes when you're going for a run.",
       date: 'January 10, 2023',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'mindful-exercise-mindfulness-workouts'
     },
     {
@@ -81,7 +81,7 @@ export class ArticlesGridComponent {
       excerpt: 'Strength training is one of the most effective ways to improve your overall health and fitness. Learn how to build strength safely and effectively.',
       date: 'December 5, 2023',
       comments: 0,
-      image: '/images/no-image.jpg',
+      image: 'images/no-image.jpg',
       slug: 'building-strength-comprehensive-guide'
     }
   ];

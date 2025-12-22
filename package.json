@@ -5,9 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:staging": "ng build --configuration staging",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:rourepersonaltraining": "node dist/rourepersonaltraining/server/server.mjs"
+    "serve:ssr:rourepersonaltraining": "node dist/rourepersonaltraining/server/server.mjs",
+    "serve:ssr:staging": "cross-env BASE_PATH=/staging node dist/rourepersonaltraining/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -42,6 +44,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "cross-env": "^7.0.3",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"

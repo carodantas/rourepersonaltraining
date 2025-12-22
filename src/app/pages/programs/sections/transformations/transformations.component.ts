@@ -21,13 +21,13 @@ export class TransformationsComponent {
       name: 'Sarah M.',
       program: 'Weight Loss & Muscle Mass',
       quote: 'Lost 15kg and gained confidence I never knew I had. The personalized approach made all the difference.',
-      image: '/images/no-image.jpg'
+      image: 'images/no-image.jpg'
     },
     {
       name: 'Michael R.',
       program: 'Peak Performance',
       quote: 'Achieved my personal best in competition. The training program was exactly what I needed to break through my plateau.',
-      image: '/images/no-image.jpg'
+      image: 'images/no-image.jpg'
     }
   ];
 }

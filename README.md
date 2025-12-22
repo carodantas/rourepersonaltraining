@@ -36,6 +36,22 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Staging at `/staging/`
+
+To build the app to run under `https://site.com/staging/`:
+
+```bash
+npm run build:staging
+```
+
+To run the SSR server locally using the `/staging` base path:
+
+```bash
+npm run serve:ssr:staging
+```
+
+If you are deploying behind a reverse-proxy, make sure requests to `/staging/*` reach this server, and your proxy does not rewrite away the `/staging` prefix (or set `BASE_PATH=/staging` accordingly).
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

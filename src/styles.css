@@ -16,6 +16,10 @@ html {
   --font-featured: 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-headline: 'Anton', sans-serif;
   --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Asset URLs (default: production at domain root) */
+  --hero-bg-desktop: url('/images/hero.png');
+  --hero-bg-mobile: url('/images/hero_mobile.png');
 }
 
 body {

@@ -1,0 +1,7 @@
+/* Overrides for hosting under https://site.com/staging/ */
+:root {
+  --hero-bg-desktop: url('/staging/images/hero.png');
+  --hero-bg-mobile: url('/staging/images/hero_mobile.png');
+}
+
+
