@@ -10,7 +10,7 @@
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-    url('/images/no-image.jpg') center center / cover no-repeat;
+    url('/images/hero-weight-loss-muscle-mass.png') center center / cover no-repeat;
 }
 
 .program-hero::before {
