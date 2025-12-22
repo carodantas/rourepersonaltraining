@@ -18,8 +18,18 @@ html {
   --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Asset URLs (default: production at domain root) */
-  --hero-bg-desktop: url('/images/hero.png');
-  --hero-bg-mobile: url('/images/hero_mobile.png');
+  --hero-bg-desktop: url('/images/hero-2.png');
+  --hero-bg-mobile: url('/images/hero-2-mobile.png');
+  
+  /* Weight Loss & Muscle Mass Program Images */
+  --weight-loss-hero-desktop: url('/images/hero-weight-loss-muscle-mass.png');
+  --weight-loss-hero-mobile: url('/images/hero-weight-loss-muscle-mass-mobile.png');
+  --weight-loss-about: url('/images/weight-loss-muscle-mass-2.png');
+  --weight-loss-analysis: url('/images/weight-loss-muscle-mass-3.png');
+  --jeroen-marre-before: url('/images/jeroen-marre-before.png');
+  --jeroen-marre-after: url('/images/jeroen-marre-after.png');
+  --reza-before: url('/images/reza-before.png');
+  --reza-after: url('/images/reza-after.png');
 }
 
 body {

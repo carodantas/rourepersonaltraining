@@ -1,7 +1,17 @@
 /* Overrides for hosting under https://site.com/staging/ */
 :root {
-  --hero-bg-desktop: url('/staging/images/hero.png');
-  --hero-bg-mobile: url('/staging/images/hero_mobile.png');
+  --hero-bg-desktop: url('/staging/images/hero-2.png');
+  --hero-bg-mobile: url('/staging/images/hero-2-mobile.png');
+  
+  /* Weight Loss & Muscle Mass Program Images */
+  --weight-loss-hero-desktop: url('/staging/images/hero-weight-loss-muscle-mass.png');
+  --weight-loss-hero-mobile: url('/staging/images/hero-weight-loss-muscle-mass-mobile.png');
+  --weight-loss-about: url('/staging/images/weight-loss-muscle-mass-2.png');
+  --weight-loss-analysis: url('/staging/images/weight-loss-muscle-mass-3.png');
+  --jeroen-marre-before: url('/staging/images/jeroen-marre-before.png');
+  --jeroen-marre-after: url('/staging/images/jeroen-marre-after.png');
+  --reza-before: url('/staging/images/reza-before.png');
+  --reza-after: url('/staging/images/reza-after.png');
 }
 
 
