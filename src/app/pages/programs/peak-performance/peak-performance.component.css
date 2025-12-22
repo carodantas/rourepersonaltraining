@@ -10,7 +10,7 @@
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-    url('/images/no-image.jpg') center center / cover no-repeat;
+    var(--peak-performance-hero) center center / cover no-repeat;
 }
 
 .program-hero::before {
@@ -650,6 +650,9 @@
   .program-hero {
     padding: clamp(80px, 12vw, 120px) 0 clamp(100px, 15vw, 150px);
     min-height: calc(100vh - 70px);
+    background:
+      linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
+      var(--peak-performance-hero-mobile) center center / cover no-repeat;
   }
 
   .hero-decoration {

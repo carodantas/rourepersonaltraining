@@ -19,6 +19,19 @@
   
   /* About Us Page Images */
   --about-us-hero: url('/staging/images/hero-about-us.png');
+  --about-us-hero-mobile: url('/staging/images/hero-about-us-mobile.png');
+  
+  /* Programs Page Images */
+  --programs-hero: url('/staging/images/hero-programs.png');
+  --programs-hero-mobile: url('/staging/images/hero-programs-mobile.png');
+  
+  /* Vitality & Longevity Page Images */
+  --vitality-longevity-hero: url('/staging/images/hero-vitality-longevity.png');
+  --vitality-longevity-hero-mobile: url('/staging/images/hero-vitality-longevity-mobile.png');
+  
+  /* Peak Performance Page Images */
+  --peak-performance-hero: url('/staging/images/hero-peak-performance.png');
+  --peak-performance-hero-mobile: url('/staging/images/hero-peak-performance-mobile.png');
 }
 
 

@@ -11,7 +11,7 @@
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
-    url('/images/no-image.jpg') center center / cover no-repeat;
+    var(--programs-hero) center center / cover no-repeat;
 }
 
 .hero::before {
@@ -129,6 +129,9 @@
     align-items: center;
     justify-content: flex-start;
     min-height: calc(100vh - 70px);
+    background:
+      linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
+      var(--programs-hero-mobile) center center / cover no-repeat;
   }
 
   .hero-decoration {
