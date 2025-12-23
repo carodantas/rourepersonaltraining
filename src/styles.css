@@ -37,8 +37,16 @@ html {
   --methods-hero-mobile: url('/images/hero-methods-mobile.png');
   
   /* About Us Page Images */
-  --about-us-hero: url('/images/hero-about-us.png');
-  --about-us-hero-mobile: url('/images/hero-about-us-mobile.png');
+  --about-us-hero: url('/images/hero-about-us-3.png');
+  --about-us-hero-mobile: url('/images/hero-about-us-3-mobile.png');
+  --carlos-torres: url('/images/carlos-torres.png');
+  --carlos-torres-mobile: url('/images/carlos-torres-mobile.png');
+  --niels-greven: url('/images/niels-greven.png');
+  --niels-greven-mobile: url('/images/niels-greven-mobile.png');
+  --dennis-bakker: url('/images/dennis-bakker.png');
+  --dennis-bakker-mobile: url('/images/dennis-bakker-mobile.png');
+  --izabela-gasparovic: url('/images/izabela-gasparovic.png');
+  --izabela-gasparovic-mobile: url('/images/izabela-gasparovic-mobile.png');
   
   /* Programs Page Images */
   --programs-hero: url('/images/hero-programs.png');
@@ -69,6 +77,12 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Garantir que o dropdown menu não seja cortado por overflow hidden */
+.dropdown-menu {
+  position: fixed !important;
+  z-index: 10000 !important;
 }
 
 /* Typography System - Small Screen (575px and smaller) */

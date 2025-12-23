@@ -135,6 +135,54 @@
   .card-content {
     padding: 1.75rem 1.5rem;
   }
+
+  /* Carlos Torres mobile image */
+  .team-card--carlos .card-image {
+    opacity: 0;
+  }
+
+  .team-card--carlos .card-media {
+    background-image: var(--carlos-torres-mobile);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Niels Greven mobile image */
+  .team-card--niels .card-image {
+    opacity: 0;
+  }
+
+  .team-card--niels .card-media {
+    background-image: var(--niels-greven-mobile);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Dennis Bakker mobile image */
+  .team-card--dennis .card-image {
+    opacity: 0;
+  }
+
+  .team-card--dennis .card-media {
+    background-image: var(--dennis-bakker-mobile);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Izabela Gasparovic mobile image */
+  .team-card--izabela .card-image {
+    opacity: 0;
+  }
+
+  .team-card--izabela .card-media {
+    background-image: var(--izabela-gasparovic-mobile);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 
 @media (max-width: 520px) {

@@ -6,7 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 2rem 0;
+  /* Responsive padding: account for fixed header (20px top + 56px height + spacing) */
+  padding: clamp(120px, 14vh, 160px) 0 2rem;
   color: #f5f2ea;
   background:
     linear-gradient(120deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.4)),
@@ -66,6 +67,8 @@
   margin: 0;
   color: #ffffff;
   letter-spacing: -0.02em;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
 }
 
 .hero-subtitle {
@@ -632,6 +635,14 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .program-hero {
+    padding: clamp(110px, 12vh, 140px) 0 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  }
+
   .program-about-content,
   .program-how-content,
   .analysis-content {
@@ -648,7 +659,7 @@
 
 @media (max-width: 768px) {
   .program-hero {
-    padding: clamp(80px, 12vw, 120px) 0 clamp(100px, 15vw, 150px);
+    padding: clamp(100px, 12vw, 130px) 0 clamp(100px, 15vw, 150px);
     min-height: calc(100vh - 70px);
   }
 

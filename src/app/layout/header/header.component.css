@@ -4,13 +4,14 @@
   left: 0;
   right: 0;
   height: auto;
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   background-color: transparent;
   border: none;
   pointer-events: none;
   transition: top 0.3s ease;
+  isolation: isolate;
 }
 
 .header-container {
@@ -195,7 +196,7 @@
   right: calc((100% - min(95%, 1000px)) / 2);
   width: 95%;
   max-width: 420px;
-  z-index: 999;
+  z-index: 10000 !important;
   pointer-events: auto;
   
   /* Glassmorphism escuro como Luna */
@@ -217,6 +218,9 @@
   
   /* Transição suave ao fechar */
   transition: opacity 0.2s ease, transform 0.2s ease;
+  
+  /* Garantir que não seja cortado */
+  will-change: transform, opacity;
 }
 
 /* Scrollbar personalizado para o dropdown */
@@ -359,6 +363,7 @@
     top: 10px;
     height: auto;
     min-height: 0;
+    z-index: 9999;
   }
 
   .header-container {
@@ -367,6 +372,7 @@
     gap: 1rem;
     width: calc(100% - 24px);
     border-radius: 24px;
+    position: relative;
   }
 
   .logo-button {
@@ -379,12 +385,18 @@
   }
 
   .dropdown-menu {
-    top: 86px;
-    right: 12px;
-    left: 12px;
-    width: auto;
-    max-width: none;
-    max-height: calc(100vh - 106px);
+    top: 86px !important;
+    right: 12px !important;
+    left: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: calc(100vh - 106px) !important;
+    z-index: 10000 !important;
+    position: fixed !important;
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
   }
 
   .dropdown-menu-nav {
@@ -429,6 +441,9 @@
     left: 6px;
     width: auto;
     max-height: calc(100vh - 94px);
+    z-index: 10000 !important;
+    position: fixed !important;
+    transform: none !important;
   }
 
   .dropdown-menu-nav {

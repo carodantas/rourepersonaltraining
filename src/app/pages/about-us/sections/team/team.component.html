@@ -11,6 +11,10 @@
       <article 
         class="team-card" 
         [class.team-card--reverse]="i % 2 === 1"
+        [class.team-card--carlos]="member.name === 'Carlos Alberto Torres Roure'"
+        [class.team-card--niels]="member.name === 'Niels Greven'"
+        [class.team-card--dennis]="member.name === 'Dennis Bakker'"
+        [class.team-card--izabela]="member.name === 'Izabela Gasparovic'"
         *ngFor="let member of teamMembers; let i = index">
         <div class="card-media">
           <img [src]="member.image || 'images/no-image.jpg'" [alt]="member.name" class="card-image" />

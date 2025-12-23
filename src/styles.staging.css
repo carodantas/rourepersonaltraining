@@ -19,8 +19,16 @@
   --methods-hero-mobile: url('/staging/images/hero-methods-mobile.png');
   
   /* About Us Page Images */
-  --about-us-hero: url('/staging/images/hero-about-us.png');
-  --about-us-hero-mobile: url('/staging/images/hero-about-us-mobile.png');
+  --about-us-hero: url('/staging/images/hero-about-us-3.png');
+  --about-us-hero-mobile: url('/staging/images/hero-about-us-3-mobile.png');
+  --carlos-torres: url('/staging/images/carlos-torres.png');
+  --carlos-torres-mobile: url('/staging/images/carlos-torres-mobile.png');
+  --niels-greven: url('/staging/images/niels-greven.png');
+  --niels-greven-mobile: url('/staging/images/niels-greven-mobile.png');
+  --dennis-bakker: url('/staging/images/dennis-bakker.png');
+  --dennis-bakker-mobile: url('/staging/images/dennis-bakker-mobile.png');
+  --izabela-gasparovic: url('/staging/images/izabela-gasparovic.png');
+  --izabela-gasparovic-mobile: url('/staging/images/izabela-gasparovic-mobile.png');
   
   /* Programs Page Images */
   --programs-hero: url('/staging/images/hero-programs.png');

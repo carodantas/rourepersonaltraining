@@ -18,17 +18,6 @@ export class PromotionComponent implements OnInit {
   showProgramSelection = false;
   selectedProgram = '';
 
-  goals = [
-    { id: 'improve-health', label: 'Improve my overall health' },
-    { id: 'confidence', label: 'Feel more confident / improve my appearance' },
-    { id: 'flexibility', label: 'Increase flexibility' },
-    { id: 'tone', label: 'Tone and shape my body' },
-    { id: 'posture', label: 'Improve posture' },
-    { id: 'lose-weight', label: 'Lose weight' },
-    { id: 'strength', label: 'Get stronger' },
-    { id: 'other', label: 'Other' }
-  ];
-
   programOptions = [
     { value: '', label: 'Select a program' },
     { value: 'weight-loss-muscle-mass', label: 'Weight loss & muscle mass' },
@@ -36,16 +25,6 @@ export class PromotionComponent implements OnInit {
     { value: 'vitality-longevity', label: 'Vitality & longevity' },
     { value: 'prenatal-postpartum', label: 'Prenatal & postpartum' },
     { value: 'not-sure', label: 'Not sure yet' }
-  ];
-
-  exerciseFrequencyOptions = [
-    { value: '', label: 'Select' },
-    { value: 'daily', label: 'Daily' },
-    { value: '4-5-times', label: '4-5 times per week' },
-    { value: '2-3-times', label: '2-3 times per week' },
-    { value: 'once-week', label: 'Once per week' },
-    { value: 'occasionally', label: 'Occasionally' },
-    { value: 'rarely', label: 'Rarely / Never' }
   ];
 
   planOptions = [
@@ -64,19 +43,10 @@ export class PromotionComponent implements OnInit {
     this.intakeForm = this.fb.group({
       plan: [''],
       program: [''],
-      goals: this.fb.group(
-        this.goals.reduce((acc, goal) => {
-          acc[goal.id] = [false];
-          return acc;
-        }, {} as Record<string, [boolean]>)
-      ),
-      otherGoal: [''],
-      exerciseFrequency: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      discountCode: [''],
       questions: [''],
       receiveCommunications: [false]
     });
@@ -114,14 +84,6 @@ export class PromotionComponent implements OnInit {
           }, 100);
       }
     });
-  }
-
-  get goalsFormGroup(): FormGroup {
-    return this.intakeForm.get('goals') as FormGroup;
-  }
-
-  get showOtherInput(): boolean {
-    return this.goalsFormGroup.get('other')?.value || false;
   }
 
   onSubmit(): void {
