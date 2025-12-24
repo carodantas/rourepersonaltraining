@@ -61,6 +61,10 @@ html {
   --peak-performance-hero: url('/images/hero-peak-performance.png');
   --peak-performance-hero-mobile: url('/images/hero-peak-performance-mobile.png');
   --peak-performance-card: url('/images/hero-peak-performance-card.png');
+  
+  /* Prenatal & Postpartum Page Images */
+  --prenatal-postpartum-hero: url('/images/hero-prenatal-postpartum.png');
+  --prenatal-postpartum-hero-mobile: url('/images/hero-prenatal-postpartum-mobile.png');
 }
 
 body {
