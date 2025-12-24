@@ -8,6 +8,24 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent iOS/Android from auto-adjusting text size which can feel like "zoom" */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Avoid pinch-zoom while keeping normal scrolling (where supported). */
+html,
+body {
+  touch-action: pan-x pan-y;
+}
+
+/* iOS Safari zooms when focusing inputs with font-size < 16px */
+@media (max-width: 1024px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* Typography System - Font Families */
