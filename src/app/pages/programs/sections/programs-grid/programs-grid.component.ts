@@ -41,7 +41,7 @@ export class ProgramsGridComponent {
     {
       title: 'Prenatal & postpartum',
       benefits: ['Safe pregnancy fitness', 'Postpartum recovery'],
-      image: 'images/no-image.jpg',
+      image: 'images/hero-prenatal-postpartum-card.png',
       route: '/programs/prenatal-postpartum'
     }
   ];
