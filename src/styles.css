@@ -134,7 +134,7 @@ body {
 .body-2 { font-family: var(--font-body); font-size: 14px; line-height: 20px; font-weight: 400; }
 
 /* Small */
-.small-1 { font-family: var(--font-body); font-size: 12px; line-height: 18px; font-weight: 500; }
+.small-1 { font-family: var(--font-body); font-size: 12px; line-height: 18px; font-weight: 500; color: rgb(157, 143, 120); }
 .small-2 { font-family: var(--font-body); font-size: 10px; line-height: 16px; font-weight: 500; }
 
 /* Typography System - Medium Screen (576px and wider) */

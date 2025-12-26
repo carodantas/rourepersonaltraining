@@ -22,7 +22,7 @@
         </div>
 
         <div class="detail-media" aria-hidden="true">
-          <img class="detail-image" src="images/no-image.jpg" [alt]="step.imageAlt" />
+          <img class="detail-image" [src]="getStepImage(step.title)" [alt]="step.imageAlt" />
         </div>
       </article>
     </div>

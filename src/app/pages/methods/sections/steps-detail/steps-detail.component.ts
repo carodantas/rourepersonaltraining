@@ -55,6 +55,17 @@ export class StepsDetailComponent {
       imageAlt: 'Ongoing evaluation placeholder'
     }
   ];
+
+  getStepImage(title: string): string {
+    if (title === 'Body Analysis (InBody)') {
+      return 'images/body-analysis-inbody.png';
+    } else if (title === 'Progress Tracking With Your App') {
+      return 'images/progress-tracking.png';
+    } else if (title === 'Ongoing Evaluation') {
+      return 'images/ongoing-evaluation.png';
+    }
+    return 'images/no-image.jpg';
+  }
 }
 
 

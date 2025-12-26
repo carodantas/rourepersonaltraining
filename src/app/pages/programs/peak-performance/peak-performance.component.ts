@@ -24,6 +24,10 @@ export class PeakPerformanceComponent {
     });
   }
 
+  goToPrograms(): void {
+    void this.router.navigate(['/programs']);
+  }
+
   toggleTestimonial(id: string): void {
     this.expandedTestimonials[id] = !this.expandedTestimonials[id];
   }

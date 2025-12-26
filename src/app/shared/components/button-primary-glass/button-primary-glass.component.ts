@@ -12,6 +12,7 @@ export class ButtonPrimaryGlassComponent {
   @Input() disabled: boolean = false;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() ariaLabel?: string;
+  @Input() variant: 'primary' | 'secondary' = 'primary';
   @Output() clicked = new EventEmitter<MouseEvent>();
 
   onClick(event: MouseEvent): void {

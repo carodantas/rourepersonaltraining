@@ -87,3 +87,35 @@
   }
 }
 
+/* Secondary Button Variant - Light Beige Style */
+.btn-secondary {
+  background: linear-gradient(135deg, rgba(245, 242, 234, 0.15), rgba(245, 242, 234, 0.1));
+  color: rgba(245, 242, 234, 0.95);
+  border: 1px solid rgba(245, 242, 234, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(245, 242, 234, 0.2), rgba(245, 242, 234, 0.15));
+  border-color: rgba(245, 242, 234, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:disabled {
+  background: linear-gradient(135deg, rgba(245, 242, 234, 0.08), rgba(245, 242, 234, 0.05));
+  color: rgba(245, 242, 234, 0.4);
+  border-color: rgba(245, 242, 234, 0.15);
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid rgba(245, 242, 234, 0.5);
+  outline-offset: 2px;
+}
+

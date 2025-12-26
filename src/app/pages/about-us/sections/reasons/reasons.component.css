@@ -12,12 +12,13 @@
 
 .reasons-header {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .reasons-kicker {
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(245, 242, 234, 0.7);
+  color: #9d8f78;
 }
 
 .reasons-title {

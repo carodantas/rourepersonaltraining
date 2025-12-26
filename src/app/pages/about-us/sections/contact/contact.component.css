@@ -10,6 +10,14 @@
   margin: 0 auto;
 }
 
+.contact-kicker {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9d8f78;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
 .contact-title {
   margin: 0 0 2.5rem 0;
   color: #ffffff;
