@@ -125,112 +125,86 @@
       <h2 id="program-feedback-title" class="section-title headline-1">Real transformations from people like you</h2>
       <p class="feedback-subtitle featured-3">See what's possible when you commit to your goals</p>
     </div>
-    <div class="testimonials-grid">
+    <div class="testimonials-content">
       <div class="testimonial-item">
         <div class="testimonial-content">
           <div class="testimonial-card">
             <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Jeroen Marré</p>
+              <p class="testimonial-name strong-2">{{ currentTestimonial.name }}</p>
               <div class="testimonial-rating">
                 <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= currentTestimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  }
                 </div>
               </div>
             </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['jeroen']">
+            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials[currentTestimonial.id]">
               <p class="testimonial-text body-2">
-                I recently started training at Roure Personal Training, and what a difference it has made! Even though I've been used to personal coaching for over 10 years, from my very first session I experienced a completely new level of professionalism and effectiveness.
+                {{ currentTestimonial.text }}
               </p>
               <div class="testimonial-text-expanded">
-                <p class="testimonial-text body-2">
-                  Izabella, my regular trainer, quickly identified where my weak points were and how to push my limits. In a short amount of time, I made tremendous progress thanks to her expertise. During Izabella's vacation, Niels and Carlos took over the sessions seamlessly, continuing exactly where she left off. They know precisely how to get the maximum out of every session.
-                </p>
-                <p class="testimonial-text body-2">
-                  I set high standards for myself — and they raise the bar even higher. Roure Personal Training is without a doubt the best studio I've ever trained at. For those who have never trained before: don't worry. The team helps you move forward step by step. If you truly want to improve yourself, you're in excellent hands at Roure PT.
-                </p>
+                @for (paragraph of currentTestimonial.expandedText; track $index) {
+                  <p class="testimonial-text body-2">
+                    {{ paragraph }}
+                  </p>
+                }
               </div>
             </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('jeroen')">
-              {{ expandedTestimonials['jeroen'] ? 'Read less' : 'Read more' }}
+            <button class="read-more-btn small-1" (click)="toggleTestimonial(currentTestimonial.id)">
+              {{ expandedTestimonials[currentTestimonial.id] ? 'Read less' : 'Read more' }}
             </button>
           </div>
         </div>
         <div class="testimonial-images">
           <div class="before-after-images">
             <div class="before-image">
-              <img src="images/jeroen-marre-before.png" alt="Transformation" />
+              <img [src]="currentTestimonial.beforeImage" alt="Transformation" />
             </div>
             <div class="after-image">
-              <img src="images/jeroen-marre-after.png" alt="Transformation" />
+              <img [src]="currentTestimonial.afterImage" alt="Transformation" />
             </div>
           </div>
         </div>
       </div>
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Reza</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['reza']">
-              <p class="testimonial-text body-2">
-                After training at this PT studio (Roure Personal Training) for a year, I can only express praise. The coaching is extremely professional, always enjoyable, and completely tailored to you.
-              </p>
-              <div class="testimonial-text-expanded">
-                <p class="testimonial-text body-2">
-                  Everything is based on facts: my body is measured regularly, and the results are immediately visible. Thanks to their approach, I'm completely back in shape again! Many thanks to the entire team 😊
-                </p>
-              </div>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('reza')">
-              {{ expandedTestimonials['reza'] ? 'Read less' : 'Read more' }}
-            </button>
-          </div>
-        </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img src="images/reza-before.png" alt="Transformation" />
-            </div>
-            <div class="after-image">
-              <img src="images/reza-after.png" alt="Transformation" />
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-left"
+      (click)="prevTestimonial()"
+      aria-label="Previous testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-right"
+      (click)="nextTestimonial()"
+      aria-label="Next testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- Pagination Dots -->
+    <div class="pagination-dots">
+      @for (testimonial of testimonials; track $index) {
+        <button
+          type="button"
+          class="pagination-dot"
+          [class.active]="currentIndex === $index"
+          (click)="goToTestimonial($index)"
+          [attr.aria-label]="'Go to testimonial ' + ($index + 1)"
+        ></button>
+      }
     </div>
   </div>
 </section>

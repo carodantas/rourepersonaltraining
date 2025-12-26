@@ -118,198 +118,82 @@
 </section>
 
 <!-- Feedback/Testimonials Section -->
-<section class="program-feedback" aria-labelledby="program-feedback-title">
-  <div class="container">
+<section class="testimonials" aria-labelledby="program-feedback-title">
+  <div class="testimonials-container">
     <div class="feedback-header">
       <span class="feedback-kicker small-1">CLIENT REVIEWS</span>
-      <h2 id="program-feedback-title" class="section-title headline-1">Real transformations from people like you</h2>
+      <h2 id="program-feedback-title" class="testimonials-title headline-1">Real transformations from people like you</h2>
       <p class="feedback-subtitle featured-3">See what's possible when you commit to your goals</p>
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Aline Kiers</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    
+    <div class="testimonials-content">
+      @for (testimonial of currentTestimonials; track $index) {
+        @let testimonialIndex = getTestimonialIndex(currentPage, $index);
+        @let expanded = isExpanded(testimonialIndex);
+        @let needsTruncate = needsTruncation(testimonial.text);
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <p class="testimonial-name strong-2">{{ testimonial.author }}</p>
+            <div class="testimonial-rating">
+              <div class="stars">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= testimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                   </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
+                }
               </div>
             </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['aline']">
-              <p class="testimonial-text body-2">
-                We work with a nutrition plan that was made especially for me. Carlos is very involved, easy to reach (via app/phone), and adapts the training plan to my personal situation (busy life, mother, business owner). During training, he stays alert to whether I'm performing the exercises correctly and consistently corrects my posture so that I'm training the right muscles.
-              </p>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('aline')" style="display: none;">
-              {{ expandedTestimonials['aline'] ? 'Read less' : 'Read more' }}
+          </div>
+          <p class="testimonial-text body-1" [class.truncated]="needsTruncate && !expanded">
+            {{ testimonial.text }}
+          </p>
+          @if (needsTruncate) {
+            <button 
+              class="read-more-btn small-1" 
+              (click)="toggleTestimonial(testimonialIndex)"
+              type="button"
+            >
+              {{ expanded ? 'Read less' : 'Read more' }}
             </button>
-          </div>
+          }
         </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-            <div class="after-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Arlyta Wibowo</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['arlyta']">
-              <p class="testimonial-text body-2">
-                Going back to the gym after having a baby was very scary and discouraging for me, and I just didn't know where to start. After sharing my goals and expectations with Carlos, he customized the exercises accordingly. He really takes the time to teach me proper techniques. He motivates me, pushes me, and has helped me realize that I'm stronger than I thought.
-              </p>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('arlyta')" style="display: none;">
-              {{ expandedTestimonials['arlyta'] ? 'Read less' : 'Read more' }}
-            </button>
-          </div>
-        </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-            <div class="after-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Natalia Sanchez</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['natalia']">
-              <p class="testimonial-text body-2">
-                The trainers are super friendly. They create personalized programs that help you progress while also being mindful of your limits. They help design a nutrition plan and track muscle gain, which I found to be very motivating.
-              </p>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('natalia')" style="display: none;">
-              {{ expandedTestimonials['natalia'] ? 'Read less' : 'Read more' }}
-            </button>
-          </div>
-        </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-            <div class="after-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">Monique Pereboom</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials['monique']">
-              <p class="testimonial-text body-2">
-                I've been training at Roure for almost five months now, and for the first time in my life I'm seeing real progress! The sessions remain challenging, and with Niels' guidance you can definitely achieve your goals. The atmosphere is approachable (otherwise I wouldn't have kept coming back), friendly, and you receive professional advice. The coffee is good too!
-              </p>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial('monique')" style="display: none;">
-              {{ expandedTestimonials['monique'] ? 'Read less' : 'Read more' }}
-            </button>
-          </div>
-        </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-            <div class="after-image">
-              <img src="images/no-image.jpg" alt="Transformation" />
-            </div>
-          </div>
-        </div>
-      </div>
+      }
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-left"
+      (click)="prevTestimonial()"
+      aria-label="Previous testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    
+    <button 
+      type="button"
+      class="nav-arrow nav-arrow-right"
+      (click)="nextTestimonial()"
+      aria-label="Next testimonial"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- Pagination Dots -->
+    <div class="pagination-dots">
+      @for (page of pagesArray; track page) {
+        <button
+          type="button"
+          class="pagination-dot"
+          [class.active]="currentPage === page"
+          (click)="goToTestimonial(page)"
+          [attr.aria-label]="'Go to page ' + (page + 1)"
+        ></button>
+      }
     </div>
   </div>
 </section>
