@@ -3,26 +3,40 @@
     <div class="why-kicker small-1">Why we do what we do</div>
     <h2 id="why-title" class="why-title headline-1">Built for long-term progress</h2>
 
-    <div class="why-body body-1">
-      <p>We don’t believe in quick fixes or one-size-fits-all programs.</p>
-      <p>
-        We believe in long-term progress, built through consistency, understanding, and guidance
-        that fits your life.
-      </p>
-      <p>Our goal is to help you:</p>
+    <div class="content-wrapper">
+      <div class="text-content">
+        <div class="why-body body-1">
+          <p>
+            We believe in long-term progress, built through consistency, understanding, and guidance
+            that fits your life.
+          </p>
+          <p>Our goal is to help you:</p>
+        </div>
+
+        <ul class="why-list strong-1" aria-label="What we help you build">
+          <li>move better</li>
+          <li>feel stronger</li>
+          <li>build habits that last</li>
+          <li>enjoy the process, not just the outcome</li>
+        </ul>
+      </div>
+
+      <div class="video-content">
+        @if (videoUrl) {
+          <div class="video-embed">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              [src]="videoUrl" 
+              title="Why we do what we do" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        }
+      </div>
     </div>
-
-    <ul class="why-list strong-1" aria-label="What we help you build">
-      <li>move better</li>
-      <li>feel stronger</li>
-      <li>build habits that last</li>
-      <li>enjoy the process, not just the outcome</li>
-    </ul>
-
-    <p class="why-footer body-1">
-      Personal training at Roure is about creating a sustainable routine you can carry into your
-      everyday life not just inside the studio, but beyond it.
-    </p>
   </div>
 </section>
 

@@ -40,5 +40,16 @@ export class ContactComponent {
   get mapUrl(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.mapUrlString);
   }
+
+  get videoUrl(): SafeResourceUrl | null {
+    return this.toSafeYoutubeEmbed('https://www.youtube.com/embed/trBTosWRs0w');
+  }
+
+  toSafeYoutubeEmbed(url: string): SafeResourceUrl | null {
+    // Whitelist only YouTube embed URLs for security
+    const allowed = /^https:\/\/(www\.)?youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
+    if (!allowed.test(url)) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }
 

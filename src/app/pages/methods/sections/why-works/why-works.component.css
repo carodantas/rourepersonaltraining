@@ -6,7 +6,7 @@
 
 .container {
   width: 95%;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -27,21 +27,28 @@
   display: flex;
   flex-direction: column;
   padding-top: 0;
+  margin-top: 0;
 }
 
 .body {
   color: rgba(245, 242, 234, 0.92);
   margin: 0;
+  padding: 0;
 }
 
 .body p {
-  margin: 0;
+  margin: 0 0 0.75rem 0;
+}
+
+.body p:first-child {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
 }
 
 .list {
   list-style: none;
   padding: 0;
-  margin: 1.25rem 0 1.5rem 0;
+  margin: 0.75rem 0 1rem 0;
   display: grid;
   gap: 0.75rem;
 }
@@ -61,13 +68,15 @@
 }
 
 .footer {
-  margin: 0;
+  margin: 1rem 0 0 0;
   color: rgba(245, 242, 234, 0.92);
 }
 
 .video-content {
   position: relative;
   width: 100%;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .video-embed {

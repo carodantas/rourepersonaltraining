@@ -59,18 +59,38 @@
       </article>
     </div>
 
-    <!-- Google Maps Embed -->
-    <div class="contact-map">
-      <iframe
-        [src]="mapUrl"
-        width="100%"
-        height="450"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Roure Personal Training Location">
-      </iframe>
+    <!-- Map and Video -->
+    <div class="map-video-wrapper">
+      <!-- Google Maps Embed -->
+      <div class="contact-map">
+        <iframe
+          [src]="mapUrl"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Roure Personal Training Location">
+        </iframe>
+      </div>
+
+      <!-- Video Embed -->
+      <div class="contact-video">
+        @if (videoUrl) {
+          <div class="video-embed">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              [src]="videoUrl" 
+              title="About Roure Personal Training" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </section>
