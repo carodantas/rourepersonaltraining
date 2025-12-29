@@ -1,0 +1,68 @@
+name: Deploy (Staging)
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-staging-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to Staging (/staging)
+    runs-on: ubuntu-latest
+    environment: deploy
+
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (production config, base-href=/staging/)
+        run: npm run build -- --configuration=production --base-href=/staging/
+
+      - name: Ensure build output exists
+        run: test -d dist/rourepersonaltraining/browser
+
+      - name: Add Apache SPA .htaccess into build output
+        run: cp src/.htaccess dist/rourepersonaltraining/browser/.htaccess
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Clean remote staging folder (keep folder)
+        run: >
+          sshpass -p "$SSH_PASS" ssh
+          -p "$SSH_PORT"
+          -o StrictHostKeyChecking=no
+          -o HostKeyAlgorithms=+ssh-rsa
+          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          "$SSH_USER@$SSH_HOST"
+          "mkdir -p '$REMOTE_ROOT/staging' && find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
+
+      - name: Upload to staging via SCP
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -P "$SSH_PORT"
+          -o StrictHostKeyChecking=no
+          -o HostKeyAlgorithms=+ssh-rsa
+          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          -r dist/rourepersonaltraining/browser/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
+

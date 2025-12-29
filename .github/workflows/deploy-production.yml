@@ -1,0 +1,68 @@
+name: Deploy (Production)
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Production (/)
+    runs-on: ubuntu-latest
+    environment: deploy
+
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (production, base-href=/)
+        run: npm run build -- --configuration=production --base-href=/
+
+      - name: Ensure build output exists
+        run: test -d dist/rourepersonaltraining/browser
+
+      - name: Add Apache SPA .htaccess into build output
+        run: cp src/.htaccess dist/rourepersonaltraining/browser/.htaccess
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Clean remote production root (MUST NOT touch /staging)
+        run: >
+          sshpass -p "$SSH_PASS" ssh
+          -p "$SSH_PORT"
+          -o StrictHostKeyChecking=no
+          -o HostKeyAlgorithms=+ssh-rsa
+          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          "$SSH_USER@$SSH_HOST"
+          "cd '$REMOTE_ROOT' && find . -mindepth 1 -maxdepth 1 ! -name 'staging' ! -name '.well-known' -exec rm -rf {} +"
+
+      - name: Upload to production via SCP
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -P "$SSH_PORT"
+          -o StrictHostKeyChecking=no
+          -o HostKeyAlgorithms=+ssh-rsa
+          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          -r dist/rourepersonaltraining/browser/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/"
+
+
