@@ -20,6 +20,12 @@ jobs:
       SSH_PASS: ${{ secrets.SSH_PASS }}
       SSH_PORT: ${{ secrets.SSH_PORT }}
       REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
 
     steps:
       - name: Checkout
@@ -46,13 +52,20 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
+      - name: Validate SSH secrets (fail fast if missing)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SSH_HOST:-}" || (echo "Missing SSH_HOST secret" && exit 1)
+          test -n "${SSH_USER:-}" || (echo "Missing SSH_USER secret" && exit 1)
+          test -n "${SSH_PASS:-}" || (echo "Missing SSH_PASS secret (is it set in Environment 'deploy'?)" && exit 1)
+          test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
+          test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
+
       - name: Clean remote staging folder (keep folder)
         run: >
           sshpass -p "$SSH_PASS" ssh
-          -p "$SSH_PORT"
-          -o StrictHostKeyChecking=no
-          -o HostKeyAlgorithms=+ssh-rsa
-          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          -p "$SSH_PORT" $SSH_OPTS
           "$SSH_USER@$SSH_HOST"
           "mkdir -p '$REMOTE_ROOT/staging' && find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
 
@@ -60,9 +73,7 @@ jobs:
         run: >
           sshpass -p "$SSH_PASS" scp
           -P "$SSH_PORT"
-          -o StrictHostKeyChecking=no
-          -o HostKeyAlgorithms=+ssh-rsa
-          -o PubkeyAcceptedAlgorithms=+ssh-rsa
+          $SSH_OPTS
           -r dist/rourepersonaltraining/browser/*
           "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
 
