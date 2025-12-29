@@ -1,22 +1,25 @@
 <section id="transformations" class="transformations">
   <div class="transformations-container">
     <div class="transformations-header">
-      <h2 class="transformations-title headline-1">Real transformations from people like you</h2>
+      <h2 class="transformations-title headline-1">Our approach, explained by our trainers and clients</h2>
       <p class="transformations-subtitle body-1">See what's possible when you commit to your goals</p>
     </div>
     
     <div class="transformations-grid">
-      <div class="transformation-card" *ngFor="let transformation of transformations">
-        <div class="transformation-image">
-          <img [src]="transformation.image" [alt]="transformation.name" />
-        </div>
-        <div class="transformation-content">
-          <p class="transformation-quote body-1">"{{ transformation.quote }}"</p>
-          <div class="transformation-author">
-            <div class="author-name strong-1">{{ transformation.name }}</div>
-            <div class="author-program body-2">{{ transformation.program }}</div>
+      <div class="video-item" *ngFor="let video of videos">
+        @if (video.safeVideoUrl) {
+          <div class="video-embed">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              [src]="video.safeVideoUrl" 
+              title="Client Testimonial Video" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
           </div>
-        </div>
+        }
       </div>
     </div>
   </div>

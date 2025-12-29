@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-interface Transformation {
-  name: string;
-  program: string;
-  quote: string;
-  image: string;
+interface Video {
+  videoUrl: string;
+  safeVideoUrl: SafeResourceUrl | null;
 }
 
 @Component({
@@ -16,19 +15,25 @@ interface Transformation {
   styleUrl: './transformations.component.css'
 })
 export class TransformationsComponent {
-  transformations: Transformation[] = [
-    {
-      name: 'Sarah M.',
-      program: 'Weight Loss & Muscle Mass',
-      quote: 'Lost 15kg and gained confidence I never knew I had. The personalized approach made all the difference.',
-      image: 'images/no-image.jpg'
-    },
-    {
-      name: 'Michael R.',
-      program: 'Peak Performance',
-      quote: 'Achieved my personal best in competition. The training program was exactly what I needed to break through my plateau.',
-      image: 'images/no-image.jpg'
-    }
-  ];
+  videos: Video[] = [];
+
+  constructor(private sanitizer: DomSanitizer) {
+    const rawVideos = [
+      { videoUrl: '7hmlKK2zZyI' },
+      { videoUrl: 'C2qpvmGdz08' }
+    ];
+
+    this.videos = rawVideos.map(v => ({
+      ...v,
+      safeVideoUrl: this.toSafeYoutubeEmbed(`https://www.youtube.com/embed/${v.videoUrl}`)
+    }));
+  }
+
+  toSafeYoutubeEmbed(url: string): SafeResourceUrl | null {
+    // Whitelist only YouTube embed URLs for security
+    const allowed = /^https:\/\/(www\.)?youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
+    if (!allowed.test(url)) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }
 

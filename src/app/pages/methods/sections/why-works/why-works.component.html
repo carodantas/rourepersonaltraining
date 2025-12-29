@@ -2,21 +2,41 @@
   <div class="container">
     <h2 id="why-works-title" class="title headline-1">Why this works</h2>
 
-    <div class="body body-1">
-      <p>
-        Our method blends:
-      </p>
+    <div class="content-wrapper">
+      <div class="text-content">
+        <div class="body body-1">
+          <p>
+            Our method blends:
+          </p>
+        </div>
+
+        <ul class="list strong-1">
+          <li *ngFor="let item of bullets">{{ item }}</li>
+        </ul>
+
+        <p class="footer body-1">
+          At Roure, every step — from sign-up to assessment to ongoing training — is purposefully designed
+          around you. We don't believe in generic programs. We believe in smart, individualized coaching
+          that leads to real lifestyle results.
+        </p>
+      </div>
+
+      <div class="video-content">
+        @if (videoUrl) {
+          <div class="video-embed">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              [src]="videoUrl" 
+              title="Why this works video" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        }
+      </div>
     </div>
-
-    <ul class="list strong-1">
-      <li *ngFor="let item of bullets">{{ item }}</li>
-    </ul>
-
-    <p class="footer body-1">
-      At Roure, every step — from sign-up to assessment to ongoing training — is purposefully designed
-      around you. We don’t believe in generic programs. We believe in smart, individualized coaching
-      that leads to real lifestyle results.
-    </p>
   </div>
 </section>
 

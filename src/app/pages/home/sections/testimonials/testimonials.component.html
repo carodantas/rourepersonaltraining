@@ -5,17 +5,46 @@
     <div class="testimonials-content">
       <!-- Testimonial Card -->
       <div class="testimonial-card">
-        <p class="testimonial-text body-1">{{ currentTestimonial.text }}</p>
-        <p class="testimonial-author strong-1">{{ currentTestimonial.author }}</p>
+        <div class="testimonial-header">
+          <p class="testimonial-name strong-2">{{ currentTestimonial.name }}</p>
+          <div class="testimonial-rating">
+            <div class="stars">
+              @for (star of [1, 2, 3, 4, 5]; track star) {
+                <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= currentTestimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              }
+            </div>
+      </div>
+        </div>
+        <p class="testimonial-text body-1" [class.truncated]="needsTruncation(currentTestimonial.text) && !isExpanded(currentTestimonial.id)">
+          {{ currentTestimonial.text }}
+        </p>
+        @if (needsTruncation(currentTestimonial.text)) {
+          <button
+            class="read-more-btn small-1"
+            (click)="toggleTestimonial(currentTestimonial.id)"
+            type="button"
+          >
+            {{ isExpanded(currentTestimonial.id) ? 'Read less' : 'Read more' }}
+          </button>
+        }
       </div>
 
-      <!-- Image Collage -->
-      <div class="testimonial-images">
-        <div class="image-left">
-          <img src="images/testimonial-1.jpg" alt="Fitness training" class="testimonial-image" />
-        </div>
-        <div class="image-right">
-          <img src="images/testimonial-2.jpg" alt="Gym workout" class="testimonial-image" />
+      <!-- Video -->
+      <div class="testimonial-video">
+        <div class="video-embed">
+          @if (currentTestimonial.safeVideoUrl) {
+            <iframe 
+              width="100%" 
+              height="100%" 
+              [src]="currentTestimonial.safeVideoUrl" 
+              [title]="'Client Testimonial Video - ' + currentTestimonial.name" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
+          }
         </div>
       </div>
     </div>
