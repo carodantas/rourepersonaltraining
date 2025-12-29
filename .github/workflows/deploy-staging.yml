@@ -40,8 +40,8 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build (production config, base-href=/staging/)
-        run: npm run build -- --configuration=production --base-href=/staging/
+      - name: Build (staging config, base-href=/staging/)
+        run: npm run build -- --configuration=staging --base-href=/staging/
 
       - name: Ensure build output exists
         run: test -d dist/rourepersonaltraining/browser
