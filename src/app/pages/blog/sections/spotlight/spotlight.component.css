@@ -17,6 +17,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   min-height: 500px;
+  aspect-ratio: 1000 / 499;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
