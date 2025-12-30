@@ -27,10 +27,14 @@
         }
 
         <!-- Conclusion -->
-        <p class="blog-post-conclusion body-1">{{ article.content.conclusion }}</p>
+        @if (article.content.conclusion) {
+          <p class="blog-post-conclusion body-1">{{ article.content.conclusion }}</p>
+        }
 
         <!-- Call to Action -->
-        <p class="blog-post-cta body-1">{{ article.content.callToAction }}</p>
+        @if (article.content.callToAction) {
+          <p class="blog-post-cta body-1">{{ article.content.callToAction }}</p>
+        }
       </div>
 
       <!-- Back to Blog Link -->

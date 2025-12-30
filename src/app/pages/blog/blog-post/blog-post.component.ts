@@ -55,6 +55,116 @@ export class BlogPostComponent implements OnInit {
         conclusion: "In conclusion, personal trainers offer numerous advantages that make them worth the investment. From personalized workout plans to motivation and accountability, they provide the support you need to achieve your fitness goals efficiently and safely. If you're searching for \"personal trainers near me\" or considering Roure Personal Training, now is the time to take the leap and invest in your health.",
         callToAction: "Have you worked with a personal trainer before? Share your experiences in the comments below!"
       }
+    },
+    {
+      slug: 'how-exercise-helps-to-relieve-stress',
+      title: 'How exercise helps to relieve stress',
+      category: 'Tips & Tricks',
+      date: 'June 29, 2023',
+      image: 'images/how-exercise-helps-to-relieve-stress-card.jpg',
+      content: {
+        introduction: "Along with making sure you get enough sleep, regular exercise is the most common advice we hear whenever we go through a stressful period. It is pretty much common knowledge that daily physical activity has a positive impact on our mental health, and that it plays a huge role in alleviating symptoms of stress – with immediate as well as long term effects. But how does that work, exactly? What is it that happens in our bodies when we work out, and how does that impact our stressed minds? In this article, we'll explain how exercise helps to relieve stress – scientifically.",
+        sections: [
+          {
+            title: 'The connection between mind and body',
+            content: "In our current day and age, mind and body are often regarded as two separate entities. In reality, they are connected in more ways than we can even comprehend. Our mental state has a huge impact on our physical health. When our brain is affected by stress, sooner or later our body will be affected as well. We could give many examples of the inseparable connection of mind and body. Think about how your heart rate increases and your breathing quickens when your brain registers a threat. How being madly in love with someone reduces your appetite. How being nervous before an important exam or a big presentation makes your stomach churn. These connections are not one-way streets – they also work the other way around. That means that when your body feels better, your mind feels better as well."
+          },
+          {
+            title: 'How does exercise help to relieve stress?',
+            content: "The benefits of exercise on mental health have been known for centuries. The Greek philosopher Plato even believed that \"exercise would cure a guilty conscience\". It may seem somewhat contradictory, since exercise is basically a form of physical stress. How does generating physical stress help to reduce mental stress? In order to explain that, we need to talk about neurotransmitters. These organic molecules are crucial for proper brain functioning. Exercise directly influences our neurochemistry in the following ways:"
+          },
+          {
+            title: 'It reduces stress hormones',
+            content: "Physical activity reduces the levels of stress hormones such as adrenaline and cortisol."
+          },
+          {
+            title: 'It increases the production on endorphins',
+            content: "Endorphins are the feel-good neurotransmitters; they are basically your body's own, natural pain killers and mood boosters. There are over twenty different types of endorphins; some of them have an effect that is even stronger than morphine."
+          },
+          {
+            title: 'It creates a dopamine boost',
+            content: "Endorphins work together with another crucial neurotransmitter: dopamine. This neural messenger, often referred to as the 'motivation molecule' is responsible for motivation and reward; it is what gives us that sense of satisfaction after accomplishing a task. It also plays a crucial role in our executive functions, attention-span, focus and our ability to experience pleasure."
+          },
+          {
+            title: 'It ensures a healthy serotonin balance',
+            content: "Physical activity results in an increased release and synthesis of serotonin. This neurotransmitter is involved in many physiological processes relating to sleep, body temperature regulation, muscle control, appetite and digestion and libido. Serotonin also helps to stabilize your mood and well-being."
+          },
+          {
+            title: 'Beyond neurochemicals',
+            content: "The above has all been scientifically proven, so you don't have to take our word for it. But the ways that exercise helps to relieve stress are not limited to how they influence our neurotransmitters. There are also emotional, behavioral and social factors that come into play. If you have been overweight, for example, and you start a regular workout regimen with a personal trainer, seeing and feeling how you're losing excess fat and toning up will improve your self-image, confidence and pride. Along the same lines, an individual who has been dealing with insecurity, feelings of weakness and a lack of self-discipline will see significant improvement in these areas when they start weight training or martial arts. We see ourselves improve, and it often doesn't take very long for others to notice it as well. The discipline, drive and energy that we get from exercising regularly tend to create a butterfly effect and help us to achieve our other goals in life. This in itself does not only reduce our overall stress levels but also enables us to handle stress better – it makes us more resilient. And since we can't always prevent life from throwing stress-inducing events our way, we better make sure we are resilient enough to deal with it."
+          }
+        ],
+        conclusion: '',
+        callToAction: ''
+      }
+    },
+    {
+      slug: 'how-much-water-should-you-drink',
+      title: 'How much water should you drink before, during and after training?',
+      category: 'Tips & Tricks',
+      date: 'May 14, 2023',
+      image: 'images/hydration-before-during-after-workout-card.jpg',
+      content: {
+        introduction: "We probably don't need to tell you how important it is to drink enough water every day. When you're working up a sweat, proper hydration is even more crucial. But having a belly full of sloshing water during an intense workout is not very comfortable either. So how do you know whether you're actually drinking enough water? And how much water should you drink before, during and after training?",
+        sections: [
+          {
+            title: 'What are the symptoms of dehydration?',
+            content: "Did you know that around 60% of the human body consists of water? When you fail to replenish the fluids that you lose, you are more susceptible to overheating. Your blood thickens. Your heart has to work harder in order to pump blood through your body. Muscle contractions become increasingly more difficult. You're no longer able to efficiently absorb nutrients from food and supplements. Your body's ability to filter and flush out toxins decreases. Your system will try to hold on to whatever fluids there are left, causing you to feel bloated and uncomfortable. And you get thirsty."
+          },
+          {
+            title: 'How much water should you drink before, during and after training?',
+            content: "A lot of people forget to drink enough water. It's usually not until we start to feel thirsty that we think: \"I should probably drink some water.\" But if you don't drink until you are thirsty, you're actually too late. Ideally, you should drink enough during the day to prevent getting thirsty in the first place. When you're training, you want to stay hydrated and at the same time prevent yourself from drinking so much that it hinders your workout."
+          },
+          {
+            title: 'Before training',
+            content: "When empty, the human stomach is around the size of a fist. However, it can stretch to hold more than you might think. Unless you spend years stretching out your stomach by overeating, your stomach can hold around one to two litres of fluid. That doesn't mean that you should go exercise with that much water in your stomach, but starting out dehydrated is not a good idea either. The American Council on Exercise recommends drinking around half a litre of water in the two hours before your workout. In the last 30 minutes before you start, add another 200 millilitres."
+          },
+          {
+            title: 'During training',
+            content: "While you definitely need to prevent dehydration during training, drinking too much water in between will almost certainly have a negative effect on your performance. Nobody wants to do a martial arts class, run a couple of miles or lift heavy weights with a litre or two of water sloshing around! If you're sweating heavily during a longer workout, however, you need to make sure you replenish the fluids and electrolytes that you're losing. The best thing is to take small sips in between; around 200 millilitres per 20 minutes."
+          },
+          {
+            title: 'After training',
+            content: "After training is when your body is most efficient in taking up fluids. How much you should drink, depends on how much you lost during your workout. If you're not sure whether you're drinking enough, you could try to weigh yourself before and after a workout. A good rule of thumb is to drink up to half a litre of water for every pound that you've lost afterwards."
+          },
+          {
+            title: 'Final thoughts',
+            content: "If you're having trouble staying hydrated (like so many of us), buy yourself a cute water bottle and get into the habit of bringing it everywhere with you – including the gym. When you're properly hydrated, you'll be able to get the most out of your workouts. And we can promise you that you'll feel a lot better!"
+          }
+        ],
+        conclusion: '',
+        callToAction: "You may also like: What happens when you work out with a hangover?"
+      }
+    },
+    {
+      slug: 'static-stretching-vs-dynamic-stretching',
+      title: 'Static stretching vs dynamic stretching: an introduction',
+      category: 'Exercises',
+      date: 'February 14, 2023',
+      image: 'images/static-stretching-vs-dynamic-stretching-an-introduction-card.jpg',
+      content: {
+        introduction: "We all know that stretching is important. However, not all stretches are equal. In this blogpost we'll shed a light on static stretching versus dynamic stretching. What is the difference between these two types of stretching? And is it better to do them before or after your workout?",
+        sections: [
+          {
+            title: 'What is static stretching?',
+            content: "Static stretching refers to stretching exercises where you stretch a muscle or group of muscles by holding a single position for a relatively long time (usually between 15 or 60 seconds, sometimes longer). Some examples of static stretches include: standing quadriceps stretch, static tricep stretch, and butterfly stretch."
+          },
+          {
+            title: 'What is dynamic stretching?',
+            content: "Dynamic stretching is considered more functionally oriented way of stretching. It refers to specific controlled (usually repetitive) movements focused on actively increased the range of motion, but without holding a position or stopping at an endpoint. Some examples of dynamic stretches include: leg sweeps, downward dog to cobra, and runner's lunge with twist."
+          },
+          {
+            title: 'Static stretching vs dynamic stretching',
+            content: "Static stretching got somewhat of a bad reputation during the 1980's, when published studies indicated that doing static stretches before a workout had a negative impact on performance. There is some truth in this. If you move a joint past your range of motion and hold it for a longer period of time and then immediately start exercising without doing a contra-stretch for that muscle(group), it makes sense to experience a temporary decrease in muscle power, explosive strength and speed. That said, there is absolutely a time and a place for static stretching. Recent studies suggest that doing static stretches as part of your cooling down, is an excellent way to combat post-workout stiffness and sore muscles. Doing it regularly also increases your flexibility and range of motion in the long run. Most dynamic stretches are designed to mimic the movements you make during your workout – which is why there are a lot of differences between recommended dynamic stretches for different sports). Dynamic stretches are primarily done as part of the warming up and help to prepare and activate the muscles for the activities you're about to do. The movements also increase the blood flow and raise the temperature of the muscles, which helps to prevent injuries. Numerous studies have shown that dynamic stretching pre-workout has a positive effect on power and performance."
+          },
+          {
+            title: 'Final thoughts',
+            content: "In theory, it comes down to dynamic stretching during the warming up and static stretches during the cooling down. In practise, it's not that black and white – a lot of static stretches can be tweaked to make them dynamic and suitable for warming up. Keep in mind that everyone is different. Whether you're performing static or dynamic stretches, you should always listen to your body. Stretching is never supposed to hurt! If it does, ask your personal trainer for advice."
+          }
+        ],
+        conclusion: '',
+        callToAction: ''
+      }
     }
   ];
 
