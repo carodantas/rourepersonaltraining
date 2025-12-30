@@ -4,6 +4,7 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { MethodsComponent } from './pages/methods/methods.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { BlogPostComponent } from './pages/blog/blog-post/blog-post.component';
 import { FreeIntakeComponent } from './pages/free-intake/free-intake.component';
 import { WeightLossMuscleMassComponent } from './pages/programs/weight-loss-muscle-mass/weight-loss-muscle-mass.component';
 import { PeakPerformanceComponent } from './pages/programs/peak-performance/peak-performance.component';
@@ -26,6 +27,10 @@ export const routes: Routes = [
   {
     path: 'blog',
     component: BlogComponent
+  },
+  {
+    path: 'blog/:slug',
+    component: BlogPostComponent
   },
   {
     path: 'programs',

@@ -1,6 +1,13 @@
 <section class="spotlight" aria-labelledby="spotlight-title">
   <div class="container">
-    <article class="spotlight-card" [style.background-image]="'url(' + spotlightArticle.image + ')'">
+    <article 
+      class="spotlight-card" 
+      [style.background-image]="'url(' + spotlightArticle.image + ')'"
+      [routerLink]="['/blog', spotlightArticle.slug]"
+      role="link"
+      tabindex="0"
+      [attr.aria-label]="'Read article: ' + spotlightArticle.title"
+    >
       <div class="spotlight-overlay"></div>
       <div class="spotlight-content">
         <span class="spotlight-category small-1">{{ spotlightArticle.category }}</span>
