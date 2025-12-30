@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 
@@ -35,14 +35,29 @@ export class PromotionComponent implements OnInit {
     { value: 'not-sure', label: 'Not sure yet' }
   ];
 
+  trainingGoals = [
+    { value: 'improve-health', label: 'Improve my overall health' },
+    { value: 'increase-flexibility', label: 'Increase flexibility' },
+    { value: 'improve-posture', label: 'Improve posture' },
+    { value: 'get-stronger', label: 'Get stronger' },
+    { value: 'feel-confident', label: 'Feel more confident / improve my appearance' },
+    { value: 'tone-shape', label: 'Tone and shape my body' },
+    { value: 'lose-weight', label: 'Lose weight' },
+    { value: 'other', label: 'Other' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
   ) {
+    // Create FormArray for goals with all goals set to false initially
+    const goalsControls = this.trainingGoals.map(() => this.fb.control(false));
+    
     this.intakeForm = this.fb.group({
       plan: [''],
       program: [''],
+      goals: this.fb.array(goalsControls),
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
@@ -127,5 +142,14 @@ export class PromotionComponent implements OnInit {
       return 'Please enter a valid email address';
     }
     return '';
+  }
+
+  get goalsFormArray(): FormArray {
+    return this.intakeForm.get('goals') as FormArray;
+  }
+
+  getGoalControl(goalValue: string): FormControl {
+    const index = this.trainingGoals.findIndex(g => g.value === goalValue);
+    return this.goalsFormArray.at(index) as FormControl;
   }
 }

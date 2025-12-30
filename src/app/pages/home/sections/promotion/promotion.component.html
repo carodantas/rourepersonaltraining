@@ -33,6 +33,27 @@
         </div>
       </div>
 
+      <!-- Training Goals -->
+      <div class="form-section">
+        <label class="form-label strong-1">
+          What would you like to achieve with your training?
+        </label>
+        <p class="form-hint body-2">(Feel free to select more than one!)</p>
+        <div class="checkbox-group goals-group">
+          @for (goal of trainingGoals; track goal.value) {
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [formControl]="getGoalControl(goal.value)"
+                class="checkbox-input"
+              />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">{{ goal.label }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
       <!-- Personal Information -->
       <div class="form-section">
         <h3 class="form-section-title">Personal Information</h3>

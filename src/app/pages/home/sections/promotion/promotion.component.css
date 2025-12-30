@@ -154,6 +154,10 @@
   margin-top: 0.5rem;
 }
 
+.goals-group {
+  margin-top: 1rem;
+}
+
 .checkbox-label {
   display: flex;
   align-items: flex-start;
