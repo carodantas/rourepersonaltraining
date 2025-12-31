@@ -565,6 +565,8 @@ $clientHeaders = $commonHeaders + [
   'Message-ID' => $clientMessageId,
 ];
 
+$clientRecipients = array_values(array_filter([$email], fn($x) => trim((string)$x) !== ''));
+
 $clientSent = false;
 $clientTransport = 'none';
 $clientSmtpDataResp = null;
@@ -575,7 +577,7 @@ if ($SMTP_PASSWORD !== '') {
     $SMTP_USER,
     $SMTP_PASSWORD,
     $SMTP_ENVELOPE_FROM,
-    [$email],
+    $clientRecipients,
     $clientSubject,
     $clientBody,
     $clientHeaders,
@@ -591,7 +593,7 @@ if (!$clientSent) {
 log_mail_event($PRIVATE_DIR, [
   'ts' => gmdate('c'),
   'kind' => 'client',
-  'to' => [$email],
+  'to' => $clientRecipients,
   'subject' => $clientSubject,
   'messageId' => $clientMessageId,
   'transport' => $clientTransport,
