@@ -101,6 +101,8 @@ export class PromotionComponent implements OnInit {
     });
   }
 
+  showSuccessAnimation = false;
+
   onSubmit(): void {
     if (this.intakeForm.valid) {
       this.isSubmitting = true;
@@ -109,13 +111,25 @@ export class PromotionComponent implements OnInit {
       setTimeout(() => {
         console.log('Form submitted:', this.intakeForm.value);
         this.isSubmitting = false;
-        this.isSubmitted = true;
-        this.intakeForm.reset();
+        this.showSuccessAnimation = true;
         
-        // Reset submitted state after 5 seconds
+        // Show success animation for 1.5 seconds, then show message
         setTimeout(() => {
-          this.isSubmitted = false;
-        }, 5000);
+          this.showSuccessAnimation = false;
+          this.isSubmitted = true;
+          this.intakeForm.reset();
+          
+          // Scroll to top of the section to show confirmation message
+          setTimeout(() => {
+            const element = document.getElementById('promotion');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+              // Fallback to window scroll if element not found
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }, 100);
+        }, 1500);
       }, 1000);
     } else {
       // Mark all fields as touched to show validation errors
@@ -151,5 +165,13 @@ export class PromotionComponent implements OnInit {
   getGoalControl(goalValue: string): FormControl {
     const index = this.trainingGoals.findIndex(g => g.value === goalValue);
     return this.goalsFormArray.at(index) as FormControl;
+  }
+
+  exploreWebsite(): void {
+    void this.router.navigate(['/']);
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   }
 }

@@ -1,11 +1,56 @@
 <section id="promotion" class="promotion">
   <div class="promotion-container">
-    <div class="promotion-header">
-      <h2 class="promotion-title headline-1">Book your intake session with us</h2>
-      <p class="promotion-subtitle featured-3">Let's start your fitness journey together</p>
-    </div>
+    @if (showSuccessAnimation) {
+      <!-- Success Animation -->
+      <div class="success-animation-wrapper">
+        <div class="success-animation-container">
+          <div class="success-animation">
+            <svg class="success-checkmark" viewBox="0 0 52 52">
+              <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    } @else if (isSubmitted) {
+      <!-- Success Confirmation Message -->
+      <div class="success-confirmation">
+        <div class="confirmation-content">
+          <h3 class="confirmation-title">Thank you very much for your request!</h3>
+          <p class="confirmation-text">
+            We greatly appreciate your interest in Roure Personal Training. Your form has been successfully submitted.
+          </p>
+          <p class="confirmation-text">
+            One of our team members will contact you as soon as possible to schedule an appointment. We aim to get back to you by phone within one business day.
+          </p>
+          <p class="confirmation-text">
+            If you have any questions or would like more information in the meantime, please feel free to contact us at <a href="tel:0642121786" class="contact-link">0642121786</a> or <a href="mailto:info@roure.nl" class="contact-link">info@roure.nl</a>.
+          </p>
+          <p class="confirmation-text">
+            You'll also soon receive an email with information about our app. Using the app is optional, but it can offer additional benefits and convenience during your training journey.
+          </p>
+          <p class="confirmation-text">
+            We look forward to working with you!
+          </p>
+          <p class="confirmation-signature">
+            Yours sincerely,<br>
+            <strong>Roure Personal Training</strong>
+          </p>
+          <div class="confirmation-actions">
+            <app-button-primary-glass type="button" (clicked)="exploreWebsite()">
+              Explore the website
+            </app-button-primary-glass>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Intake Form -->
+      <div class="promotion-header">
+        <h2 class="promotion-title headline-1">Book your intake session with us</h2>
+        <p class="promotion-subtitle featured-3">Let's start your fitness journey together</p>
+      </div>
 
-    <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
+      <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
       <!-- Plan and Program Selection -->
       <div class="form-section">
         <div class="form-row">
@@ -154,16 +199,8 @@
         </label>
       </div>
 
-      <!-- Submit Button -->
-      <div class="form-actions">
-        @if (isSubmitted) {
-          <div class="success-message">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
-            Thank you! We'll be in touch soon.
-          </div>
-        } @else {
+        <!-- Submit Button -->
+        <div class="form-actions">
           <app-button-primary-glass type="submit" [disabled]="isSubmitting">
             @if (isSubmitting) {
               <span class="loading-spinner"></span>
@@ -172,8 +209,8 @@
               Submit
             }
           </app-button-primary-glass>
-        }
-      </div>
-    </form>
+        </div>
+      </form>
+    }
   </div>
 </section>
