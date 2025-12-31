@@ -58,11 +58,11 @@ export class StepsDetailComponent {
 
   getStepImage(title: string): string {
     if (title === 'Body Analysis (InBody)') {
-      return 'images/body-analysis-inbody.png';
+      return 'images/body-analysis-inbody.jpg';
     } else if (title === 'Progress Tracking With Your App') {
-      return 'images/progress-tracking.png';
+      return 'images/progress-tracking.jpg';
     } else if (title === 'Ongoing Evaluation') {
-      return 'images/ongoing-evaluation.png';
+      return 'images/ongoing-evaluation.jpg';
     }
     return 'images/no-image.jpg';
   }

@@ -36,6 +36,84 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Free Intake form (email + TXT backup)
+
+This project includes a simple PHP handler that receives the Free Intake form submission, sends:
+- an email to the team
+- a confirmation email to the client
+- and writes a **one-line-per-client** backup TXT file (in case email fails).
+
+### Files
+
+- `public/form.php`: the form handler (copied into the build output by `angular.json` assets config)
+- `public/emails/intake-confirmation.html`: HTML template (client confirmation)
+- `public/emails/new-intake-request.html`: HTML template (team notification)
+
+### Configuration (required)
+
+Edit the variables at the top of `public/form.php`:
+
+- `$FROM_EMAIL`: must be a valid mailbox on your domain (recommended for deliverability)
+- `$TEAM_RECIPIENTS`: team destination email(s)
+
+### SMTP (recommended)
+
+`public/form.php` will send emails via **SMTP** when you configure these environment variables on the server:
+
+- `ROURE_SMTP_HOST` (example: `mail.roure.nl`)
+- `ROURE_SMTP_PORT` (example: `587`)
+- `ROURE_SMTP_USER` (example: `info@roure.nl`)
+- `ROURE_SMTP_PASSWORD` (your SMTP password)
+
+If `ROURE_SMTP_PASSWORD` is not set, it falls back to PHP `mail()`.
+
+### VPS Linux (recommended secret file)
+
+On a VPS, the simplest secure option is to store SMTP credentials in a file **outside the web root**:
+
+- Create relative to `form.php`, i.e. `../smtp.ini`
+- Set permissions to be readable only by the web server user
+
+Example:
+
+```ini
+host=mail.roure.nl
+port=587
+user=info@roure.nl
+password=YOUR_PASSWORD
+```
+
+### Persistência do `intake-request.txt` (staging + produção)
+
+Para garantir que o arquivo **não seja apagado em deploy**, configure um diretório de dados fora da pasta do site via variável de ambiente:
+
+- `ROURE_DATA_DIR=/var/lib/roure`
+
+O `form.php` vai criar (se não existir) e gravar em:
+
+- `/var/lib/roure/intake-request.txt`
+- `/var/lib/roure/smtp.ini` (se você usar o fallback por arquivo secreto)
+
+Você pode usar diretórios diferentes por ambiente, por exemplo:
+
+- produção: `ROURE_DATA_DIR=/var/lib/roure/prod`
+- staging: `ROURE_DATA_DIR=/var/lib/roure/staging`
+
+### Where is the TXT backup stored?
+
+`form.php` stores the backup file **outside the web root**, in:
+
+- `../_private/intake-request.txt` (relative to `form.php`)
+
+Examples:
+- If deployed at `/form.php`, the file is at `/_private/intake-request.txt`
+- If deployed at `/staging/form.php`, the file is at `/_private/intake-request.txt` (next to `/staging/`)
+
+### Server requirement
+
+This requires a hosting/server that **executes PHP** for `form.php`.
+If you're deploying only the Angular SSR Node server output, PHP will not run.
+
 ## Staging at `/staging/`
 
 To build the app to run under `https://site.com/staging/`:

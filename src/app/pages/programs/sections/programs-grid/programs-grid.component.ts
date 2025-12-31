@@ -23,25 +23,25 @@ export class ProgramsGridComponent {
     {
       title: 'Weight loss & muscle mass',
       benefits: ['Sustainable weight loss', 'Increased muscle strength'],
-      image: 'images/hero-weight-loss-muscle-mass-card.png',
+      image: 'images/card-weight-loss-muscle-mass.jpg',
       route: '/programs/weight-loss-muscle-mass'
     },
     {
       title: 'Peak performance',
       benefits: ['Competition readiness', 'Advanced athletic training'],
-      image: 'images/hero-peak-performance-card.png',
+      image: 'images/card-peak-performance.jpg',
       route: '/programs/peak-performance'
     },
     {
       title: 'Vitality & longevity',
       benefits: ['Anti-aging protocol', 'Health span extension'],
-      image: 'images/hero-vitality-longevity-card.png',
+      image: 'images/card-vitality-longevity.jpg',
       route: '/programs/vitality-longevity'
     },
     {
       title: 'Prenatal & postpartum',
       benefits: ['Safe pregnancy fitness', 'Postpartum recovery'],
-      image: 'images/hero-prenatal-postpartum-card.png',
+      image: 'images/card-prenatal-postpartum.jpg',
       route: '/programs/prenatal-postpartum'
     }
   ];

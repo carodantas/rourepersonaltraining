@@ -11,12 +11,26 @@ html {
   /* Prevent iOS/Android from auto-adjusting text size which can feel like "zoom" */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 /* Avoid pinch-zoom while keeping normal scrolling (where supported). */
 html,
 body {
   touch-action: pan-x pan-y;
+}
+
+/* Prevent common media elements from forcing horizontal overflow (which can make mobile appear "zoomed out") */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  max-width: 100%;
 }
 
 /* iOS Safari zooms when focusing inputs with font-size < 16px */
@@ -36,53 +50,53 @@ body {
   --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Asset URLs (default: production at domain root) */
-  --hero-bg-desktop: url('/images/hero-2.png');
-  --hero-bg-mobile: url('/images/hero-2-mobile.png');
+  --hero-bg-desktop: url('/images/hero-home.jpg');
+  --hero-bg-mobile: url('/images/hero-home-mobile.jpg');
   
   /* Weight Loss & Muscle Mass Program Images */
-  --weight-loss-hero-desktop: url('/images/hero-weight-loss-muscle-mass.png');
-  --weight-loss-hero-mobile: url('/images/hero-weight-loss-muscle-mass-mobile.png');
-  --weight-loss-card: url('/images/hero-weight-loss-muscle-mass-card.png');
-  --weight-loss-about: url('/images/weight-loss-muscle-mass-2.png');
-  --weight-loss-analysis: url('/images/weight-loss-muscle-mass-3.png');
-  --jeroen-marre-before: url('/images/jeroen-marre-before.png');
-  --jeroen-marre-after: url('/images/jeroen-marre-after.png');
-  --reza-before: url('/images/reza-before.png');
-  --reza-after: url('/images/reza-after.png');
+  --weight-loss-hero-desktop: url('/images/hero-weight-loss-muscle-mass.jpg');
+  --weight-loss-hero-mobile: url('/images/hero-weight-loss-muscle-mass-mobile.jpg');
+  --weight-loss-card: url('/images/card-weight-loss-muscle-mass.jpg');
+  --weight-loss-about: url('/images/weight-loss-about.jpg');
+  --weight-loss-analysis: url('/images/weight-loss-analysis.jpg');
+  --jeroen-marre-before: url('/images/jeroen-marre-before.jpg');
+  --jeroen-marre-after: url('/images/jeroen-marre-after.jpg');
+  --reza-before: url('/images/reza-before.jpg');
+  --reza-after: url('/images/reza-after.jpg');
   
   /* Methods Page Images */
-  --methods-hero: url('/images/hero-methods.png');
-  --methods-hero-mobile: url('/images/hero-methods-mobile.png');
+  --methods-hero: url('/images/hero-methods.jpg');
+  --methods-hero-mobile: url('/images/hero-methods-mobile.jpg');
   
   /* About Us Page Images */
-  --about-us-hero: url('/images/hero-about-us-3.png');
-  --about-us-hero-mobile: url('/images/hero-about-us-3-mobile.png');
-  --carlos-torres: url('/images/carlos-torres.png');
-  --carlos-torres-mobile: url('/images/carlos-torres-mobile.png');
-  --niels-greven: url('/images/niels-greven.png');
-  --niels-greven-mobile: url('/images/niels-greven-mobile.png');
-  --dennis-bakker: url('/images/dennis-bakker.png');
-  --dennis-bakker-mobile: url('/images/dennis-bakker-mobile.png');
-  --izabela-gasparovic: url('/images/izabela-gasparovic.png');
-  --izabela-gasparovic-mobile: url('/images/izabela-gasparovic-mobile.png');
+  --about-us-hero: url('/images/hero-about-us.jpg');
+  --about-us-hero-mobile: url('/images/hero-about-us-mobile.jpg');
+  --carlos-torres: url('/images/carlos-torres.jpg');
+  --carlos-torres-mobile: url('/images/carlos-torres.jpg');
+  --niels-greven: url('/images/niels-greven.jpg');
+  --niels-greven-mobile: url('/images/niels-greven.jpg');
+  --dennis-bakker: url('/images/dennis-bakker.jpg');
+  --dennis-bakker-mobile: url('/images/dennis-bakker.jpg');
+  --izabela-gasparovic: url('/images/izabela-gasparovic.jpg');
+  --izabela-gasparovic-mobile: url('/images/izabela-gasparovic.jpg');
   
   /* Programs Page Images */
-  --programs-hero: url('/images/hero-programs.png');
-  --programs-hero-mobile: url('/images/hero-programs-mobile.png');
+  --programs-hero: url('/images/hero-programs.jpg');
+  --programs-hero-mobile: url('/images/hero-programs-mobile.jpg');
   
   /* Vitality & Longevity Page Images */
-  --vitality-longevity-hero: url('/images/hero-vitality-longevity.png');
-  --vitality-longevity-hero-mobile: url('/images/hero-vitality-longevity-mobile.png');
-  --vitality-longevity-card: url('/images/hero-vitality-longevity-card.png');
+  --vitality-longevity-hero: url('/images/hero-vitality-longevity.jpg');
+  --vitality-longevity-hero-mobile: url('/images/hero-vitality-longevity-mobile.jpg');
+  --vitality-longevity-card: url('/images/card-vitality-longevity.jpg');
   
   /* Peak Performance Page Images */
-  --peak-performance-hero: url('/images/hero-peak-performance.png');
-  --peak-performance-hero-mobile: url('/images/hero-peak-performance-mobile.png');
-  --peak-performance-card: url('/images/hero-peak-performance-card.png');
+  --peak-performance-hero: url('/images/hero-peak-performance.jpg');
+  --peak-performance-hero-mobile: url('/images/hero-peak-performance-mobile.jpg');
+  --peak-performance-card: url('/images/card-peak-performance.jpg');
   
   /* Prenatal & Postpartum Page Images */
-  --prenatal-postpartum-hero: url('/images/hero-prenatal-postpartum.png');
-  --prenatal-postpartum-hero-mobile: url('/images/hero-prenatal-postpartum-mobile.png');
+  --prenatal-postpartum-hero: url('/images/hero-prenatal-postpartum.jpg');
+  --prenatal-postpartum-hero-mobile: url('/images/hero-prenatal-postpartum-mobile.jpg');
 }
 
 body {

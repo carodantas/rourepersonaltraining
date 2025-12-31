@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Roure - New intake request</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#0b0b0b;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0b0b0b;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background-color:#ffffff;">
+            <!-- Header -->
+            <tr>
+              <td align="center" style="background:#0b0b0b;padding:18px 16px;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:20px;letter-spacing:2px;color:#ffffff;font-weight:700;">
+                  ROURE
+                </div>
+              </td>
+            </tr>
+
+            <!-- Title -->
+            <tr>
+              <td style="padding:24px 28px 10px 28px;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:1.3;color:#111111;font-weight:700;">
+                  New Free Intake Request
+                </div>
+              </td>
+            </tr>
+
+            <!-- Hero -->
+            <tr>
+              <td style="padding:0 28px 18px 28px;">
+                <img
+                  src="{{heroImageUrl}}"
+                  alt="New intake request"
+                  width="544"
+                  style="display:block;width:100%;max-width:544px;height:auto;border:0;outline:none;text-decoration:none;"
+                />
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:0 28px 24px 28px;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#222222;">
+                  <p style="margin:0 0 14px 0;">Hi team,</p>
+
+                  <p style="margin:0 0 14px 0;">
+                    A new free intake request has been submitted through the website. Please review the details below and follow up with the client within one business day.
+                  </p>
+
+                  <div style="margin:16px 0 10px 0;font-weight:700;">Client details:</div>
+                  <div>Name: {{clientName}}</div>
+                  <div>Phone: {{phoneNumber}}</div>
+                  <div>Email: {{email}}</div>
+
+                  <div style="margin:16px 0 10px 0;font-weight:700;">Intake information:</div>
+                  <div>Interested plan: {{planLabel}}</div>
+                  <div>Interested program: {{programLabel}}</div>
+
+                  <div style="margin:16px 0 10px 0;font-weight:700;">Goals (selected):</div>
+                  <div>{{goalsList}}</div>
+
+                  <div style="margin:16px 0 10px 0;font-weight:700;">Additional notes from client:</div>
+                  <div>{{additionalNotes}}</div>
+
+                  <div style="margin:16px 0 10px 0;font-weight:700;">Next steps:</div>
+                  <ul style="margin:0 0 14px 18px;padding:0;">
+                    <li>Contact the client to schedule the intake session</li>
+                    <li>Confirm preferred date/time</li>
+                    <li>Prepare intake flow (conversation + assessment)</li>
+                  </ul>
+
+                  <p style="margin:0 0 14px 0;">
+                    If the client does not answer by phone, please follow up via WhatsApp or email.
+                  </p>
+
+                  <p style="margin:0;">
+                    Best,<br />
+                    Roure Personal Training
+                  </p>
+
+                  <p style="margin:16px 0 0 0;font-size:12px;color:#666666;">
+                    Meta: submittedAt={{submittedAt}} | ip={{ip}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background:#0b0b0b;padding:18px 28px;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#d7d7d7;">
+                  <div style="font-weight:700;color:#ffffff;margin-bottom:6px;">Roure Personal Training</div>
+                  <div>NH Domselaerstraat 120, 1093 MB Amsterdam</div>
+                  <div style="margin-top:10px;color:#9a9a9a;">It’s your Journey Your Pace with Real Results.</div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+

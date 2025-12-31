@@ -51,6 +51,14 @@
       </div>
 
       <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
+        <!-- Honeypot (anti-spam) -->
+        <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+          <label>
+            Website
+            <input type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
       <!-- Plan and Program Selection -->
       <div class="form-section">
         <div class="form-row">
@@ -201,6 +209,11 @@
 
         <!-- Submit Button -->
         <div class="form-actions">
+          @if (submitError) {
+            <div class="error-message" style="text-align:center;">
+              {{ submitError }}
+            </div>
+          }
           <app-button-primary-glass type="submit" [disabled]="isSubmitting">
             @if (isSubmitting) {
               <span class="loading-spinner"></span>

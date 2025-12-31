@@ -27,8 +27,8 @@ export class WeightLossMuscleMassComponent {
         "Izabella, my regular trainer, quickly identified where my weak points were and how to push my limits. In a short amount of time, I made tremendous progress thanks to her expertise. During Izabella's vacation, Niels and Carlos took over the sessions seamlessly, continuing exactly where she left off. They know precisely how to get the maximum out of every session.",
         "I set high standards for myself — and they raise the bar even higher. Roure Personal Training is without a doubt the best studio I've ever trained at. For those who have never trained before: don't worry. The team helps you move forward step by step. If you truly want to improve yourself, you're in excellent hands at Roure PT."
       ],
-      beforeImage: "images/jeroen-marre-before.png",
-      afterImage: "images/jeroen-marre-after.png"
+      beforeImage: "images/jeroen-marre-before.jpg",
+      afterImage: "images/jeroen-marre-after.jpg"
     },
     {
       id: 'reza',
@@ -38,8 +38,8 @@ export class WeightLossMuscleMassComponent {
       expandedText: [
         "Everything is based on facts: my body is measured regularly, and the results are immediately visible. Thanks to their approach, I'm completely back in shape again! Many thanks to the entire team 😊"
       ],
-      beforeImage: "images/reza-before.png",
-      afterImage: "images/reza-after.png"
+      beforeImage: "images/reza-before.jpg",
+      afterImage: "images/reza-after.jpg"
     }
   ];
 

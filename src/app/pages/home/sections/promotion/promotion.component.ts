@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 import { IntakeFormSubmission, getGoalLabel, getPlanLabel, getProgramLabel } from './intake-form.interface';
 
@@ -16,6 +17,7 @@ export class PromotionComponent implements OnInit {
   intakeForm: FormGroup;
   isSubmitting = false;
   isSubmitted = false;
+  submitError: string | null = null;
   showProgramSelection = false;
   selectedProgram = '';
 
@@ -50,7 +52,8 @@ export class PromotionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     // Create FormArray for goals with all goals set to false initially
     const goalsControls = this.trainingGoals.map(() => this.fb.control(false));
@@ -64,7 +67,9 @@ export class PromotionComponent implements OnInit {
       phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       questions: [''],
-      receiveCommunications: [false]
+      receiveCommunications: [false],
+      // Honeypot anti-spam (must stay empty)
+      website: ['']
     });
   }
 
@@ -173,49 +178,50 @@ export class PromotionComponent implements OnInit {
   onSubmit(): void {
     if (this.intakeForm.valid) {
       this.isSubmitting = true;
+      this.submitError = null;
       
       // Prepare data for backend submission
       const submissionData = this.prepareSubmissionData();
-      const emailData = this.getFormattedDataForEmails();
-      
-      // Log formatted data (for debugging - remove in production)
-      console.log('Form submission data (for backend):', submissionData);
-      console.log('Formatted data (for emails):', emailData);
-      
-      // TODO: Replace with actual API call
-      // Example:
-      // this.intakeService.submitIntakeForm(submissionData).subscribe({
-      //   next: (response) => {
-      //     // Handle success
-      //   },
-      //   error: (error) => {
-      //     // Handle error
-      //   }
-      // });
-      
-      // Simulate form submission
-      setTimeout(() => {
-        this.isSubmitting = false;
-        this.showSuccessAnimation = true;
-        
-        // Show success animation for 1.5 seconds, then show message
-        setTimeout(() => {
-          this.showSuccessAnimation = false;
-          this.isSubmitted = true;
-          this.intakeForm.reset();
-          
-          // Scroll to top of the section to show confirmation message
+
+      const payload = {
+        ...submissionData,
+        // honeypot (must stay empty)
+        website: this.intakeForm.value.website || ''
+      };
+
+      this.http.post<{ ok: boolean; message?: string }>('form.php', payload).subscribe({
+        next: (res) => {
+          this.isSubmitting = false;
+          if (!res?.ok) {
+            this.submitError = res?.message || 'Submission failed. Please try again.';
+            return;
+          }
+
+          this.showSuccessAnimation = true;
+
+          // Show success animation for 1.5 seconds, then show message
           setTimeout(() => {
-            const element = document.getElementById('promotion');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-              // Fallback to window scroll if element not found
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-          }, 100);
-        }, 1500);
-      }, 1000);
+            this.showSuccessAnimation = false;
+            this.isSubmitted = true;
+            this.resetForm();
+
+            // Scroll to top of the section to show confirmation message
+            setTimeout(() => {
+              const element = document.getElementById('promotion');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              } else {
+                // Fallback to window scroll if element not found
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }, 100);
+          }, 1500);
+        },
+        error: () => {
+          this.isSubmitting = false;
+          this.submitError = 'We could not submit your request right now. Please try again later.';
+        }
+      });
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.intakeForm.controls).forEach(key => {
@@ -225,6 +231,22 @@ export class PromotionComponent implements OnInit {
         }
       });
     }
+  }
+
+  private resetForm(): void {
+    const goalsControls = this.trainingGoals.map(() => this.fb.control(false));
+    this.intakeForm.setControl('goals', this.fb.array(goalsControls));
+    this.intakeForm.reset({
+      plan: '',
+      program: '',
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      email: '',
+      questions: '',
+      receiveCommunications: false,
+      website: ''
+    });
   }
 
   hasError(controlName: string): boolean {

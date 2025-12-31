@@ -1,48 +1,48 @@
 /* Overrides for hosting under https://site.com/staging/ */
 :root {
-  --hero-bg-desktop: url('/staging/images/hero-2.png');
-  --hero-bg-mobile: url('/staging/images/hero-2-mobile.png');
+  --hero-bg-desktop: url('/staging/images/hero-home.jpg');
+  --hero-bg-mobile: url('/staging/images/hero-home-mobile.jpg');
   
   /* Weight Loss & Muscle Mass Program Images */
-  --weight-loss-hero-desktop: url('/staging/images/hero-weight-loss-muscle-mass.png');
-  --weight-loss-hero-mobile: url('/staging/images/hero-weight-loss-muscle-mass-mobile.png');
-  --weight-loss-card: url('/staging/images/hero-weight-loss-muscle-mass-card.png');
-  --weight-loss-about: url('/staging/images/weight-loss-muscle-mass-2.png');
-  --weight-loss-analysis: url('/staging/images/weight-loss-muscle-mass-3.png');
-  --jeroen-marre-before: url('/staging/images/jeroen-marre-before.png');
-  --jeroen-marre-after: url('/staging/images/jeroen-marre-after.png');
-  --reza-before: url('/staging/images/reza-before.png');
-  --reza-after: url('/staging/images/reza-after.png');
+  --weight-loss-hero-desktop: url('/staging/images/hero-weight-loss-muscle-mass.jpg');
+  --weight-loss-hero-mobile: url('/staging/images/hero-weight-loss-muscle-mass-mobile.jpg');
+  --weight-loss-card: url('/staging/images/card-weight-loss-muscle-mass.jpg');
+  --weight-loss-about: url('/staging/images/weight-loss-about.jpg');
+  --weight-loss-analysis: url('/staging/images/weight-loss-analysis.jpg');
+  --jeroen-marre-before: url('/staging/images/jeroen-marre-before.jpg');
+  --jeroen-marre-after: url('/staging/images/jeroen-marre-after.jpg');
+  --reza-before: url('/staging/images/reza-before.jpg');
+  --reza-after: url('/staging/images/reza-after.jpg');
   
   /* Methods Page Images */
-  --methods-hero: url('/staging/images/hero-methods.png');
-  --methods-hero-mobile: url('/staging/images/hero-methods-mobile.png');
+  --methods-hero: url('/staging/images/hero-methods.jpg');
+  --methods-hero-mobile: url('/staging/images/hero-methods-mobile.jpg');
   
   /* About Us Page Images */
-  --about-us-hero: url('/staging/images/hero-about-us-3.png');
-  --about-us-hero-mobile: url('/staging/images/hero-about-us-3-mobile.png');
-  --carlos-torres: url('/staging/images/carlos-torres.png');
-  --carlos-torres-mobile: url('/staging/images/carlos-torres-mobile.png');
-  --niels-greven: url('/staging/images/niels-greven.png');
-  --niels-greven-mobile: url('/staging/images/niels-greven-mobile.png');
-  --dennis-bakker: url('/staging/images/dennis-bakker.png');
-  --dennis-bakker-mobile: url('/staging/images/dennis-bakker-mobile.png');
-  --izabela-gasparovic: url('/staging/images/izabela-gasparovic.png');
-  --izabela-gasparovic-mobile: url('/staging/images/izabela-gasparovic-mobile.png');
+  --about-us-hero: url('/staging/images/hero-about-us.jpg');
+  --about-us-hero-mobile: url('/staging/images/hero-about-us-mobile.jpg');
+  --carlos-torres: url('/staging/images/carlos-torres.jpg');
+  --carlos-torres-mobile: url('/staging/images/carlos-torres.jpg');
+  --niels-greven: url('/staging/images/niels-greven.jpg');
+  --niels-greven-mobile: url('/staging/images/niels-greven.jpg');
+  --dennis-bakker: url('/staging/images/dennis-bakker.jpg');
+  --dennis-bakker-mobile: url('/staging/images/dennis-bakker.jpg');
+  --izabela-gasparovic: url('/staging/images/izabela-gasparovic.jpg');
+  --izabela-gasparovic-mobile: url('/staging/images/izabela-gasparovic.jpg');
   
   /* Programs Page Images */
-  --programs-hero: url('/staging/images/hero-programs.png');
-  --programs-hero-mobile: url('/staging/images/hero-programs-mobile.png');
+  --programs-hero: url('/staging/images/hero-programs.jpg');
+  --programs-hero-mobile: url('/staging/images/hero-programs-mobile.jpg');
   
   /* Vitality & Longevity Page Images */
-  --vitality-longevity-hero: url('/staging/images/hero-vitality-longevity.png');
-  --vitality-longevity-hero-mobile: url('/staging/images/hero-vitality-longevity-mobile.png');
-  --vitality-longevity-card: url('/staging/images/hero-vitality-longevity-card.png');
+  --vitality-longevity-hero: url('/staging/images/hero-vitality-longevity.jpg');
+  --vitality-longevity-hero-mobile: url('/staging/images/hero-vitality-longevity-mobile.jpg');
+  --vitality-longevity-card: url('/staging/images/card-vitality-longevity.jpg');
   
   /* Peak Performance Page Images */
-  --peak-performance-hero: url('/staging/images/hero-peak-performance.png');
-  --peak-performance-hero-mobile: url('/staging/images/hero-peak-performance-mobile.png');
-  --peak-performance-card: url('/staging/images/hero-peak-performance-card.png');
+  --peak-performance-hero: url('/staging/images/hero-peak-performance.jpg');
+  --peak-performance-hero-mobile: url('/staging/images/hero-peak-performance-mobile.jpg');
+  --peak-performance-card: url('/staging/images/card-peak-performance.jpg');
 }
 
 

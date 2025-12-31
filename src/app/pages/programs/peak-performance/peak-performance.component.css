@@ -325,7 +325,8 @@
 .program-feedback {
   padding: 7rem 0;
   position: relative;
-  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .feedback-header {
@@ -770,11 +771,11 @@
   }
 
   .nav-arrow-left {
-    left: -40px;
+    left: 10px;
   }
 
   .nav-arrow-right {
-    right: -40px;
+    right: 10px;
   }
 }
 

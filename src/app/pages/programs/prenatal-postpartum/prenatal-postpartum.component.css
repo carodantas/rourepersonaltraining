@@ -684,11 +684,11 @@
   }
 
   .nav-arrow-left {
-    left: -40px;
+    left: 10px;
   }
 
   .nav-arrow-right {
-    right: -40px;
+    right: 10px;
   }
 }
 
