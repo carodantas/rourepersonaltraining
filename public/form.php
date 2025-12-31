@@ -46,8 +46,15 @@ $TEAM_RECIPIENTS = [
 // Optional delay between team email and client email (helps with strict SMTP rate-limits/greylisting).
 // Set as environment variable on the server, e.g. ROURE_MAIL_DELAY_MS=1200 (1.2s)
 $MAIL_DELAY_MS_ENV = getenv('ROURE_MAIL_DELAY_MS');
-$MAIL_DELAY_MS = ($MAIL_DELAY_MS_ENV !== false && $MAIL_DELAY_MS_ENV !== '') ? (int)$MAIL_DELAY_MS_ENV : 8000;
+$MAIL_DELAY_MS = ($MAIL_DELAY_MS_ENV !== false && $MAIL_DELAY_MS_ENV !== '') ? (int)$MAIL_DELAY_MS_ENV : 0;
 if ($MAIL_DELAY_MS < 0) $MAIL_DELAY_MS = 0;
+// Default delay ONLY on staging if not configured via env var
+if ($MAIL_DELAY_MS === 0) {
+  $scriptNameForEnv = str_replace('\\', '/', (string)($_SERVER['SCRIPT_NAME'] ?? ''));
+  if (strpos($scriptNameForEnv, '/staging/') !== false) {
+    $MAIL_DELAY_MS = 8000;
+  }
+}
 
 // Staging helpers:
 // - ROURE_SEND_CLIENT_EMAIL=0 to disable client confirmations (team email still sent)
@@ -108,6 +115,8 @@ if ($homeDir !== '') {
   $SMTP_INI_CANDIDATES[] = rtrim($homeDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'smtp.ini';
 }
 
+$SMTP_PASSWORD_SOURCE = ($SMTP_PASSWORD !== '') ? 'env' : 'none';
+$SMTP_INI_USED = null;
 if ($SMTP_PASSWORD === '') {
   foreach ($SMTP_INI_CANDIDATES as $iniPath) {
     if (!is_string($iniPath) || $iniPath === '' || !is_file($iniPath)) continue;
@@ -117,7 +126,11 @@ if ($SMTP_PASSWORD === '') {
     $SMTP_PORT = isset($ini['port']) ? (int)str_val($ini['port']) : $SMTP_PORT;
     $SMTP_USER = isset($ini['user']) ? str_val($ini['user']) : $SMTP_USER;
     $SMTP_PASSWORD = isset($ini['password']) ? str_val($ini['password']) : $SMTP_PASSWORD;
-    if ($SMTP_PASSWORD !== '') break;
+    if ($SMTP_PASSWORD !== '') {
+      $SMTP_PASSWORD_SOURCE = 'ini';
+      $SMTP_INI_USED = $iniPath;
+      break;
+    }
   }
 }
 
@@ -521,6 +534,9 @@ log_mail_event($PRIVATE_DIR, [
   'to' => $teamRecipients,
   'subject' => $teamSubject,
   'messageId' => $teamMessageId,
+  'smtpConfigured' => ($SMTP_PASSWORD !== ''),
+  'smtpPasswordSource' => $SMTP_PASSWORD_SOURCE,
+  'smtpIniUsed' => $SMTP_INI_USED,
   'transport' => $teamTransport,
   'sent' => $teamSent,
   'smtpDataResp' => is_string($teamSmtpDataResp) ? trim($teamSmtpDataResp) : null,
@@ -614,6 +630,9 @@ log_mail_event($PRIVATE_DIR, [
   'to' => $clientRecipients,
   'subject' => $clientSubject,
   'messageId' => $clientMessageId,
+  'smtpConfigured' => ($SMTP_PASSWORD !== ''),
+  'smtpPasswordSource' => $SMTP_PASSWORD_SOURCE,
+  'smtpIniUsed' => $SMTP_INI_USED,
   'transport' => $clientTransport,
   'sent' => $clientSent,
   'attempted' => $clientAttempted,
