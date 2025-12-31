@@ -43,6 +43,11 @@ $TEAM_RECIPIENTS = [
   'niels.greven@roure.nl',
 ];
 
+// Optional delay between team email and client email (helps with strict SMTP rate-limits/greylisting).
+// Set as environment variable on the server, e.g. ROURE_MAIL_DELAY_MS=1200 (1.2s)
+$MAIL_DELAY_MS = (int)(getenv('ROURE_MAIL_DELAY_MS') ?: '0');
+if ($MAIL_DELAY_MS < 0) $MAIL_DELAY_MS = 0;
+
 // Backup TXT directory (PERSISTENT).
 //
 // IMPORTANT (deploy-safe):
@@ -460,10 +465,11 @@ $commonHeaders = [
 ];
 
 // So the team can reply directly to the client
+$teamMessageId = make_message_id($host !== '' ? $host : 'roure.nl');
 $teamHeaders = $commonHeaders + [
   'Reply-To' => "{$fullName} <{$email}>",
   'Date' => gmdate('D, d M Y H:i:s \G\M\T'),
-  'Message-ID' => make_message_id($host !== '' ? $host : 'roure.nl'),
+  'Message-ID' => $teamMessageId,
 ];
 
 // Prefer SMTP if configured
@@ -483,9 +489,15 @@ log_mail_event($PRIVATE_DIR, [
   'kind' => 'team',
   'to' => $teamRecipients,
   'subject' => $teamSubject,
+  'messageId' => $teamMessageId,
   'transport' => $teamTransport,
   'sent' => $teamSent,
 ]);
+
+// Optional pause before sending the client confirmation email
+if ($MAIL_DELAY_MS > 0) {
+  usleep($MAIL_DELAY_MS * 1000);
+}
 
 // -----------------------------
 // Confirmation email to client
@@ -527,11 +539,12 @@ if ($clientBody === null) {
   $clientBody = implode("\r\n", $clientBodyLines);
 }
 
+$clientMessageId = make_message_id($host !== '' ? $host : 'roure.nl');
 $clientHeaders = $commonHeaders + [
   'Reply-To' => $teamTo,
   'Content-Type' => (str_contains($clientBody, '<html') ? 'text/html; charset=UTF-8' : 'text/plain; charset=UTF-8'),
   'Date' => gmdate('D, d M Y H:i:s \G\M\T'),
-  'Message-ID' => make_message_id($host !== '' ? $host : 'roure.nl'),
+  'Message-ID' => $clientMessageId,
 ];
 
 $clientSent = false;
@@ -549,6 +562,7 @@ log_mail_event($PRIVATE_DIR, [
   'kind' => 'client',
   'to' => [$email],
   'subject' => $clientSubject,
+  'messageId' => $clientMessageId,
   'transport' => $clientTransport,
   'sent' => $clientSent,
 ]);
@@ -567,7 +581,11 @@ echo json_encode([
   'ok' => true,
   'backupWritten' => $backupWritten,
   'teamEmailSent' => $teamSent,
-  'clientEmailSent' => $clientSent
+  'clientEmailSent' => $clientSent,
+  'teamTransport' => $teamTransport,
+  'clientTransport' => $clientTransport,
+  'teamMessageId' => $teamMessageId,
+  'clientMessageId' => $clientMessageId
 ]);
 
 
