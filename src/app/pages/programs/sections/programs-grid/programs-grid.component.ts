@@ -54,5 +54,15 @@ export class ProgramsGridComponent {
       void this.router.navigate(['/free-intake']);
     }
   }
+
+  bookFreeIntake(program: Program): void {
+    // Navigate to free intake page with program query parameter
+    if (program.route) {
+      const programSlug = program.route.split('/').pop() || '';
+      void this.router.navigate(['/free-intake'], { queryParams: { program: programSlug } });
+    } else {
+      void this.router.navigate(['/free-intake']);
+    }
+  }
 }
 

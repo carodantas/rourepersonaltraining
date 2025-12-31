@@ -6,7 +6,14 @@
     </div>
     
     <div class="programs-cards">
-      <div class="program-card" *ngFor="let program of programs">
+      <div 
+        class="program-card" 
+        *ngFor="let program of programs"
+        (click)="goToProgram(program)"
+        role="link"
+        tabindex="0"
+        [attr.aria-label]="'Learn more about ' + program.title"
+      >
         <div class="program-image">
           <img [src]="program.image" [alt]="program.title" />
         </div>
@@ -20,7 +27,10 @@
               {{ benefit }}
             </li>
           </ul>
-          <button class="program-button" (click)="goToProgram(program)">Learn more</button>
+          <div class="program-actions" (click)="$event.stopPropagation()">
+            <button class="program-button program-button-primary" (click)="bookFreeIntake(program)">Book free intake</button>
+            <button class="program-button program-button-secondary" (click)="goToProgram(program)">Learn more</button>
+          </div>
         </div>
       </div>
     </div>

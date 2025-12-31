@@ -43,6 +43,7 @@
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .program-card:hover {
@@ -107,22 +108,46 @@
   flex-shrink: 0;
 }
 
-.program-button {
+.program-actions {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.program-button {
   padding: 0.875rem 1.75rem;
-  background: linear-gradient(135deg, rgba(157, 143, 120, 0.15), rgba(130, 116, 96, 0.15));
-  border: 1px solid rgba(157, 143, 120, 0.3);
   border-radius: 999px;
-  color: #f5f2ea;
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: none;
+  border: 1px solid transparent;
+  width: 100%;
 }
 
-.program-button:hover {
+.program-button-primary {
+  background: linear-gradient(135deg, #9d8f78, #827460);
+  border-color: rgba(157, 143, 120, 0.5);
+  color: #ffffff;
+}
+
+.program-button-primary:hover {
+  background: linear-gradient(135deg, #a89a83, #8d7f6b);
+  border-color: rgba(157, 143, 120, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(157, 143, 120, 0.3);
+}
+
+.program-button-secondary {
+  background: linear-gradient(135deg, rgba(157, 143, 120, 0.15), rgba(130, 116, 96, 0.15));
+  border-color: rgba(157, 143, 120, 0.3);
+  color: #f5f2ea;
+}
+
+.program-button-secondary:hover {
   background: linear-gradient(135deg, rgba(157, 143, 120, 0.25), rgba(130, 116, 96, 0.25));
   border-color: rgba(157, 143, 120, 0.5);
   transform: translateY(-1px);
