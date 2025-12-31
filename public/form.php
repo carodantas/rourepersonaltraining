@@ -81,6 +81,9 @@ $SMTP_HOST = getenv('ROURE_SMTP_HOST') ?: 'mail.roure.nl';
 $SMTP_PORT = (int)(getenv('ROURE_SMTP_PORT') ?: '587');
 $SMTP_USER = getenv('ROURE_SMTP_USER') ?: 'info@roure.nl';
 $SMTP_PASSWORD = getenv('ROURE_SMTP_PASSWORD') ?: '';
+// Envelope-from (Return-Path) for SMTP. Some servers require it to match the authenticated user.
+// If not set, we default to the SMTP user (or FROM_EMAIL).
+$SMTP_ENVELOPE_FROM = getenv('ROURE_SMTP_ENVELOPE_FROM') ?: ($SMTP_USER !== '' ? $SMTP_USER : $FROM_EMAIL);
 
 // Optional secret file fallback (recommended on VPS):
 // Create: ../_private/smtp.ini (chmod 600)
@@ -202,15 +205,16 @@ function smtp_read($fp): string {
   return $data;
 }
 
-function smtp_expect_ok($fp, string $cmd, array $okCodes): bool {
+function smtp_expect_ok($fp, string $cmd, array $okCodes, ?string &$respOut = null): bool {
   fwrite($fp, $cmd . "\r\n");
   $resp = smtp_read($fp);
+  $respOut = $resp;
   if (!preg_match('/^(\d{3})/m', $resp, $m)) return false;
   $code = (int)$m[1];
   return in_array($code, $okCodes, true);
 }
 
-function smtp_send_mail(string $host, int $port, string $user, string $pass, string $from, array $toList, string $subject, string $body, array $headers): bool {
+function smtp_send_mail(string $host, int $port, string $user, string $pass, string $from, array $toList, string $subject, string $body, array $headers, string $ehloName = 'localhost', ?string &$dataAcceptedResp = null): bool {
   $timeout = 20;
   $fp = @stream_socket_client("tcp://{$host}:{$port}", $errno, $errstr, $timeout);
   if (!$fp) return false;
@@ -219,7 +223,6 @@ function smtp_send_mail(string $host, int $port, string $user, string $pass, str
   $greet = smtp_read($fp);
   if (!preg_match('/^220/m', $greet)) { fclose($fp); return false; }
 
-  $ehloName = 'localhost';
   if (!smtp_expect_ok($fp, "EHLO {$ehloName}", [250])) { fclose($fp); return false; }
 
   // STARTTLS on 587
@@ -254,6 +257,7 @@ function smtp_send_mail(string $host, int $port, string $user, string $pass, str
 
   fwrite($fp, $data);
   $resp = smtp_read($fp);
+  $dataAcceptedResp = $resp;
   if (!preg_match('/^250/m', $resp)) { fclose($fp); return false; }
 
   smtp_expect_ok($fp, "QUIT", [221]);
@@ -476,8 +480,21 @@ $teamHeaders = $commonHeaders + [
 $teamRecipients = array_values(array_filter(array_map('trim', explode(',', $teamTo)), fn($x) => $x !== ''));
 $teamSent = false;
 $teamTransport = 'none';
+$teamSmtpDataResp = null;
 if ($SMTP_PASSWORD !== '') {
-  $teamSent = smtp_send_mail($SMTP_HOST, $SMTP_PORT, $SMTP_USER, $SMTP_PASSWORD, $FROM_EMAIL, $teamRecipients, $teamSubject, $teamBody, $teamHeaders);
+  $teamSent = smtp_send_mail(
+    $SMTP_HOST,
+    $SMTP_PORT,
+    $SMTP_USER,
+    $SMTP_PASSWORD,
+    $SMTP_ENVELOPE_FROM,
+    $teamRecipients,
+    $teamSubject,
+    $teamBody,
+    $teamHeaders,
+    ($host !== '' ? $host : 'rourepersonaltraining.nl'),
+    $teamSmtpDataResp
+  );
   $teamTransport = 'smtp';
 }
 if (!$teamSent) {
@@ -492,6 +509,7 @@ log_mail_event($PRIVATE_DIR, [
   'messageId' => $teamMessageId,
   'transport' => $teamTransport,
   'sent' => $teamSent,
+  'smtpDataResp' => is_string($teamSmtpDataResp) ? trim($teamSmtpDataResp) : null,
 ]);
 
 // Optional pause before sending the client confirmation email
@@ -549,8 +567,21 @@ $clientHeaders = $commonHeaders + [
 
 $clientSent = false;
 $clientTransport = 'none';
+$clientSmtpDataResp = null;
 if ($SMTP_PASSWORD !== '') {
-  $clientSent = smtp_send_mail($SMTP_HOST, $SMTP_PORT, $SMTP_USER, $SMTP_PASSWORD, $FROM_EMAIL, [$email], $clientSubject, $clientBody, $clientHeaders);
+  $clientSent = smtp_send_mail(
+    $SMTP_HOST,
+    $SMTP_PORT,
+    $SMTP_USER,
+    $SMTP_PASSWORD,
+    $SMTP_ENVELOPE_FROM,
+    [$email],
+    $clientSubject,
+    $clientBody,
+    $clientHeaders,
+    ($host !== '' ? $host : 'rourepersonaltraining.nl'),
+    $clientSmtpDataResp
+  );
   $clientTransport = 'smtp';
 }
 if (!$clientSent) {
@@ -565,6 +596,7 @@ log_mail_event($PRIVATE_DIR, [
   'messageId' => $clientMessageId,
   'transport' => $clientTransport,
   'sent' => $clientSent,
+  'smtpDataResp' => is_string($clientSmtpDataResp) ? trim($clientSmtpDataResp) : null,
 ]);
 
 // Success criteria: we need at least ONE durable channel (team email OR backup file).
@@ -585,7 +617,9 @@ echo json_encode([
   'teamTransport' => $teamTransport,
   'clientTransport' => $clientTransport,
   'teamMessageId' => $teamMessageId,
-  'clientMessageId' => $clientMessageId
+  'clientMessageId' => $clientMessageId,
+  'teamSmtpDataResp' => is_string($teamSmtpDataResp) ? trim($teamSmtpDataResp) : null,
+  'clientSmtpDataResp' => is_string($clientSmtpDataResp) ? trim($clientSmtpDataResp) : null
 ]);
 
 
