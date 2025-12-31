@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
+import { IntakeFormSubmission, getGoalLabel, getPlanLabel, getProgramLabel } from './intake-form.interface';
 
 @Component({
   selector: 'app-promotion',
@@ -103,13 +104,97 @@ export class PromotionComponent implements OnInit {
 
   showSuccessAnimation = false;
 
+  /**
+   * Prepares form data for backend submission
+   * Returns formatted data structure ready for API
+   */
+  prepareSubmissionData(): IntakeFormSubmission {
+    const formValue = this.intakeForm.value;
+    const goalsArray = this.goalsFormArray.value as boolean[];
+    
+    // Extract selected goals
+    const selectedGoals = this.trainingGoals
+      .filter((goal, index) => goalsArray[index] === true)
+      .map(goal => goal.value);
+
+    return {
+      clientDetails: {
+        firstName: formValue.firstName || '',
+        lastName: formValue.lastName || '',
+        phoneNumber: formValue.phoneNumber || '',
+        email: formValue.email || ''
+      },
+      intakeInformation: {
+        interestedPlan: formValue.plan || '',
+        interestedProgram: formValue.program || ''
+      },
+      goals: selectedGoals,
+      additionalNotes: formValue.questions || undefined,
+      receiveCommunications: formValue.receiveCommunications || false,
+      metadata: {
+        submittedAt: new Date().toISOString(),
+        source: 'website',
+        userAgent: navigator.userAgent
+      }
+    };
+  }
+
+  /**
+   * Gets formatted data for email templates
+   * Returns human-readable labels for display in emails
+   */
+  getFormattedDataForEmails() {
+    const submissionData = this.prepareSubmissionData();
+    
+    return {
+      // Client details for email
+      clientName: `${submissionData.clientDetails.firstName} ${submissionData.clientDetails.lastName}`,
+      firstName: submissionData.clientDetails.firstName,
+      lastName: submissionData.clientDetails.lastName,
+      phoneNumber: submissionData.clientDetails.phoneNumber,
+      email: submissionData.clientDetails.email,
+      
+      // Intake information with labels
+      interestedPlan: getPlanLabel(submissionData.intakeInformation.interestedPlan),
+      interestedProgram: getProgramLabel(submissionData.intakeInformation.interestedProgram),
+      
+      // Goals with labels
+      selectedGoals: submissionData.goals.map(goal => getGoalLabel(goal)),
+      goalsList: submissionData.goals.map(goal => getGoalLabel(goal)).join(', '),
+      
+      // Additional notes
+      additionalNotes: submissionData.additionalNotes || 'No additional notes provided.',
+      
+      // Marketing consent
+      receiveCommunications: submissionData.receiveCommunications
+    };
+  }
+
   onSubmit(): void {
     if (this.intakeForm.valid) {
       this.isSubmitting = true;
       
+      // Prepare data for backend submission
+      const submissionData = this.prepareSubmissionData();
+      const emailData = this.getFormattedDataForEmails();
+      
+      // Log formatted data (for debugging - remove in production)
+      console.log('Form submission data (for backend):', submissionData);
+      console.log('Formatted data (for emails):', emailData);
+      
+      // TODO: Replace with actual API call
+      // Example:
+      // this.intakeService.submitIntakeForm(submissionData).subscribe({
+      //   next: (response) => {
+      //     // Handle success
+      //   },
+      //   error: (error) => {
+      //     // Handle error
+      //   }
+      // });
+      
       // Simulate form submission
       setTimeout(() => {
-        console.log('Form submitted:', this.intakeForm.value);
         this.isSubmitting = false;
         this.showSuccessAnimation = true;
         
