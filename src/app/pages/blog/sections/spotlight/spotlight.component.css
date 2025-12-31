@@ -76,8 +76,7 @@
 
 @media (max-width: 768px) {
   .spotlight {
-    padding: 5rem 1rem 2rem;
-    scroll-margin-top: 95px;
+    display: none;
   }
 
   .container {

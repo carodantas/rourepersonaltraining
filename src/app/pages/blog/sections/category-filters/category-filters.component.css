@@ -1,6 +1,7 @@
 .category-filters {
   padding: 2rem 2rem 3rem;
   color: #f5f2ea;
+  scroll-margin-top: 110px;
 }
 
 .container {
@@ -45,19 +46,22 @@
 
 @media (max-width: 768px) {
   .category-filters {
-    padding: 1.5rem 1rem 2rem;
+    padding: 5rem 1rem 2rem;
+    scroll-margin-top: 95px;
   }
 
   .container {
     width: calc(100% - 24px);
+    padding: 0 1rem;
+    margin: 0 auto;
   }
 
   .filters-list {
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 
   .filter-button {
-    padding: 0.5rem 1rem;
+    padding: 0.625rem 1.125rem;
     font-size: 0.8125rem;
   }
 }

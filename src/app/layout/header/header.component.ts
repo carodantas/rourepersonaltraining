@@ -34,7 +34,7 @@ export class HeaderComponent {
   ];
 
   actionItems = [
-    { label: 'Free intake', anchor: 'free-intake', showArrow: false }
+    { label: 'Book free intake', anchor: 'free-intake', showArrow: false }
   ];
 
   activeAnchor = 'home';
