@@ -147,11 +147,11 @@ export class BlogPostComponent implements OnInit {
         sections: [
           {
             title: 'What is static stretching?',
-            content: "Static stretching refers to stretching exercises where you stretch a muscle or group of muscles by holding a single position for a relatively long time (usually between 15 or 60 seconds, sometimes longer). Some examples of static stretches include: standing quadriceps stretch, static tricep stretch, and butterfly stretch."
+            content: "Static stretching refers to stretching exercises where you stretch a muscle or group of muscles by holding a single position for a relatively long time (usually between 15 or 60 seconds, sometimes longer). Some examples of static stretches: Standing quadriceps stretch, Static tricep stretch, Butterfly stretch."
           },
           {
             title: 'What is dynamic stretching?',
-            content: "Dynamic stretching is considered more functionally oriented way of stretching. It refers to specific controlled (usually repetitive) movements focused on actively increased the range of motion, but without holding a position or stopping at an endpoint. Some examples of dynamic stretches include: leg sweeps, downward dog to cobra, and runner's lunge with twist."
+            content: "Dynamic stretching is considered more functionally oriented way of stretching. It refers to specific controlled (usually repetitive) movements focused on actively increased the range of motion, but without holding a position or stopping at an endpoint. Some examples of dynamic stretches: Leg sweeps, Downward dog to cobra, Runner's lunge with twist."
           },
           {
             title: 'Static stretching vs dynamic stretching',
@@ -160,6 +160,154 @@ export class BlogPostComponent implements OnInit {
           {
             title: 'Final thoughts',
             content: "In theory, it comes down to dynamic stretching during the warming up and static stretches during the cooling down. In practise, it's not that black and white – a lot of static stretches can be tweaked to make them dynamic and suitable for warming up. Keep in mind that everyone is different. Whether you're performing static or dynamic stretches, you should always listen to your body. Stretching is never supposed to hurt! If it does, ask your personal trainer for advice."
+          }
+        ],
+        conclusion: '',
+        callToAction: ''
+      }
+    },
+    {
+      slug: 'mindful-exercise-mindfulness-workouts',
+      title: 'Mindful exercise: How to bring more mindfulness into your workouts',
+      category: 'Exercises',
+      date: 'January 10, 2023',
+      image: 'images/mindful-exercise-workout-routine-card.jpg',
+      content: {
+        introduction: "Let's get one thing straight: there is absolutely nothing wrong with putting in your AirPods and listening to some tunes when you're going for a run. There is also nothing wrong with zoning out while you're sweating your ass off on the elliptical. And be honest, mindlessly hitting a punching bag is great for releasing negative emotions. However, if you're always on autopilot, you're missing out. Constantly being distracted during workouts means disconnecting with your body. This results in your exercises being less effective, which will inevitably lead to hitting a plateau, slowed progress or no progress at all. Therefore, I'd like to challenge you to switch up your mindless workouts with mindful exercise.",
+        sections: [
+          {
+            title: 'The benefits of mindful exercise',
+            content: "Mindful exercise can help to increase your performance, improve your form and technique and prevent injuries. Being present during your workout means moving with intention. This really enables you to tune into your body and get a better understanding about what's going on during the exercises that you do. Not just physically, but also mentally. This will increase the release of endorphins, those chemicals that make you feel so good during and after training. Regularly working up a good sweat in a mindful way will also help you to stick to your workout plan and ultimately reach your fitness goals."
+          },
+          {
+            title: 'How to bring more mindfulness into your workouts',
+            content: "Below, we've listed five tips to help you bring more mindfulness into your workouts:"
+          },
+          {
+            title: '#1. Start every workout by setting an intention',
+            content: "Mindful exercise starts before your workout. Take a minute or so before you start to set an intention for this specific training. It can be something like \"I will stay present and aware during this workout\", \"I will find joy in every exercise I perform today\" or \"I will make the barbell my **** today\". It can be easy to forget your intention once you get going, especially if you have a habit of 'going through the motions'. If you're doing a home workout, you can write your intention on a piece of paper and stick it to your mat. If you're going to the gym, you can write a reminder on your wrist."
+          },
+          {
+            title: '#2. Focus on your breath',
+            content: "You may have seen this one coming, but it's one of the best ways to practise mindful exercise. If you're doing cardio, you have to focus on your breath. If you don't, you're not going to get far – or you'll be forced to terminate your workout because of side pains and cramps. When you finish a session, how long does it take you to get your breath back to normal? But even when you're doing (body)weight training, it is good to pay attention to your breath. How ARE you breathing now? Are you breathing in through your nose and out through your mouth? In and out at the right moments? When you're doing push ups, are you breathing out at the top of your push up or when you lower down? How about with deadlifts?"
+          },
+          {
+            title: '#3. Pay more attention to your body during your workout',
+            content: "Mindful exercise can be challenging at first, especially when you're so used to zoning out and going through the motions. But being mindful is something you can train, just like your muscles. Once you notice your mind starts to wander to last night's date or tomorrow's to-do list, gently bring your awareness back to your exercise."
+          },
+          {
+            title: '#4. Create room for workouts without distractions',
+            content: "Like we mentioned before, it's totally okay to alternate with workouts where you just zone out and go without thinking. But make sure to also create space for mindful exercise. It's up to you how you want to shape those. It might be a quiet home workout in solitude. Or going for a run without your headphones, and listening to the sounds of your own footsteps, your own breathing, the birds, the wind, the rustling leaves. It's a completely different experience."
+          },
+          {
+            title: '#5. Check in with yourself afterwards',
+            content: "Many of us have a tendency of diving right back into their daily routine after they're done working out. But a more mindful approach to fitness works best if you take some time after your workout to check in with yourself. This doesn't have to take long. You can, for example, reflect on your workout when you're in the shower, or while you're doing a cooldown with some stretches, or when you're walking home from the gym. For those who are really dedicated: buy yourself a pretty notebook and write down a few lines about what you did during your workout, how you feel now, and what you want to work on next time."
+          }
+        ],
+        conclusion: '',
+        callToAction: ''
+      }
+    },
+    {
+      slug: 'building-strength-comprehensive-guide',
+      title: '22 fascinating facts about muscles',
+      category: 'Personal Training',
+      date: 'December 5, 2023',
+      image: 'images/fascinating-facts-about-muscles-card.jpg',
+      content: {
+        introduction: "When you're getting personal training with us (or are considering it), you're probably already paying a lot of attention to muscle development. But how much do you actually know about your muscles? We'd recommend finding some time to do a deep dive and expand your knowledge. The more you know about how your muscles work, the easier it will be to develop them and reach your personal fitness goals. To help you get started, we've listed 22 interesting facts about muscles. Some fun facts can also be used to impress that cutie you've been eyeing!",
+        sections: [
+          {
+            title: 'Fascinating facts about muscles that you should know about',
+            content: ''
+          },
+          {
+            title: '#1. While it depends on how you count, the human body contains between 600 and 700 skeletal muscles',
+            content: "These are the muscles responsible for maintaining your posture. They provide structural support and enable your body to move."
+          },
+          {
+            title: '#2. If all of the skeletal muscles you have in your body could pull in one direction, you would have the ability to lift around 25 tons of weight',
+            content: ''
+          },
+          {
+            title: '#3. Aside from skeletal muscles, you also have so-called smooth muscles',
+            content: "Examples of smooth muscles are those responsible for certain sensory processes (like the expansion and contraction of your pupils) and the functioning of your respiratory and digestive system."
+          },
+          {
+            title: '#4. There is also the cardiac muscle, the hardest working muscle in the human body',
+            content: "It is also the only muscle that never gets tired."
+          },
+          {
+            title: '#5. Around 35 to 40 percent of your body weight is made up of muscle tissue',
+            content: ''
+          },
+          {
+            title: '#6. The biggest skeletal muscle in your body is the gluteus maximus',
+            content: "Yes, we're talking about your butt. Or more specifically, one of the three different muscles in your butt. Without the gluteus maximus, you wouldn't even be able to walk up straight."
+          },
+          {
+            title: '#7. The smallest muscle in your body is called the stapedius',
+            content: "It is located in your middle ear and serves to protect the inner ear from high levels of noise by controlling the amplitude of soundwaves, like an internal volume control. Because its reflex is relatively slow, the risk of damaging your hearing is significantly greater when you're exposed to sudden sounds such as explosions or gunshots. Without a stapedius, we would be constantly overwhelmed by the sound of our own voice. This tiny muscle is also the reason why listening to recordings of your own voice always sound so weird."
+          },
+          {
+            title: '#8. If us humans had the ability to hear frequencies below 20 Hz, we would actually hear our muscles moving',
+            content: ''
+          },
+          {
+            title: '#9. Your tongue is the only muscle in your entire body that is attached on only one side',
+            content: ''
+          },
+          {
+            title: '#10. Your fingers are made out of bones, ligaments and tendons',
+            content: "That's right, there are no muscles in your fingers. Our forearm muscles 'pulling' on the tendons are what enables us to move them."
+          },
+          {
+            title: '#11. There are no muscles as active as your eye muscles',
+            content: "They easily get over 100.000 movements per day!"
+          },
+          {
+            title: '#12. The longest muscle in the human body is the sartorius',
+            content: "It is the muscle that runs over the length of your upper thigh to the inside of your knee."
+          },
+          {
+            title: '#13. The widest muscle that you have is the latissimus dorsi',
+            content: "This muscle works together with several other muscles to enable your shoulders to move. However, you also use your lats during deep breathing, as well as when you're coughing."
+          },
+          {
+            title: '#14. Gaining muscle does not actually happen in the gym',
+            content: "It happens when you sleep. This is when your body produces the chemicals that are responsible for repairing muscle tissue – a crucial element in building muscle mass."
+          },
+          {
+            title: '#15. While it may not always be obvious, muscle mass is gained much quicker than it is lost',
+            content: "Research has shown that taking a two month break from training results in around 23 percent muscle loss. However, if you do spend two months on training, you could gain around 47 percent of muscle."
+          },
+          {
+            title: '#16. If you started training because you wanted to lose some weight and find out a couple of weeks later that you actually gained weight, that makes sense',
+            content: "After all, muscles are heavier than fat. To be more specific: one cubic inch of muscle weighs three times as much as a cubic inch of fat. This is why the number on the scale is not always as relevant as many people think."
+          },
+          {
+            title: '#17. Muscle may weigh three times as much as fat, it is also three times more efficient when it comes to burning calories',
+            content: "Your body burns around 50 extra calories per day for every pound of muscle that you gain."
+          },
+          {
+            title: '#18. Muscle contractions generate a whopping 85 percent of our body heat',
+            content: "Any time you feel cold, your muscles will contract. This happens involuntarily, so you can't really control it. The colder you feel, the more intense these contractions will get. That is why humans shiver when they're freezing!"
+          },
+          {
+            title: '#19. Recovery is just as important for your muscles as training',
+            content: "If you don't give your muscles the time to recover after a heavy workout, they are significantly more susceptible to injuries."
+          },
+          {
+            title: '#20. Aside from rest, our muscles also require protein to repair themselves',
+            content: "Depending on your activity level, around 10 tot 35 percent of the calories you consume should come from protein."
+          },
+          {
+            title: '#21. Dehydration has a negative impact on your muscles\' self-repairing abilities',
+            content: "It's always important to drink plenty of water during the day, but even more so when you feel sore after a workout!"
+          },
+          {
+            title: '#22. We have all experienced the so-called \'hypnic jerk\'',
+            content: "It's when you feel like you're falling when you're drifting off to sleep. This seemingly strange phenomenon is actually a misinterpretation of the brain due to the fact that your muscles are starting to relax. The sudden muscle contractions that occur during the 'fall' are simply caused by the signals that your brain send to your limbs in an attempt to regain balance."
           }
         ],
         conclusion: '',

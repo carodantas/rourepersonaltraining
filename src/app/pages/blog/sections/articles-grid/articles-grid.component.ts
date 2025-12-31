@@ -77,11 +77,11 @@ export class ArticlesGridComponent {
     {
       id: '6',
       category: 'Personal Training',
-      title: 'Building strength: A comprehensive guide',
+      title: '22 fascinating facts about muscles',
       excerpt: 'Strength training is one of the most effective ways to improve your overall health and fitness. Learn how to build strength safely and effectively.',
       date: 'December 5, 2023',
       comments: 0,
-      image: 'images/strength-training-for-overall-health-card.jpg',
+      image: 'images/fascinating-facts-about-muscles-card.jpg',
       slug: 'building-strength-comprehensive-guide'
     }
   ];
