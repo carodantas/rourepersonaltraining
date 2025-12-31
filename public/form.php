@@ -39,7 +39,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 $FROM_NAME = 'Roure Personal Training';
 $FROM_EMAIL = 'info@roure.nl'; // Recommended to be a valid mailbox on your domain
 $TEAM_RECIPIENTS = [
-  'info@roure.nl'
+  'info@roure.nl',
+  'niels.greven@roure.nl',
 ];
 
 // Backup TXT directory (PERSISTENT).
@@ -151,6 +152,28 @@ function utf8_subject(string $subject): string {
     return mb_encode_mimeheader($subject, 'UTF-8');
   }
   return $subject;
+}
+
+function make_message_id(string $domain): string {
+  $domain = trim($domain);
+  if ($domain === '') $domain = 'localhost';
+  try {
+    $rand = bin2hex(random_bytes(16));
+  } catch (Throwable $e) {
+    $rand = bin2hex((string)mt_rand()) . bin2hex((string)microtime(true));
+  }
+  return '<' . $rand . '.' . gmdate('YmdHis') . '@' . $domain . '>';
+}
+
+function log_mail_event(string $privateDir, array $event): void {
+  try {
+    if (!is_dir($privateDir)) return;
+    $path = rtrim($privateDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'intake-mail-log.jsonl';
+    $line = json_encode($event, JSON_UNESCAPED_SLASHES) . "\n";
+    @file_put_contents($path, $line, FILE_APPEND | LOCK_EX);
+  } catch (Throwable $e) {
+    // ignore
+  }
 }
 
 function send_mail_utf8(string $to, string $subject, string $body, array $headers): bool {
@@ -439,17 +462,30 @@ $commonHeaders = [
 // So the team can reply directly to the client
 $teamHeaders = $commonHeaders + [
   'Reply-To' => "{$fullName} <{$email}>",
+  'Date' => gmdate('D, d M Y H:i:s \G\M\T'),
+  'Message-ID' => make_message_id($host !== '' ? $host : 'roure.nl'),
 ];
 
 // Prefer SMTP if configured
 $teamRecipients = array_values(array_filter(array_map('trim', explode(',', $teamTo)), fn($x) => $x !== ''));
 $teamSent = false;
+$teamTransport = 'none';
 if ($SMTP_PASSWORD !== '') {
   $teamSent = smtp_send_mail($SMTP_HOST, $SMTP_PORT, $SMTP_USER, $SMTP_PASSWORD, $FROM_EMAIL, $teamRecipients, $teamSubject, $teamBody, $teamHeaders);
+  $teamTransport = 'smtp';
 }
 if (!$teamSent) {
   $teamSent = send_mail_utf8($teamTo, $teamSubject, $teamBody, $teamHeaders);
+  $teamTransport = 'mail';
 }
+log_mail_event($PRIVATE_DIR, [
+  'ts' => gmdate('c'),
+  'kind' => 'team',
+  'to' => $teamRecipients,
+  'subject' => $teamSubject,
+  'transport' => $teamTransport,
+  'sent' => $teamSent,
+]);
 
 // -----------------------------
 // Confirmation email to client
@@ -494,15 +530,28 @@ if ($clientBody === null) {
 $clientHeaders = $commonHeaders + [
   'Reply-To' => $teamTo,
   'Content-Type' => (str_contains($clientBody, '<html') ? 'text/html; charset=UTF-8' : 'text/plain; charset=UTF-8'),
+  'Date' => gmdate('D, d M Y H:i:s \G\M\T'),
+  'Message-ID' => make_message_id($host !== '' ? $host : 'roure.nl'),
 ];
 
 $clientSent = false;
+$clientTransport = 'none';
 if ($SMTP_PASSWORD !== '') {
   $clientSent = smtp_send_mail($SMTP_HOST, $SMTP_PORT, $SMTP_USER, $SMTP_PASSWORD, $FROM_EMAIL, [$email], $clientSubject, $clientBody, $clientHeaders);
+  $clientTransport = 'smtp';
 }
 if (!$clientSent) {
   $clientSent = send_mail_utf8($email, $clientSubject, $clientBody, $clientHeaders);
+  $clientTransport = 'mail';
 }
+log_mail_event($PRIVATE_DIR, [
+  'ts' => gmdate('c'),
+  'kind' => 'client',
+  'to' => [$email],
+  'subject' => $clientSubject,
+  'transport' => $clientTransport,
+  'sent' => $clientSent,
+]);
 
 // Success criteria: we need at least ONE durable channel (team email OR backup file).
 // Client email is "nice to have" but not required for ok=true.

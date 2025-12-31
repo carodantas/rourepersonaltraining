@@ -133,10 +133,24 @@
 .form-select {
   cursor: pointer;
   appearance: none;
+  /* Hint browsers to render native form controls in a dark theme where supported */
+  color-scheme: dark;
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
+}
+
+/* Native dropdown list items (options) often default to white background.
+   Since our select text is white, we must force a dark option background. */
+.form-select option,
+.form-select optgroup {
+  background-color: #0b0b0c;
+  color: #ffffff;
+}
+
+.form-select option:disabled {
+  color: rgba(245, 242, 234, 0.55);
 }
 
 .form-textarea {
