@@ -45,8 +45,16 @@ $TEAM_RECIPIENTS = [
 
 // Optional delay between team email and client email (helps with strict SMTP rate-limits/greylisting).
 // Set as environment variable on the server, e.g. ROURE_MAIL_DELAY_MS=1200 (1.2s)
-$MAIL_DELAY_MS = (int)(getenv('ROURE_MAIL_DELAY_MS') ?: '0');
+$MAIL_DELAY_MS_ENV = getenv('ROURE_MAIL_DELAY_MS');
+$MAIL_DELAY_MS = ($MAIL_DELAY_MS_ENV !== false && $MAIL_DELAY_MS_ENV !== '') ? (int)$MAIL_DELAY_MS_ENV : 8000;
 if ($MAIL_DELAY_MS < 0) $MAIL_DELAY_MS = 0;
+
+// Staging helpers:
+// - ROURE_SEND_CLIENT_EMAIL=0 to disable client confirmations (team email still sent)
+// - ROURE_CLIENT_EMAIL_OVERRIDE=test@example.com to force all client confirmations to a fixed address
+$SEND_CLIENT_EMAIL = getenv('ROURE_SEND_CLIENT_EMAIL');
+$SEND_CLIENT_EMAIL = ($SEND_CLIENT_EMAIL === false || $SEND_CLIENT_EMAIL === '' || $SEND_CLIENT_EMAIL === '1' || strtolower((string)$SEND_CLIENT_EMAIL) === 'true');
+$CLIENT_EMAIL_OVERRIDE = trim((string)(getenv('ROURE_CLIENT_EMAIL_OVERRIDE') ?: ''));
 
 // Backup TXT directory (PERSISTENT).
 //
@@ -333,6 +341,12 @@ $lastName = str_val(($clientDetails['lastName'] ?? null) ?? ($data['lastName'] ?
 $phoneNumber = str_val(($clientDetails['phoneNumber'] ?? null) ?? ($data['phoneNumber'] ?? ''));
 $email = str_val(($clientDetails['email'] ?? null) ?? ($data['email'] ?? ''));
 
+// Allow overriding client recipient in staging / tests
+$originalClientEmail = $email;
+if ($CLIENT_EMAIL_OVERRIDE !== '') {
+  $email = $CLIENT_EMAIL_OVERRIDE;
+}
+
 $plan = str_val(($intakeInfo['interestedPlan'] ?? null) ?? ($data['plan'] ?? ''));
 $program = str_val(($intakeInfo['interestedProgram'] ?? null) ?? ($data['program'] ?? ''));
 
@@ -520,6 +534,7 @@ if ($MAIL_DELAY_MS > 0) {
 // -----------------------------
 // Confirmation email to client
 // -----------------------------
+$clientAttempted = false;
 $clientSubject = 'We received your intake request';
 $clientVars = [
   'heroImageUrl' => $publicBaseUrl !== '' ? ($publicBaseUrl . '/emails/hero-intake-confirmation.jpg') : '',
@@ -570,25 +585,28 @@ $clientRecipients = array_values(array_filter([$email], fn($x) => trim((string)$
 $clientSent = false;
 $clientTransport = 'none';
 $clientSmtpDataResp = null;
-if ($SMTP_PASSWORD !== '') {
-  $clientSent = smtp_send_mail(
-    $SMTP_HOST,
-    $SMTP_PORT,
-    $SMTP_USER,
-    $SMTP_PASSWORD,
-    $SMTP_ENVELOPE_FROM,
-    $clientRecipients,
-    $clientSubject,
-    $clientBody,
-    $clientHeaders,
-    ($host !== '' ? $host : 'rourepersonaltraining.nl'),
-    $clientSmtpDataResp
-  );
-  $clientTransport = 'smtp';
-}
-if (!$clientSent) {
-  $clientSent = send_mail_utf8($email, $clientSubject, $clientBody, $clientHeaders);
-  $clientTransport = 'mail';
+if ($SEND_CLIENT_EMAIL && count($clientRecipients) > 0) {
+  $clientAttempted = true;
+  if ($SMTP_PASSWORD !== '') {
+    $clientSent = smtp_send_mail(
+      $SMTP_HOST,
+      $SMTP_PORT,
+      $SMTP_USER,
+      $SMTP_PASSWORD,
+      $SMTP_ENVELOPE_FROM,
+      $clientRecipients,
+      $clientSubject,
+      $clientBody,
+      $clientHeaders,
+      ($host !== '' ? $host : 'rourepersonaltraining.nl'),
+      $clientSmtpDataResp
+    );
+    $clientTransport = 'smtp';
+  }
+  if (!$clientSent) {
+    $clientSent = send_mail_utf8($email, $clientSubject, $clientBody, $clientHeaders);
+    $clientTransport = 'mail';
+  }
 }
 log_mail_event($PRIVATE_DIR, [
   'ts' => gmdate('c'),
@@ -598,6 +616,7 @@ log_mail_event($PRIVATE_DIR, [
   'messageId' => $clientMessageId,
   'transport' => $clientTransport,
   'sent' => $clientSent,
+  'attempted' => $clientAttempted,
   'smtpDataResp' => is_string($clientSmtpDataResp) ? trim($clientSmtpDataResp) : null,
 ]);
 
@@ -616,6 +635,7 @@ echo json_encode([
   'backupWritten' => $backupWritten,
   'teamEmailSent' => $teamSent,
   'clientEmailSent' => $clientSent,
+  'clientEmailAttempted' => $clientAttempted,
   'teamTransport' => $teamTransport,
   'clientTransport' => $clientTransport,
   'teamMessageId' => $teamMessageId,
