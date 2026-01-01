@@ -68,18 +68,18 @@ $CLIENT_EMAIL_OVERRIDE = trim((string)(getenv('ROURE_CLIENT_EMAIL_OVERRIDE') ?: 
 // IMPORTANT (deploy-safe):
 // - Prefer a directory OUTSIDE your deploy folder.
 // - If ROURE_DATA_DIR is not set, we try these fallbacks (first match wins):
-//   - ../private_html/roure-data   (common on hosted VPS/cPanel: ~/private_html)
-//   - ../_private                 (sibling to site root)
+//   - ../_private/roure-data      (preferred; sibling to site root, not web-accessible)
+//   - ../private_html/roure-data  (fallback; only if needed on some hosts)
 $DATA_DIR = getenv('ROURE_DATA_DIR') ?: '';
 $siteRoot = rtrim(dirname(__DIR__), DIRECTORY_SEPARATOR);
 $candidate1 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'private_html' . DIRECTORY_SEPARATOR . 'roure-data';
-$candidate2 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_private';
+$candidate2 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_private' . DIRECTORY_SEPARATOR . 'roure-data';
 
-// Prefer a truly non-public directory (../_private) unless ../private_html/roure-data already exists.
-// This avoids accidentally creating secrets in a web-accessible folder on misconfigured hosts.
+// Prefer a truly non-public directory (../_private/roure-data) whenever possible.
+// Fall back to ../private_html/roure-data only if the preferred location isn't available on the host.
 $PRIVATE_DIR = $DATA_DIR !== '' ? rtrim($DATA_DIR, DIRECTORY_SEPARATOR) : (
-  (is_dir($candidate1) ? (realpath($candidate1) ?: $candidate1) : null) ?:
-  (is_dir($candidate2) ? (realpath($candidate2) ?: $candidate2) : $candidate2)
+  (is_dir($candidate2) || is_dir(dirname($candidate2))) ? (realpath($candidate2) ?: $candidate2) :
+  ((is_dir($candidate1) || is_dir(dirname($candidate1))) ? (realpath($candidate1) ?: $candidate1) : $candidate2)
 );
 
 $BACKUP_TXT_PATH = $PRIVATE_DIR . DIRECTORY_SEPARATOR . 'intake-request.txt';
