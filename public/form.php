@@ -75,9 +75,11 @@ $siteRoot = rtrim(dirname(__DIR__), DIRECTORY_SEPARATOR);
 $candidate1 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'private_html' . DIRECTORY_SEPARATOR . 'roure-data';
 $candidate2 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_private';
 
+// Prefer a truly non-public directory (../_private) unless ../private_html/roure-data already exists.
+// This avoids accidentally creating secrets in a web-accessible folder on misconfigured hosts.
 $PRIVATE_DIR = $DATA_DIR !== '' ? rtrim($DATA_DIR, DIRECTORY_SEPARATOR) : (
-  (is_dir($candidate1) ? realpath($candidate1) : null) ?:
-  (is_dir(dirname($candidate1)) ? $candidate1 : $candidate2)
+  (is_dir($candidate1) ? (realpath($candidate1) ?: $candidate1) : null) ?:
+  (is_dir($candidate2) ? (realpath($candidate2) ?: $candidate2) : $candidate2)
 );
 
 $BACKUP_TXT_PATH = $PRIVATE_DIR . DIRECTORY_SEPARATOR . 'intake-request.txt';
