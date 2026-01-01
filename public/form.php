@@ -71,9 +71,17 @@ $CLIENT_EMAIL_OVERRIDE = trim((string)(getenv('ROURE_CLIENT_EMAIL_OVERRIDE') ?: 
 //   - ../_private/roure-data      (preferred; sibling to site root, not web-accessible)
 //   - ../private_html/roure-data  (fallback; only if needed on some hosts)
 $DATA_DIR = getenv('ROURE_DATA_DIR') ?: '';
-$siteRoot = rtrim(dirname(__DIR__), DIRECTORY_SEPARATOR);
-$candidate1 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'private_html' . DIRECTORY_SEPARATOR . 'roure-data';
-$candidate2 = $siteRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_private' . DIRECTORY_SEPARATOR . 'roure-data';
+
+// Determine the account root (folder that contains `public_html/`), so prod and staging resolve the same paths.
+// Examples:
+// - /home/user/rourepersonaltraining.nl/public_html        -> /home/user/rourepersonaltraining.nl
+// - /home/user/rourepersonaltraining.nl/public_html/staging -> /home/user/rourepersonaltraining.nl
+$dirNorm = str_replace('\\', '/', __DIR__);
+$publicHtmlPos = strpos($dirNorm, '/public_html');
+$accountRoot = ($publicHtmlPos !== false) ? substr($dirNorm, 0, $publicHtmlPos) : rtrim(dirname(__DIR__), DIRECTORY_SEPARATOR);
+$accountRoot = rtrim((string)$accountRoot, '/');
+$candidate2 = $accountRoot . '/_private/roure-data';
+$candidate1 = $accountRoot . '/private_html/roure-data';
 
 // Prefer a truly non-public directory (../_private/roure-data) whenever possible.
 // Fall back to ../private_html/roure-data only if the preferred location isn't available on the host.
