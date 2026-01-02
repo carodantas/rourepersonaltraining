@@ -65,6 +65,23 @@
   gap: 0.25rem;
 }
 
+.form-label span {
+  display: inline;
+}
+
+.learn-more-link {
+  color: #9d8f78;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 0.5rem;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.learn-more-link:hover {
+  color: #a89a83;
+}
+
 .form-hint {
   color: rgba(245, 242, 234, 0.6);
   font-style: italic;

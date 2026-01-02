@@ -11,11 +11,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class WhyWorksComponent {
   bullets: string[] = [
-    'personalized coaching',
-    'data-informed decisions',
-    'structured support',
-    'progressive adjustments',
-    'consistent accountability'
+    'Personalized coaching',
+    'Data-informed decisions',
+    'Structured support',
+    'Progressive adjustments',
+    'Consistent accountability'
   ];
 
   videoUrl: SafeResourceUrl | null;

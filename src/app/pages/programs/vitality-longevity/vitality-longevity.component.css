@@ -581,7 +581,7 @@
 }
 
 .analysis-item::before {
-  content: '→';
+  content: '✓';
   position: absolute;
   left: 0;
   color: #9d8f78;

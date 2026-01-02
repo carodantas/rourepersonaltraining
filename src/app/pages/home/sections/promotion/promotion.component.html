@@ -46,7 +46,7 @@
     } @else {
       <!-- Intake Form -->
       <div class="promotion-header">
-        <h2 class="promotion-title headline-1">Book your intake session with us</h2>
+        <h2 class="promotion-title headline-1">Book your free intake session with us</h2>
         <p class="promotion-subtitle featured-3">Let's start your fitness journey together</p>
       </div>
 
@@ -64,7 +64,7 @@
         <div class="form-row">
           <div class="form-field">
             <label class="form-label strong-1">
-              Which plan are you interested in?
+              <span>Which training plan are you interested in? <a [routerLink]="['/']" fragment="plans" class="learn-more-link">Learn more</a></span>
             </label>
             <select formControlName="plan" class="form-select body-1">
               @for (option of planOptions; track option.value) {
@@ -75,7 +75,7 @@
 
           <div class="form-field">
             <label class="form-label strong-1">
-              Which program are you interested in?
+              <span>Which program are you interested in? <a [routerLink]="getProgramLink()" class="learn-more-link">Learn more</a></span>
             </label>
             <select formControlName="program" class="form-select body-1">
               @for (option of programOptions; track option.value) {
@@ -105,6 +105,20 @@
             </label>
           }
         </div>
+        @if (isOtherSelected()) {
+          <div class="form-field" style="margin-top: 1rem;">
+            <input
+              type="text"
+              formControlName="otherGoalText"
+              placeholder="Please specify..."
+              class="form-input body-1"
+              [class.error]="hasError('otherGoalText')"
+            />
+            @if (hasError('otherGoalText')) {
+              <span class="error-message">{{ getErrorMessage('otherGoalText') }}</span>
+            }
+          </div>
+        }
       </div>
 
       <!-- Personal Information -->

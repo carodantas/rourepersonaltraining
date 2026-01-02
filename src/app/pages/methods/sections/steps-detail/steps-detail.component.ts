@@ -27,10 +27,10 @@ export class StepsDetailComponent {
         'With this insight, we can objectively track:'
       ],
       bullets: [
-        'fat loss',
-        'muscle gain',
-        'changes in body composition',
-        'trends week to week'
+        'Fat loss',
+        'Muscle gain',
+        'Changes in body composition',
+        'Trends week to week'
       ],
       imageAlt: 'Body analysis placeholder'
     },
@@ -41,7 +41,7 @@ export class StepsDetailComponent {
         'We connect you with the Roure app — your hub for accountability, tracking, and communication.',
         'Through the app you can:'
       ],
-      bullets: ['book sessions', 'follow training plans', 'track nutrition and habits', 'monitor progress and goals'],
+      bullets: ['Book sessions', 'Access training plans', 'Track nutrition and habits', 'Monitor progress and goals'],
       imageAlt: 'App tracking placeholder'
     },
     {
@@ -49,8 +49,8 @@ export class StepsDetailComponent {
       title: 'Ongoing Evaluation',
       body: [
         'Progress isn’t static, and neither is our coaching.',
-        'Every few weeks, we review your results together and make adjustments where needed so you stay on the right path.',
-        'This keeps your plan relevant, effective, and motivating — and when goals shift, we adapt intelligently (not arbitrarily).'
+        'Every few weeks we review your results together and make adjustments where needed so you stay on the right path.',
+        'This keeps your plan relevant, effective, and motivating — and when goals shift we adapt.'
       ],
       imageAlt: 'Ongoing evaluation placeholder'
     }

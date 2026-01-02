@@ -34,7 +34,7 @@ export class ProgramsGridComponent {
     },
     {
       title: 'Vitality & longevity',
-      benefits: ['Anti-aging protocol', 'Health span extension'],
+      benefits: ['Train safely for healthy aging', 'Boost energy and vitality'],
       image: 'images/card-vitality-longevity.jpg',
       route: '/programs/vitality-longevity'
     },

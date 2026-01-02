@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 import { IntakeFormSubmission, getGoalLabel, getPlanLabel, getProgramLabel } from './intake-form.interface';
@@ -9,7 +9,7 @@ import { IntakeFormSubmission, getGoalLabel, getPlanLabel, getProgramLabel } fro
 @Component({
   selector: 'app-promotion',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonPrimaryGlassComponent],
+  imports: [CommonModule, ReactiveFormsModule, ButtonPrimaryGlassComponent, RouterLink],
   templateUrl: './promotion.component.html',
   styleUrl: './promotion.component.css'
 })
@@ -62,6 +62,7 @@ export class PromotionComponent implements OnInit {
       plan: [''],
       program: [''],
       goals: this.fb.array(goalsControls),
+      otherGoalText: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
@@ -74,6 +75,21 @@ export class PromotionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Watch for "Other" checkbox changes to update validation
+    const otherIndex = this.trainingGoals.findIndex(g => g.value === 'other');
+    if (otherIndex !== -1) {
+      this.getGoalControl('other').valueChanges.subscribe(isSelected => {
+        const otherGoalTextControl = this.intakeForm.get('otherGoalText');
+        if (isSelected) {
+          otherGoalTextControl?.setValidators([Validators.required]);
+        } else {
+          otherGoalTextControl?.clearValidators();
+          otherGoalTextControl?.setValue('');
+        }
+        otherGoalTextControl?.updateValueAndValidity();
+      });
+    }
+
     // Check for query parameters
     this.route.queryParams.subscribe(params => {
       // Check for program parameter
@@ -120,7 +136,13 @@ export class PromotionComponent implements OnInit {
     // Extract selected goals
     const selectedGoals = this.trainingGoals
       .filter((goal, index) => goalsArray[index] === true)
-      .map(goal => goal.value);
+      .map(goal => {
+        // If "Other" is selected, append the text if provided
+        if (goal.value === 'other' && formValue.otherGoalText) {
+          return `other: ${formValue.otherGoalText}`;
+        }
+        return goal.value;
+      });
 
     return {
       clientDetails: {
@@ -244,6 +266,7 @@ export class PromotionComponent implements OnInit {
       phoneNumber: '',
       email: '',
       questions: '',
+      otherGoalText: '',
       receiveCommunications: false,
       website: ''
     });
@@ -274,11 +297,35 @@ export class PromotionComponent implements OnInit {
     return this.goalsFormArray.at(index) as FormControl;
   }
 
+  isOtherSelected(): boolean {
+    const otherIndex = this.trainingGoals.findIndex(g => g.value === 'other');
+    if (otherIndex === -1) return false;
+    return this.goalsFormArray.at(otherIndex)?.value === true;
+  }
+
   exploreWebsite(): void {
     void this.router.navigate(['/']);
     // Scroll to top after navigation
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
+  }
+
+  getProgramLink(): string {
+    const selectedProgram = this.intakeForm.get('program')?.value;
+    
+    // Map program values to their routes
+    const programRoutes: Record<string, string> = {
+      'weight-loss-muscle-mass': '/programs/weight-loss-muscle-mass',
+      'peak-performance': '/programs/peak-performance',
+      'vitality-longevity': '/programs/vitality-longevity',
+      'prenatal-postpartum': '/programs/prenatal-postpartum'
+    };
+    
+    // If a program is selected, link to that specific program page
+    // Otherwise, link to the general programs page
+    return selectedProgram && programRoutes[selectedProgram] 
+      ? programRoutes[selectedProgram] 
+      : '/programs';
   }
 }

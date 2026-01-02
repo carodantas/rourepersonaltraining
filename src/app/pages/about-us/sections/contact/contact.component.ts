@@ -11,14 +11,14 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class ContactComponent {
   location = {
-    title: 'Studio Location',
+    title: 'Studio location',
     address: 'Amsterdam, NH',
     street: 'Domselaerstraat 120, 1093 MB',
     kvk: 'KVK: 92526268'
   };
 
   phone = {
-    title: 'Call Us',
+    title: 'WhatsApp or call us',
     number: '+31 6 241 662 51',
     hours: {
       weekdays: 'Mon - Fri: 07:00 - 22:00',
@@ -28,7 +28,7 @@ export class ContactComponent {
   };
 
   email = {
-    title: 'Send Us an Email',
+    title: 'Send us an email',
     address: 'Info@roure.nl'
   };
 

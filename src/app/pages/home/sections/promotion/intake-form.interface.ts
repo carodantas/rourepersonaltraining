@@ -38,6 +38,12 @@ export interface IntakeFormSubmission {
  * Helper function to get goal label from value
  */
 export function getGoalLabel(value: string): string {
+  // Handle "Other" with custom text
+  if (value.startsWith('other: ')) {
+    const otherText = value.substring(7); // Remove "other: " prefix
+    return `Other: ${otherText}`;
+  }
+  
   const goalMap: Record<string, string> = {
     'improve-health': 'Improve my overall health',
     'increase-flexibility': 'Increase flexibility',
