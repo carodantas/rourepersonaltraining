@@ -26,7 +26,7 @@ export class TeamComponent {
     },
     {
       name: 'Niels Greven',
-      title: 'Personal Trainer',
+      title: 'Co Owner & personal trainer',
       bio:
         'Sports have been part of Niels\' life from a young age. After nearly ten years working as a physics teacher, he decided to turn his long-standing passion for training into his profession.\n\nWith over eight years of consistent personal training experience and multiple certifications, Niels continues to deepen his knowledge through ongoing education. His coaching style is responsible, science-based, and always focused on making training enjoyable and meaningful.',
       image: 'images/niels-greven.jpg'
