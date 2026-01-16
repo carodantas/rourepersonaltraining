@@ -19,5 +19,6 @@ export class App implements OnInit {
     
     // Page view tracking is handled automatically by AnalyticsService
     // via router NavigationEnd events, so no need to track here to avoid duplicates
+    // Cookie consent is initialized automatically via provideNgcCookieConsent in app.config.ts
   }
 }
