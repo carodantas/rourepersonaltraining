@@ -9,21 +9,23 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
-    domain: '' // Deixar vazio usa o domínio atual
+    domain: '' // Deixar vazio usa o domínio atual (ou defina seu domínio específico)
   },
   position: 'bottom',
   theme: 'classic',
   palette: {
     popup: {
       background: '#000000',
-      text: '#ffffff'
+      text: '#ffffff',
+      link: '#ffffff'
     },
     button: {
-      background: '#f1d600',
-      text: '#000000'
+      background: '#847968',
+      text: '#ffffff',
+      border: 'transparent'
     }
   },
-  type: 'info',
+  type: 'opt-out',
   content: {
     message: 'This website uses cookies to ensure you get the best experience on our website.',
     dismiss: 'Got it!',
