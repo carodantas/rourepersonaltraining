@@ -2,7 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-import { provideNgcCookieConsent, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { NgcCookieConsentConfig } from 'ngx-cookieconsent';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -48,7 +48,6 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideClientHydration(withEventReplay()),
-    provideNgcCookieConsent(baseCookieConfig),
     Title
   ]
 };
