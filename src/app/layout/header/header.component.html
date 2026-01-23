@@ -1,6 +1,11 @@
 <header class="header">
   <div class="header-container">
-    <button class="logo-button" type="button" (click)="scrollToSection('home')" aria-label="Back to home">
+    <button
+      class="logo-button"
+      type="button"
+      (click)="scrollToSection('home')"
+      [attr.aria-label]="'header.a11y.backToHome' | translate"
+    >
       @if (!logoError) {
         <img 
           src="images/logo.png"
@@ -16,19 +21,37 @@
         </span>
       }
     </button>
+    <div class="language-switch" role="group" aria-label="Language">
+      <button
+        type="button"
+        class="language-button"
+        [class.active]="currentLocale === 'nl'"
+        (click)="setLocale('nl')"
+      >
+        NL
+      </button>
+      <button
+        type="button"
+        class="language-button"
+        [class.active]="currentLocale === 'en'"
+        (click)="setLocale('en')"
+      >
+        EN
+      </button>
+    </div>
     <button
       type="button"
       class="cta-button"
       (click)="scrollToSection('free-intake')"
     >
-      Book free intake
+      {{ 'header.actions.bookFreeIntake' | translate }}
     </button>
     <button
       class="menu-toggle"
       type="button"
       (click)="toggleMobileMenu()"
       [attr.aria-expanded]="isMobileMenuOpen"
-      aria-label="Toggle navigation menu"
+      [attr.aria-label]="'header.a11y.toggleNavigation' | translate"
       aria-controls="dropdown-navigation"
     >
       <span class="hamburger-line" [class.active]="isMobileMenuOpen"></span>
@@ -51,7 +74,7 @@
                 [class.active]="activeAnchor === item.anchor"
                 [attr.aria-current]="activeAnchor === item.anchor ? 'page' : null"
               >
-                {{ item.label }}
+                {{ item.labelKey | translate }}
               </button>
             </li>
           }
@@ -65,7 +88,7 @@
                 class="dropdown-nav-link dropdown-nav-action"
                 (click)="scrollToSection(action.anchor)"
               >
-                {{ action.label }}
+                {{ action.labelKey | translate }}
                 @if (action.showArrow) {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-arrow">
                     <circle cx="12" cy="12" r="10"></circle>

@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslationService } from '../../services/translation.service';
+import type { SupportedLocale } from '../../i18n/locales';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,6 +18,7 @@ export class HeaderComponent {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private pendingScrollAnchor: string | null = null;
+  private readonly translation = inject(TranslationService);
 
   private readonly routeByAnchor: Record<string, string> = {
     home: '/',
@@ -26,20 +30,28 @@ export class HeaderComponent {
   };
 
   navigationItems = [
-    { label: 'Home', anchor: 'home' },
-    { label: 'About us', anchor: 'about-us' },
-    { label: 'Methods', anchor: 'methods' },
-    { label: 'Programs', anchor: 'programs' },
-    { label: 'Blog', anchor: 'blog' }
+    { labelKey: 'header.nav.home', anchor: 'home' },
+    { labelKey: 'header.nav.aboutUs', anchor: 'about-us' },
+    { labelKey: 'header.nav.methods', anchor: 'methods' },
+    { labelKey: 'header.nav.programs', anchor: 'programs' },
+    { labelKey: 'header.nav.blog', anchor: 'blog' }
   ];
 
   actionItems = [
-    { label: 'Book free intake', anchor: 'free-intake', showArrow: false }
+    { labelKey: 'header.actions.bookFreeIntake', anchor: 'free-intake', showArrow: false }
   ];
 
   activeAnchor = 'home';
   isMobileMenuOpen = false;
   logoError = false;
+
+  get currentLocale(): SupportedLocale {
+    return this.translation.locale;
+  }
+
+  setLocale(locale: SupportedLocale): void {
+    this.translation.setLocale(locale);
+  }
 
   constructor() {
     this.router.events
