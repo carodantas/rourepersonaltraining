@@ -16,29 +16,32 @@
       <!-- Success Confirmation Message -->
       <div class="success-confirmation">
         <div class="confirmation-content">
-          <h3 class="confirmation-title">Thank you very much for your request!</h3>
+          <h3 class="confirmation-title">{{ 'home.promotion.success.title' | translate }}</h3>
           <p class="confirmation-text">
-            We greatly appreciate your interest in Roure Personal Training. Your form has been successfully submitted.
+            {{ 'home.promotion.success.p1' | translate }}
           </p>
           <p class="confirmation-text">
-            One of our team members will contact you as soon as possible to schedule an appointment. We aim to get back to you by phone within one business day.
+            {{ 'home.promotion.success.p2' | translate }}
           </p>
           <p class="confirmation-text">
-            If you have any questions or would like more information in the meantime, please feel free to contact us at <a href="https://wa.me/message/EVVIH62J3QE7I1" target="_blank" rel="noopener noreferrer" class="contact-link">0642121786</a> or <a href="mailto:info@roure.nl" class="contact-link">info@roure.nl</a>.
+            {{ 'home.promotion.success.p3a' | translate }}
+            <a href="https://wa.me/message/EVVIH62J3QE7I1" target="_blank" rel="noopener noreferrer" class="contact-link">0642121786</a>
+            {{ 'home.promotion.success.p3b' | translate }}
+            <a href="mailto:info@roure.nl" class="contact-link">info@roure.nl</a>.
           </p>
           <p class="confirmation-text">
-            You'll also soon receive an email with information about our app. Using the app is optional, but it can offer additional benefits and convenience during your training journey.
+            {{ 'home.promotion.success.p4' | translate }}
           </p>
           <p class="confirmation-text">
-            We look forward to working with you!
+            {{ 'home.promotion.success.p5' | translate }}
           </p>
           <p class="confirmation-signature">
-            Yours sincerely,<br>
+            {{ 'home.promotion.success.signature' | translate }}<br>
             <strong>Roure Personal Training</strong>
           </p>
           <div class="confirmation-actions">
             <app-button-primary-glass type="button" (clicked)="exploreWebsite()">
-              Explore the website
+              {{ 'home.promotion.success.exploreCta' | translate }}
             </app-button-primary-glass>
           </div>
         </div>
@@ -46,15 +49,15 @@
     } @else {
       <!-- Intake Form -->
       <div class="promotion-header">
-        <h2 class="promotion-title headline-1">Book your free intake session with us</h2>
-        <p class="promotion-subtitle featured-3">Let's start your fitness journey together</p>
+        <h2 class="promotion-title headline-1">{{ 'home.promotion.title' | translate }}</h2>
+        <p class="promotion-subtitle featured-3">{{ 'home.promotion.subtitle' | translate }}</p>
       </div>
 
       <form [formGroup]="intakeForm" (ngSubmit)="onSubmit()" class="intake-form">
         <!-- Honeypot (anti-spam) -->
         <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
           <label>
-            Website
+            {{ 'home.promotion.honeypot.website' | translate }}
             <input type="text" formControlName="website" tabindex="-1" autocomplete="off" />
           </label>
         </div>
@@ -64,22 +67,28 @@
         <div class="form-row">
           <div class="form-field">
             <label class="form-label strong-1">
-              <span>Which training plan are you interested in? <a [routerLink]="['/']" fragment="plans" class="learn-more-link">Learn more</a></span>
+              <span>
+                {{ 'home.promotion.planQuestion' | translate }}
+                <a [routerLink]="['/']" fragment="plans" class="learn-more-link">{{ 'home.promotion.learnMore' | translate }}</a>
+              </span>
             </label>
             <select formControlName="plan" class="form-select body-1">
               @for (option of planOptions; track option.value) {
-                <option [value]="option.value">{{ option.label }}</option>
+                <option [value]="option.value">{{ option.labelKey | translate }}</option>
               }
             </select>
           </div>
 
           <div class="form-field">
             <label class="form-label strong-1">
-              <span>Which program are you interested in? <a [routerLink]="getProgramLink()" class="learn-more-link">Learn more</a></span>
+              <span>
+                {{ 'home.promotion.programQuestion' | translate }}
+                <a [routerLink]="getProgramLink()" class="learn-more-link">{{ 'home.promotion.learnMore' | translate }}</a>
+              </span>
             </label>
             <select formControlName="program" class="form-select body-1">
               @for (option of programOptions; track option.value) {
-                <option [value]="option.value">{{ option.label }}</option>
+                <option [value]="option.value">{{ option.labelKey | translate }}</option>
               }
             </select>
           </div>
@@ -89,9 +98,9 @@
       <!-- Training Goals -->
       <div class="form-section">
         <label class="form-label strong-1">
-          What would you like to achieve with your training?
+          {{ 'home.promotion.goals.title' | translate }}
         </label>
-        <p class="form-hint body-2">(Feel free to select more than one!)</p>
+        <p class="form-hint body-2">{{ 'home.promotion.goals.hint' | translate }}</p>
         <div class="checkbox-group goals-group">
           @for (goal of trainingGoals; track goal.value) {
             <label class="checkbox-label">
@@ -101,7 +110,7 @@
                 class="checkbox-input"
               />
               <span class="checkbox-custom"></span>
-              <span class="checkbox-text">{{ goal.label }}</span>
+              <span class="checkbox-text">{{ goal.labelKey | translate }}</span>
             </label>
           }
         </div>
@@ -110,12 +119,12 @@
             <input
               type="text"
               formControlName="otherGoalText"
-              placeholder="Please specify..."
+              [placeholder]="'home.promotion.goals.otherPlaceholder' | translate"
               class="form-input body-1"
               [class.error]="hasError('otherGoalText')"
             />
             @if (hasError('otherGoalText')) {
-              <span class="error-message">{{ getErrorMessage('otherGoalText') }}</span>
+              <span class="error-message">{{ getErrorMessage('otherGoalText') | translate }}</span>
             }
           </div>
         }
@@ -123,64 +132,68 @@
 
       <!-- Personal Information -->
       <div class="form-section">
-        <h3 class="form-section-title">Personal Information</h3>
+        <h3 class="form-section-title">{{ 'home.promotion.personalInfo.title' | translate }}</h3>
         
         <div class="form-row">
           <div class="form-field">
-            <label class="field-label emphasized-1">Name</label>
+            <label class="field-label emphasized-1">{{ 'home.promotion.personalInfo.firstName' | translate }}</label>
             <input
               type="text"
               formControlName="firstName"
-              placeholder="Enter your first name"
+              [placeholder]="'home.promotion.personalInfo.firstNamePlaceholder' | translate"
               class="form-input body-1"
               [class.error]="hasError('firstName')"
             />
             @if (hasError('firstName')) {
-              <span class="error-message">{{ getErrorMessage('firstName') }}</span>
+              <span class="error-message">{{ getErrorMessage('firstName') | translate }}</span>
             }
           </div>
 
           <div class="form-field">
-            <label class="field-label emphasized-1">Last name</label>
+            <label class="field-label emphasized-1">{{ 'home.promotion.personalInfo.lastName' | translate }}</label>
             <input
               type="text"
               formControlName="lastName"
-              placeholder="Enter your last name"
+              [placeholder]="'home.promotion.personalInfo.lastNamePlaceholder' | translate"
               class="form-input body-1"
               [class.error]="hasError('lastName')"
             />
             @if (hasError('lastName')) {
-              <span class="error-message">{{ getErrorMessage('lastName') }}</span>
+              <span class="error-message">{{ getErrorMessage('lastName') | translate }}</span>
             }
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-field">
-            <label class="field-label emphasized-1">Phone number <span class="required">*</span></label>
+            <label class="field-label emphasized-1">
+              {{ 'home.promotion.personalInfo.phone' | translate }} <span class="required">*</span>
+            </label>
             <input
               type="tel"
               formControlName="phoneNumber"
-              placeholder="Enter your phone number"
+              [placeholder]="'home.promotion.personalInfo.phonePlaceholder' | translate"
               class="form-input body-1"
               [class.error]="hasError('phoneNumber')"
             />
             @if (hasError('phoneNumber')) {
-              <span class="error-message">{{ getErrorMessage('phoneNumber') }}</span>
+              <span class="error-message">{{ getErrorMessage('phoneNumber') | translate }}</span>
             }
           </div>
 
           <div class="form-field">
-            <label class="field-label emphasized-1">E-mail <span class="required">*</span></label>
+            <label class="field-label emphasized-1">
+              {{ 'home.promotion.personalInfo.email' | translate }} <span class="required">*</span>
+            </label>
             <input
               type="email"
               formControlName="email"
-              placeholder="Enter your email address"
+              [placeholder]="'home.promotion.personalInfo.emailPlaceholder' | translate"
               class="form-input body-1"
               [class.error]="hasError('email')"
             />
             @if (hasError('email')) {
-              <span class="error-message">{{ getErrorMessage('email') }}</span>
+              <span class="error-message">{{ getErrorMessage('email') | translate }}</span>
             }
           </div>
         </div>
@@ -189,12 +202,12 @@
       <!-- Questions -->
       <div class="form-section">
         <label class="form-label strong-1">
-          Do you have any questions or anything you'd like us to know?
+          {{ 'home.promotion.questions.title' | translate }}
         </label>
         <div class="form-field">
           <textarea
             formControlName="questions"
-            placeholder="Ask any questions..."
+            [placeholder]="'home.promotion.questions.placeholder' | translate"
             class="form-textarea body-1"
             rows="1"
           ></textarea>
@@ -205,8 +218,8 @@
       <div class="form-section">
         <div class="privacy-notice">
           <p class="privacy-text body-2">
-            <strong class="strong-2">Privacy notice</strong><br>
-            Roure Personal Training respects your privacy. We will only use your information to contact you regarding your session.
+            <strong class="strong-2">{{ 'home.promotion.privacy.title' | translate }}</strong><br>
+            {{ 'home.promotion.privacy.text' | translate }}
           </p>
         </div>
 
@@ -217,7 +230,7 @@
             class="checkbox-input"
           />
           <span class="checkbox-custom"></span>
-          <span class="checkbox-text">I agree to receive other communications from Roure Personal Training.</span>
+          <span class="checkbox-text">{{ 'home.promotion.privacy.consent' | translate }}</span>
         </label>
       </div>
 
@@ -225,15 +238,15 @@
         <div class="form-actions">
           @if (submitError) {
             <div class="error-message" style="text-align:center;">
-              {{ submitError }}
+              {{ submitError | translate }}
             </div>
           }
           <app-button-primary-glass type="submit" [disabled]="isSubmitting">
             @if (isSubmitting) {
               <span class="loading-spinner"></span>
-              Submitting...
+              {{ 'home.promotion.submitting' | translate }}
             } @else {
-              Submit
+              {{ 'home.promotion.submit' | translate }}
             }
           </app-button-primary-glass>
         </div>

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-testimonials',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './testimonials.component.html',
   styleUrl: './testimonials.component.css'
 })
@@ -26,7 +27,7 @@ export class TestimonialsComponent {
         id: 'caro',
         name: 'Caro Dantas',
         rating: 5,
-        text: "I've never felt stronger and confident! Carlos pushed me to my limits while providing the support and the guidance I needed to succeed. Highly recommended!",
+        textKey: 'home.testimonials.items.caro.text',
         expandedText: [],
         videoUrl: 's2kOo861aSc'
       },
@@ -34,7 +35,7 @@ export class TestimonialsComponent {
         id: 'goncagul',
         name: 'Goncagül',
         rating: 5,
-        text: "Training here helped me regain strength, confidence, and balance after a difficult period in my life. What started as a goal to lose weight became a long-term journey toward feeling healthier and happier.",
+        textKey: 'home.testimonials.items.goncagul.text',
         expandedText: [],
         videoUrl: 'Hnh09wNM5UA'
       },
@@ -42,7 +43,7 @@ export class TestimonialsComponent {
         id: 'marcel',
         name: 'Marcel',
         rating: 5,
-        text: "I've been training here for a few years now, and my programs are always tailored to me. I truly feel I'm growing—not only physically, but mentally as well. It's great that the coaching looks beyond just the body.",
+        textKey: 'home.testimonials.items.marcel.text',
         expandedText: [],
         videoUrl: 'KcxS6cwW-xA'
       },
@@ -50,7 +51,7 @@ export class TestimonialsComponent {
         id: 'jeroen',
         name: 'Jeroen',
         rating: 5,
-        text: "I started training here with a very specific goal: gaining muscle and reducing body fat. Through a clear assessment and a step-by-step training plan, I've been able to work consistently toward my goals. It's hard work, but the results speak for themselves.",
+        textKey: 'home.testimonials.items.jeroen.text',
         expandedText: [],
         videoUrl: 'zDMUZMQL8vA'
       }

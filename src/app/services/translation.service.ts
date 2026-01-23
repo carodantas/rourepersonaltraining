@@ -1,26 +1,40 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, type SupportedLocale } from '../i18n/locales';
 import { headerTranslations } from '../i18n/layout/header.i18n';
+import { footerTranslations } from '../i18n/layout/footer.i18n';
+import { homeTranslations } from '../i18n/pages/home.i18n';
+import { cookieConsentTranslations } from '../i18n/layout/cookie-consent.i18n';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
   private _locale: SupportedLocale = DEFAULT_LOCALE;
+  private readonly _localeChanges$ = new BehaviorSubject<SupportedLocale>(DEFAULT_LOCALE);
 
   private readonly dictionaries: Array<Record<SupportedLocale, Record<string, string>>> = [
-    headerTranslations
+    headerTranslations,
+    footerTranslations,
+    homeTranslations,
+    cookieConsentTranslations
   ];
 
   constructor() {
     this._locale = this.readPersistedLocale() ?? DEFAULT_LOCALE;
+    this._localeChanges$.next(this._locale);
   }
 
   get locale(): SupportedLocale {
     return this._locale;
   }
 
+  get localeChanges$() {
+    return this._localeChanges$.asObservable();
+  }
+
   setLocale(locale: SupportedLocale): void {
     if (this._locale === locale) return;
     this._locale = locale;
+    this._localeChanges$.next(locale);
     try {
       localStorage.setItem(LOCALE_STORAGE_KEY, locale);
     } catch {

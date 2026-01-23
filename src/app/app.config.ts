@@ -7,7 +7,7 @@ import { provideNgcCookieConsent, NgcCookieConsentConfig } from 'ngx-cookieconse
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
-const cookieConfig: NgcCookieConsentConfig = {
+export const baseCookieConfig: NgcCookieConsentConfig = {
   cookie: {
     domain: '' // Deixar vazio usa o domínio atual (ou defina seu domínio específico)
   },
@@ -48,7 +48,7 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideClientHydration(withEventReplay()),
-    provideNgcCookieConsent(cookieConfig),
+    provideNgcCookieConsent(baseCookieConfig),
     Title
   ]
 };
