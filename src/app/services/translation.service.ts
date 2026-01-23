@@ -9,6 +9,10 @@ import { aboutUsTranslations } from '../i18n/pages/about-us.i18n';
 import { methodsTranslations } from '../i18n/pages/methods.i18n';
 import { programsTranslations } from '../i18n/pages/programs.i18n';
 import { blogTranslations } from '../i18n/pages/blog.i18n';
+import { weightLossMuscleMassTranslations } from '../i18n/pages/programs/weight-loss-muscle-mass.i18n';
+import { peakPerformanceTranslations } from '../i18n/pages/programs/peak-performance.i18n';
+import { vitalityLongevityTranslations } from '../i18n/pages/programs/vitality-longevity.i18n';
+import { prenatalPostpartumTranslations } from '../i18n/pages/programs/prenatal-postpartum.i18n';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
@@ -23,7 +27,11 @@ export class TranslationService {
     aboutUsTranslations,
     methodsTranslations,
     programsTranslations,
-    blogTranslations
+    blogTranslations,
+    weightLossMuscleMassTranslations,
+    peakPerformanceTranslations,
+    vitalityLongevityTranslations,
+    prenatalPostpartumTranslations
   ];
 
   constructor() {
