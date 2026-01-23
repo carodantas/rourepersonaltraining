@@ -2,15 +2,17 @@
   <div class="hero-decoration" aria-hidden="true"></div>
   <div class="hero-container">
     <h1 id="hero-title" class="hero-title display-1">
-      FIND A PROGRAM<br />
-      THAT MEETS YOU<br />
-      WHERE YOU ARE
+      {{ 'programs.hero.titleLine1' | translate }}<br />
+      {{ 'programs.hero.titleLine2' | translate }}<br />
+      {{ 'programs.hero.titleLine3' | translate }}
     </h1>
     <p class="hero-subtitle featured-3">
-      Personalized fitness programs designed for your unique goals and lifestyle.
+      {{ 'programs.hero.subtitle' | translate }}
     </p>
     <div class="hero-actions">
-      <app-button-primary-glass type="button" (clicked)="scrollToPrograms()">Explore programs</app-button-primary-glass>
+      <app-button-primary-glass type="button" (clicked)="scrollToPrograms()">
+        {{ 'programs.hero.cta' | translate }}
+      </app-button-primary-glass>
     </div>
   </div>
 </section>

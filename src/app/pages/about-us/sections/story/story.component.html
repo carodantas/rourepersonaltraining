@@ -2,30 +2,20 @@
   <div class="container">
     <div class="story-grid">
       <div class="story-text">
-        <div class="story-kicker small-1">About Roure Personal Training</div>
-        <h3 class="story-heading headline-2">A private personal training studio in Amsterdam East</h3>
+        <div class="story-kicker small-1">{{ 'aboutUs.story.kicker' | translate }}</div>
+        <h3 class="story-heading headline-2">{{ 'aboutUs.story.heading' | translate }}</h3>
         <div class="story-body body-1">
-          <p>
-            At Roure Personal Training, we believe that taking care of your body shouldn’t feel
-            complicated, overwhelming, or disconnected from real life.
-          </p>
-          <p>
-            Life is busy. Work, family, social commitments all compete for your time and energy.
-            Exercise is often the first thing to be postponed, and starting (or restarting) on your
-            own can feel hard.
-          </p>
-          <p>That’s where we come in.</p>
-          <p>
-            We offer personal, structured coaching that makes training approachable, effective, and
-            enjoyable supporting both your physical and mental well-being.
-          </p>
+          <p>{{ 'aboutUs.story.p1' | translate }}</p>
+          <p>{{ 'aboutUs.story.p2' | translate }}</p>
+          <p>{{ 'aboutUs.story.p3' | translate }}</p>
+          <p>{{ 'aboutUs.story.p4' | translate }}</p>
         </div>
       </div>
 
       <div class="story-media" aria-hidden="true">
         <picture>
           <source media="(max-width: 768px)" srcset="images/team.jpg" />
-        <img src="images/team.jpg" alt="Roure Personal Training team" class="story-image" />
+        <img src="images/team.jpg" [attr.alt]="'aboutUs.story.imageAlt' | translate" class="story-image" />
         </picture>
       </div>
     </div>

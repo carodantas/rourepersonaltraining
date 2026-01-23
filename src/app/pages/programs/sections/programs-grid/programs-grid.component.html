@@ -1,8 +1,8 @@
 <section id="programs-grid" class="programs-grid">
   <div class="programs-container">
     <div class="programs-header">
-      <h2 class="programs-title headline-1">Where are you on your fitness journey?</h2>
-      <p class="programs-subtitle body-1">Choose the program that aligns with your goals</p>
+      <h2 class="programs-title headline-1">{{ 'programs.grid.title' | translate }}</h2>
+      <p class="programs-subtitle body-1">{{ 'programs.grid.subtitle' | translate }}</p>
     </div>
     
     <div class="programs-cards">
@@ -12,24 +12,24 @@
         (click)="goToProgram(program)"
         role="link"
         tabindex="0"
-        [attr.aria-label]="'Learn more about ' + program.title"
+        [attr.aria-label]="('programs.grid.learnMoreAboutPrefix' | translate) + ' ' + (program.titleKey | translate)"
       >
         <div class="program-image">
-          <img [src]="program.image" [alt]="program.title" />
+          <img [src]="program.image" [attr.alt]="program.titleKey | translate" />
         </div>
         <div class="program-content">
-          <h3 class="program-title headline-2">{{ program.title }}</h3>
+          <h3 class="program-title headline-2">{{ program.titleKey | translate }}</h3>
           <ul class="program-benefits">
-            <li class="benefit-item body-2" *ngFor="let benefit of program.benefits">
+            <li class="benefit-item body-2" *ngFor="let benefitKey of program.benefitsKeys">
               <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              {{ benefit }}
+              {{ benefitKey | translate }}
             </li>
           </ul>
           <div class="program-actions" (click)="$event.stopPropagation()">
-            <button class="program-button program-button-primary" (click)="bookFreeIntake(program)">Book free intake</button>
-            <button class="program-button program-button-secondary" (click)="goToProgram(program)">Learn more</button>
+            <button class="program-button program-button-primary" (click)="bookFreeIntake(program)">{{ 'programs.grid.bookFreeIntake' | translate }}</button>
+            <button class="program-button program-button-secondary" (click)="goToProgram(program)">{{ 'programs.grid.learnMore' | translate }}</button>
           </div>
         </div>
       </div>

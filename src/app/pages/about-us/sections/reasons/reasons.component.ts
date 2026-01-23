@@ -1,34 +1,35 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 type Reason = {
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   icon: string;
 };
 
 @Component({
   selector: 'app-reasons',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './reasons.component.html',
   styleUrl: './reasons.component.css'
 })
 export class ReasonsComponent {
   reasons: Reason[] = [
     {
-      title: 'Flexible scheduling',
-      description: 'We plan sessions around your availability, adjusting week by week when needed.',
+      titleKey: 'aboutUs.reasons.items.0.title',
+      descriptionKey: 'aboutUs.reasons.items.0.description',
       icon: 'calendar'
     },
     {
-      title: 'Friendly & Supportive',
-      description: 'Supportive and motivating, with guidance that extends beyond the training floor.',
+      titleKey: 'aboutUs.reasons.items.1.title',
+      descriptionKey: 'aboutUs.reasons.items.1.description',
       icon: 'handshake'
     },
     {
-      title: 'Personalized',
-      description: 'Structured coaching, clear planning, and expert support to help you reach your health and fitness goals.',
+      titleKey: 'aboutUs.reasons.items.2.title',
+      descriptionKey: 'aboutUs.reasons.items.2.description',
       icon: 'target'
     }
   ];

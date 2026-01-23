@@ -1,12 +1,15 @@
-import { Component, signal, effect, input } from '@angular/core';
+import { Component, signal, effect, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
+import { TranslationService } from '../../../../services/translation.service';
+import type { BlogCategoryId } from '../../blog.types';
 
 type BlogArticle = {
   id: string;
-  category: string;
-  title: string;
-  excerpt: string;
+  categoryId: BlogCategoryId;
+  titleKey: string;
+  excerptKey: string;
   date: string;
   comments: number;
   image: string;
@@ -16,19 +19,20 @@ type BlogArticle = {
 @Component({
   selector: 'app-articles-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './articles-grid.component.html',
   styleUrl: './articles-grid.component.css'
 })
 export class ArticlesGridComponent {
-  selectedCategory = input<string>('All Articles');
+  private translation = inject(TranslationService);
+  selectedCategory = input<BlogCategoryId>('all');
 
   allArticles: BlogArticle[] = [
     {
       id: '1',
-      category: 'Personal Training',
-      title: 'Why Personal Trainers Are Worth It',
-      excerpt: "In today's fast-paced world, staying fit and healthy can be challenging. Many people turn to personal trainers to help them achieve their fitness goals.",
+      categoryId: 'personal-training',
+      titleKey: 'blog.articles.items.why-personal-trainers-are-worth-it.title',
+      excerptKey: 'blog.articles.items.why-personal-trainers-are-worth-it.excerpt',
       date: 'August 21, 2024',
       comments: 0,
       image: 'images/why-personal-trainers-are-worth-it-card.jpg',
@@ -36,9 +40,9 @@ export class ArticlesGridComponent {
     },
     {
       id: '2',
-      category: 'Tips & Tricks',
-      title: 'How exercise helps to relieve stress',
-      excerpt: "Along with making sure you get enough sleep, regular exercise is the most common advice we hear whenever we go through a stressful period.",
+      categoryId: 'tips-tricks',
+      titleKey: 'blog.articles.items.how-exercise-helps-to-relieve-stress.title',
+      excerptKey: 'blog.articles.items.how-exercise-helps-to-relieve-stress.excerpt',
       date: 'June 29, 2023',
       comments: 0,
       image: 'images/how-exercise-helps-to-relieve-stress-card.jpg',
@@ -46,9 +50,9 @@ export class ArticlesGridComponent {
     },
     {
       id: '3',
-      category: 'Exercises',
-      title: 'Static stretching vs dynamic stretching: an introduction',
-      excerpt: "We all know that stretching is important. However, not all stretches are equal. In this blogpost we'll shed a light on static stretching versus dynamic stretching.",
+      categoryId: 'exercises',
+      titleKey: 'blog.articles.items.static-stretching-vs-dynamic-stretching.title',
+      excerptKey: 'blog.articles.items.static-stretching-vs-dynamic-stretching.excerpt',
       date: 'February 14, 2023',
       comments: 0,
       image: 'images/static-stretching-vs-dynamic-stretching-an-introduction-card.jpg',
@@ -56,9 +60,9 @@ export class ArticlesGridComponent {
     },
     {
       id: '4',
-      category: 'Tips & Tricks',
-      title: 'How much water should you drink before, during and after training?',
-      excerpt: "We probably don't need to tell you how important it is to drink enough water every day. When you're working up a sweat, proper hydration becomes even more crucial.",
+      categoryId: 'tips-tricks',
+      titleKey: 'blog.articles.items.how-much-water-should-you-drink.title',
+      excerptKey: 'blog.articles.items.how-much-water-should-you-drink.excerpt',
       date: 'May 14, 2023',
       comments: 0,
       image: 'images/hydration-before-during-after-workout-card.jpg',
@@ -66,9 +70,9 @@ export class ArticlesGridComponent {
     },
     {
       id: '5',
-      category: 'Exercises',
-      title: 'Mindful exercise: How to bring more mindfulness into your workouts',
-      excerpt: "Let's get one thing straight: there is absolutely nothing wrong with putting in your AirPods and listening to some tunes when you're going for a run.",
+      categoryId: 'exercises',
+      titleKey: 'blog.articles.items.mindful-exercise-mindfulness-workouts.title',
+      excerptKey: 'blog.articles.items.mindful-exercise-mindfulness-workouts.excerpt',
       date: 'January 10, 2023',
       comments: 0,
       image: 'images/mindful-exercise-workout-routine-card.jpg',
@@ -76,9 +80,9 @@ export class ArticlesGridComponent {
     },
     {
       id: '6',
-      category: 'Personal Training',
-      title: '22 fascinating facts about muscles',
-      excerpt: 'Strength training is one of the most effective ways to improve your overall health and fitness. Learn how to build strength safely and effectively.',
+      categoryId: 'personal-training',
+      titleKey: 'blog.articles.items.building-strength-comprehensive-guide.title',
+      excerptKey: 'blog.articles.items.building-strength-comprehensive-guide.excerpt',
       date: 'December 5, 2023',
       comments: 0,
       image: 'images/fascinating-facts-about-muscles-card.jpg',
@@ -92,14 +96,35 @@ export class ArticlesGridComponent {
     // React to category changes
     effect(() => {
       const category = this.selectedCategory();
-      if (category === 'All Articles') {
+      if (category === 'all') {
         this.filteredArticles.set(this.allArticles);
       } else {
         this.filteredArticles.set(
-          this.allArticles.filter(article => article.category === category)
+          this.allArticles.filter(article => article.categoryId === category)
         );
       }
     });
+  }
+
+  categoryLabelKey(categoryId: BlogCategoryId): string {
+    switch (categoryId) {
+      case 'all':
+        return 'blog.categories.all';
+      case 'client-talks':
+        return 'blog.categories.clientTalks';
+      case 'event':
+        return 'blog.categories.event';
+      case 'exercises':
+        return 'blog.categories.exercises';
+      case 'personal-training':
+        return 'blog.categories.personalTraining';
+      case 'recipes':
+        return 'blog.categories.recipes';
+      case 'tips-tricks':
+        return 'blog.categories.tipsTricks';
+      case 'uncategorized':
+        return 'blog.categories.uncategorized';
+    }
   }
 
   openArticle(article: BlogArticle): void {
@@ -108,7 +133,9 @@ export class ArticlesGridComponent {
   }
 
   formatComments(count: number): string {
-    return count === 0 ? 'No Comments' : `${count} Comment${count !== 1 ? 's' : ''}`;
+    if (count === 0) return this.translation.translate('blog.comments.none');
+    const word = count === 1 ? this.translation.translate('blog.comments.one') : this.translation.translate('blog.comments.many');
+    return `${count} ${word}`;
   }
 }
 

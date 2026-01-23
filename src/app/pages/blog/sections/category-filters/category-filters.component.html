@@ -1,15 +1,15 @@
-<section class="category-filters" aria-label="Filter articles by category">
+<section class="category-filters" [attr.aria-label]="'blog.filters.aria' | translate">
   <div class="container">
     <div class="filters-list">
-      @for (category of categories; track category) {
+      @for (category of categories; track category.id) {
         <button
           type="button"
           class="filter-button"
-          [class.active]="selectedCategory() === category"
-          (click)="selectCategory(category)"
-          [attr.aria-pressed]="selectedCategory() === category"
+          [class.active]="selectedCategory() === category.id"
+          (click)="selectCategory(category.id)"
+          [attr.aria-pressed]="selectedCategory() === category.id"
         >
-          {{ category }}
+          {{ category.labelKey | translate }}
         </button>
       }
     </div>

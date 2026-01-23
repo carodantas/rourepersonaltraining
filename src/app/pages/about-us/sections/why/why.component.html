@@ -1,23 +1,20 @@
 <section class="why" aria-labelledby="why-title">
   <div class="container">
-    <div class="why-kicker small-1">Why we do what we do</div>
-    <h2 id="why-title" class="why-title headline-1">Built for long-term progress</h2>
+    <div class="why-kicker small-1">{{ 'aboutUs.why.kicker' | translate }}</div>
+    <h2 id="why-title" class="why-title headline-1">{{ 'aboutUs.why.title' | translate }}</h2>
 
     <div class="content-wrapper">
       <div class="text-content">
         <div class="why-body body-1">
-          <p>
-            We believe in long-term progress, built through consistency, understanding, and guidance
-            that fits your life.
-          </p>
-          <p>Our goal is to help you:</p>
+          <p>{{ 'aboutUs.why.p1' | translate }}</p>
+          <p>{{ 'aboutUs.why.p2' | translate }}</p>
         </div>
 
-        <ul class="why-list strong-1" aria-label="What we help you build">
-          <li>Move better</li>
-          <li>Feel stronger</li>
-          <li>Build habits that last</li>
-          <li>Enjoy the process, not just the outcome</li>
+        <ul class="why-list strong-1" [attr.aria-label]="'aboutUs.why.list.aria' | translate">
+          <li>{{ 'aboutUs.why.list.0' | translate }}</li>
+          <li>{{ 'aboutUs.why.list.1' | translate }}</li>
+          <li>{{ 'aboutUs.why.list.2' | translate }}</li>
+          <li>{{ 'aboutUs.why.list.3' | translate }}</li>
         </ul>
       </div>
 
@@ -28,7 +25,7 @@
               width="100%" 
               height="100%" 
               [src]="videoUrl" 
-              title="Why we do what we do" 
+              [title]="'aboutUs.why.videoTitle' | translate" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowfullscreen>

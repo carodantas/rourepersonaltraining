@@ -1,8 +1,8 @@
 <section id="transformations" class="transformations">
   <div class="transformations-container">
     <div class="transformations-header">
-      <h2 class="transformations-title headline-1">Our approach, explained by our trainers and clients</h2>
-      <p class="transformations-subtitle body-1">See what's possible when you commit to your goals</p>
+      <h2 class="transformations-title headline-1">{{ 'programs.transformations.title' | translate }}</h2>
+      <p class="transformations-subtitle body-1">{{ 'programs.transformations.subtitle' | translate }}</p>
     </div>
     
     <div class="transformations-grid">
@@ -13,7 +13,7 @@
               width="100%" 
               height="100%" 
               [src]="video.safeVideoUrl" 
-              title="Client Testimonial Video" 
+              [title]="'programs.transformations.videoTitle' | translate" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowfullscreen>

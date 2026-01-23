@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SpotlightComponent } from './sections/spotlight/spotlight.component';
 import { CategoryFiltersComponent } from './sections/category-filters/category-filters.component';
 import { ArticlesGridComponent } from './sections/articles-grid/articles-grid.component';
+import type { BlogCategoryId } from './blog.types';
 
 @Component({
   selector: 'app-blog',
@@ -17,9 +18,9 @@ import { ArticlesGridComponent } from './sections/articles-grid/articles-grid.co
   styleUrl: './blog.component.css'
 })
 export class BlogComponent {
-  selectedCategory = signal<string>('All Articles');
+  selectedCategory = signal<BlogCategoryId>('all');
 
-  onCategorySelected(category: string): void {
+  onCategorySelected(category: BlogCategoryId): void {
     this.selectedCategory.set(category);
   }
 }

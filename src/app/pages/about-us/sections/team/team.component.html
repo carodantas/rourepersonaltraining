@@ -1,7 +1,7 @@
 <section class="team" aria-labelledby="team-title">
   <div class="container">
-    <div class="team-kicker small-1">The people behind Roure</div>
-    <h2 id="team-title" class="team-title headline-1">Meet our team</h2>
+    <div class="team-kicker small-1">{{ 'aboutUs.team.kicker' | translate }}</div>
+    <h2 id="team-title" class="team-title headline-1">{{ 'aboutUs.team.title' | translate }}</h2>
 
     <div class="team-grid">
       <article 
@@ -17,8 +17,8 @@
         </div>
         <div class="card-content">
           <h3 class="card-name headline-2">{{ member.name }}</h3>
-          <div class="card-title strong-2">{{ member.title }}</div>
-          <p class="card-bio body-2" [style.white-space]="'pre-line'">{{ member.bio }}</p>
+          <div class="card-title strong-2">{{ member.titleKey | translate }}</div>
+          <p class="card-bio body-2" [style.white-space]="'pre-line'">{{ member.bioKey | translate }}</p>
         </div>
       </article>
     </div>

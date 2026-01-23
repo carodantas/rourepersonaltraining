@@ -3,25 +3,23 @@
     <div class="designed-success-content">
       <!-- Image on Left -->
       <div class="designed-success-image">
-        <img src="images/programs.jpg" alt="Designed for success" class="content-image" />
+        <img src="images/programs.jpg" [attr.alt]="'programs.designedSuccess.imageAlt' | translate" class="content-image" />
       </div>
 
       <!-- Text Content on Right -->
       <div class="designed-success-text">
-        <h2 class="designed-success-title headline-1">Designed for you to succeed</h2>
+        <h2 class="designed-success-title headline-1">{{ 'programs.designedSuccess.title' | translate }}</h2>
         <p class="designed-success-description body-1">
-          Every program is built around your unique needs, goals, and lifestyle. 
-          We don't believe in one-size-fits-all solutions. Your success is our priority, 
-          and we provide everything you need to achieve lasting transformation.
+          {{ 'programs.designedSuccess.description' | translate }}
         </p>
         
         <!-- Benefits List -->
         <ul class="benefits-list">
-          <li class="benefit-item body-2" *ngFor="let benefit of benefits">
+          <li class="benefit-item body-2" *ngFor="let benefitKey of benefitKeys">
             <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            {{ benefit }}
+            {{ benefitKey | translate }}
           </li>
         </ul>
       </div>

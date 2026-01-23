@@ -6,12 +6,12 @@
       [routerLink]="['/blog', spotlightArticle.slug]"
       role="link"
       tabindex="0"
-      [attr.aria-label]="'Read article: ' + spotlightArticle.title"
+      [attr.aria-label]="('blog.spotlight.readAriaPrefix' | translate) + ' ' + (spotlightArticle.titleKey | translate)"
     >
       <div class="spotlight-overlay"></div>
       <div class="spotlight-content">
-        <span class="spotlight-category small-1">{{ spotlightArticle.category }}</span>
-        <h1 id="spotlight-title" class="spotlight-title headline-1">{{ spotlightArticle.title }}</h1>
+        <span class="spotlight-category small-1">{{ categoryLabelKey(spotlightArticle.categoryId) | translate }}</span>
+        <h1 id="spotlight-title" class="spotlight-title headline-1">{{ spotlightArticle.titleKey | translate }}</h1>
         <p class="spotlight-date body-2">{{ spotlightArticle.date }}</p>
       </div>
     </article>
