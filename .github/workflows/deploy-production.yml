@@ -103,7 +103,8 @@ jobs:
            find . -mindepth 1 -maxdepth 1 ! -name 'staging' ! -name '.well-known' ! -name 'api' ! -name 'dashboard' -exec rm -rf {} + &&
            rm -rf '$REMOTE_ROOT/dashboard' &&
            mkdir -p '$REMOTE_ROOT/dashboard' '$REMOTE_ROOT/api' &&
-           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads'"
+           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads' &&
+           mkdir -p '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads'"
 
       - name: Upload site to production via SCP
         run: >
@@ -130,13 +131,18 @@ jobs:
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/api/.htaccess"
 
-          # Seed content/users only if missing (production data) - stored under ../_private
+          # Seed content/users only if missing.
+          # We seed both locations:
+          # - ../_private (preferred)
+          # - ./_private inside public_html (fallback for open_basedir hosts)
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/content.seed.json"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/users.seed.json"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/content.seed.json"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/users.seed.json"
 
           sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" "
             set -e;
-            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads';
+            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads' '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads';
             if [ ! -f '$REMOTE_ROOT/../_private/content.json' ]; then
               mv '$REMOTE_ROOT/../_private/content.seed.json' '$REMOTE_ROOT/../_private/content.json';
             else
@@ -146,6 +152,17 @@ jobs:
               mv '$REMOTE_ROOT/../_private/users.seed.json' '$REMOTE_ROOT/../_private/users.json';
             else
               rm -f '$REMOTE_ROOT/../_private/users.seed.json';
+            fi
+
+            if [ ! -f '$REMOTE_ROOT/_private/content.json' ]; then
+              mv '$REMOTE_ROOT/_private/content.seed.json' '$REMOTE_ROOT/_private/content.json';
+            else
+              rm -f '$REMOTE_ROOT/_private/content.seed.json';
+            fi
+            if [ ! -f '$REMOTE_ROOT/_private/users.json' ]; then
+              mv '$REMOTE_ROOT/_private/users.seed.json' '$REMOTE_ROOT/_private/users.json';
+            else
+              rm -f '$REMOTE_ROOT/_private/users.seed.json';
             fi
           "
 

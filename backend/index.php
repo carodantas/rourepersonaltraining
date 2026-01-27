@@ -131,13 +131,56 @@ $domainRoot = null;
 
 $isStaging = isset($GLOBALS['HOTEL_MOUNT_PREFIX']) && $GLOBALS['HOTEL_MOUNT_PREFIX'] === '/staging/api';
 
-$privateDir = $domainRoot . DIRECTORY_SEPARATOR . '_private';
-$contentPath = $privateDir . DIRECTORY_SEPARATOR . ($isStaging ? 'content-staging.json' : 'content.json');
+function resolve_private_dir($domainRoot, $docRoot) {
+  $candidates = array();
+  if (is_string($domainRoot) && $domainRoot !== '') $candidates[] = $domainRoot . DIRECTORY_SEPARATOR . '_private';
+  // Fallback for hosts with open_basedir restrictions: keep _private inside public_html (still can be protected via htaccess)
+  if (is_string($docRoot) && $docRoot !== '') $candidates[] = rtrim($docRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '_private';
+
+  foreach ($candidates as $d) {
+    if (is_string($d) && $d !== '' && is_dir($d)) return $d;
+  }
+  // Default to first candidate even if missing (we can mkdir on write operations)
+  return count($candidates) > 0 ? $candidates[0] : (__DIR__ . DIRECTORY_SEPARATOR . '_private');
+}
+
+function resolve_content_path($privateDir, $isStaging) {
+  $file = $isStaging ? 'content-staging.json' : 'content.json';
+  return rtrim($privateDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
+}
+
+function resolve_users_path($privateDir, $isStaging) {
+  $file = $isStaging ? 'users-staging.json' : 'users.json';
+  return rtrim($privateDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
+}
+
+function resolve_uploads_dir($domainRoot, $docRoot, $isStaging) {
+  $folder = $isStaging ? 'uploads-staging' : 'uploads';
+  $candidates = array();
+  if (is_string($domainRoot) && $domainRoot !== '') {
+    $candidates[] = $domainRoot . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $folder;
+  }
+  // Fallback inside public_html/images (if host forbids reading outside docroot)
+  if (is_string($docRoot) && $docRoot !== '') {
+    $candidates[] = rtrim($docRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $folder;
+  }
+  foreach ($candidates as $d) {
+    if (is_string($d) && $d !== '' && is_dir($d)) return $d;
+  }
+  return count($candidates) > 0 ? $candidates[0] : (__DIR__ . DIRECTORY_SEPARATOR . 'uploads');
+}
+
+$docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
+$docRootReal = ($docRoot !== '') ? realpath($docRoot) : false;
+if ($docRootReal !== false && is_dir($docRootReal)) $docRoot = $docRootReal;
+
+$privateDir = resolve_private_dir($domainRoot, $docRoot);
+$contentPath = resolve_content_path($privateDir, $isStaging);
 
 // Keep admin users isolated too (recommended)
-$usersPath = $privateDir . DIRECTORY_SEPARATOR . ($isStaging ? 'users-staging.json' : 'users.json');
+$usersPath = resolve_users_path($privateDir, $isStaging);
 
-$uploadsDir = $domainRoot . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . ($isStaging ? 'uploads-staging' : 'uploads');
+$uploadsDir = resolve_uploads_dir($domainRoot, $docRoot, $isStaging);
 
 // Optional shared storage under ../midias/site (recommended for production)
 // - uploads: store images in a persistent shared folder

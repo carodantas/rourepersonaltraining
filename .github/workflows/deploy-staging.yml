@@ -104,7 +104,8 @@ jobs:
            rm -rf '$REMOTE_ROOT/staging/dashboard' &&
            find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 ! -name 'api' -exec rm -rf {} + &&
            mkdir -p '$REMOTE_ROOT/staging/dashboard' &&
-           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging'"
+           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging' &&
+           mkdir -p '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads-staging'"
 
       - name: Upload site to staging via SCP
         run: >
@@ -131,13 +132,19 @@ jobs:
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/.htaccess"
 
-          # Seed content/users only if missing (isolated staging data) - stored under ../_private
+          # Seed content/users only if missing (isolated staging data).
+          # We seed both locations:
+          # - ../_private (preferred)
+          # - ./_private inside public_html (fallback for open_basedir hosts)
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/content-staging.seed.json"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/users-staging.seed.json"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/content-staging.seed.json"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/users-staging.seed.json"
 
           sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" "
             set -e;
-            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging';
+            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging' '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads-staging';
+
             if [ ! -f '$REMOTE_ROOT/../_private/content-staging.json' ]; then
               mv '$REMOTE_ROOT/../_private/content-staging.seed.json' '$REMOTE_ROOT/../_private/content-staging.json';
             else
@@ -147,5 +154,16 @@ jobs:
               mv '$REMOTE_ROOT/../_private/users-staging.seed.json' '$REMOTE_ROOT/../_private/users-staging.json';
             else
               rm -f '$REMOTE_ROOT/../_private/users-staging.seed.json';
+            fi
+
+            if [ ! -f '$REMOTE_ROOT/_private/content-staging.json' ]; then
+              mv '$REMOTE_ROOT/_private/content-staging.seed.json' '$REMOTE_ROOT/_private/content-staging.json';
+            else
+              rm -f '$REMOTE_ROOT/_private/content-staging.seed.json';
+            fi
+            if [ ! -f '$REMOTE_ROOT/_private/users-staging.json' ]; then
+              mv '$REMOTE_ROOT/_private/users-staging.seed.json' '$REMOTE_ROOT/_private/users-staging.json';
+            else
+              rm -f '$REMOTE_ROOT/_private/users-staging.seed.json';
             fi
           "
