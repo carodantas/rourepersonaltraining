@@ -1,0 +1,52 @@
+@if (loading()) {
+  <div class="card section">Loading…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <h2>Users</h2>
+        <p class="muted">Create, edit, or disable portal access.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="refresh()">Reload</button>
+        <button class="btn btn-primary" type="button" (click)="create()">New user</button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Search by username or name…"
+        [value]="query()"
+        (input)="onQueryInput($event)"
+      />
+    </div>
+
+    <div class="items">
+      @for (u of filtered(); track u.id) {
+        <button class="item" type="button" (click)="edit(u.id)">
+          <div class="meta">
+            <div class="name">{{ u.username }}</div>
+            @if (u.name) {
+              <div class="muted">{{ u.name }}</div>
+            }
+          </div>
+          <div class="right">
+            <div class="pill">{{ u.active === false ? 'Inactive' : 'Active' }}</div>
+            @if (u.role) {
+              <div class="pill">{{ u.role }}</div>
+            }
+            <div class="pill">Edit</div>
+          </div>
+        </button>
+      } @empty {
+        <div class="empty muted">No users found.</div>
+      }
+    </div>
+  </section>
+}
+

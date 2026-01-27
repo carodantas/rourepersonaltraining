@@ -1,0 +1,24 @@
+<section class="articles-grid-section" [attr.aria-label]="'blog.articlesAria' | translate">
+  <div class="container">
+    <div class="articles-grid">
+      @for (article of articles(); track article.id) {
+        <article class="article-card" (click)="openArticle(article)">
+          <div class="article-image">
+            <img [src]="article.cardImage" [alt]="article.title" />
+          </div>
+          <div class="article-content">
+            <span class="article-category small-1">{{ article.categoryLabel }}</span>
+            <h2 class="article-title headline-2">{{ article.title }}</h2>
+            <p class="article-excerpt body-2">{{ article.excerpt }}</p>
+            <div class="article-meta body-2">
+              <span class="article-date">{{ article.dateLabel }}</span>
+              <span class="article-separator">///</span>
+              <span class="article-comments">{{ formatComments(article.comments) }}</span>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+

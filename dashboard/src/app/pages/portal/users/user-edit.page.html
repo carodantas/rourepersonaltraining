@@ -1,0 +1,88 @@
+@if (loading()) {
+  <div class="card section">Loading…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Back to list</a>
+        <h2>{{ isNew() ? 'New user' : 'Edit user' }}</h2>
+        <p class="muted">Create access and reset passwords safely.</p>
+      </div>
+
+      <div class="actions">
+        @if (!isNew()) {
+          <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+            Delete
+          </button>
+        }
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="form-grid" [formGroup]="form">
+      <label>
+        <span>Status *</span>
+        <select formControlName="active">
+          <option [ngValue]="true">Active</option>
+          <option [ngValue]="false">Inactive</option>
+        </select>
+      </label>
+
+      <div class="two">
+        <label>
+          <span>Username *</span>
+          <input type="text" formControlName="username" placeholder="e.g. admin2" />
+        </label>
+
+        <label>
+          <span>Name (optional)</span>
+          <input type="text" formControlName="name" placeholder="e.g. Gabriel" />
+        </label>
+      </div>
+
+      <div class="two">
+        <label>
+          <span>{{ isNew() ? 'Password *' : 'New password (optional)' }}</span>
+          <input type="password" formControlName="password" placeholder="Minimum 6 characters" />
+        </label>
+
+        <label>
+          <span>{{ isNew() ? 'Confirm password *' : 'Confirm new password' }}</span>
+          <input type="password" formControlName="passwordConfirm" placeholder="Repeat password" />
+        </label>
+      </div>
+    </form>
+
+    <div class="form-actions">
+      @if (!isNew()) {
+        <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+          Delete
+        </button>
+      }
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Saving…' : 'Save' }}
+      </button>
+    </div>
+
+    <app-confirm-dialog
+      [open]="confirmDeleteOpen()"
+      title="Delete user?"
+      message="Are you sure you want to delete this user?"
+      hint="This action is irreversible."
+      confirmText="Delete"
+      cancelText="Cancel"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    />
+  </section>
+}
+

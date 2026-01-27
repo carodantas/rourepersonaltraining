@@ -1,0 +1,138 @@
+.page {
+  min-height: 100dvh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--navy);
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.container {
+  padding: 16px 24px 32px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--navy);
+}
+
+textarea {
+  width: 100%;
+  min-height: 60dvh;
+  resize: vertical;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.35;
+  outline: none;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--navy);
+}
+
+.alert {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 12px;
+}
+
+.alert.error {
+  border-color: rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.06);
+  color: #991b1b;
+}
+
+.alert.info {
+  border-color: rgba(29, 78, 216, 0.25);
+  background: rgba(29, 78, 216, 0.06);
+  color: #1e3a8a;
+}
+
+.muted {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+code {
+  background: rgba(15, 23, 42, 0.06);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.link {
+  color: var(--primary);
+  font-size: 12px;
+  padding: 10px 6px;
+  text-decoration: none;
+}
+

@@ -1,0 +1,359 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Voltar para lista</a>
+        <h2>{{ isNew() ? 'Novo quarto' : 'Editar quarto' }}</h2>
+        <p class="muted">Edite os dados do quarto e salve. Upload de imagens aceita múltiplas (máx. 500KB).</p>
+      </div>
+
+      <div class="actions">
+        @if (!isNew()) {
+          <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+            Excluir
+          </button>
+        }
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Salvando…' : 'Salvar' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="form-grid" [formGroup]="form">
+      <label>
+        <span>Status *</span>
+        <select formControlName="active">
+          <option [ngValue]="true">Ativo</option>
+          <option [ngValue]="false">Inativo</option>
+        </select>
+      </label>
+
+      <div class="two">
+        <label>
+          <span>ID *</span>
+          <input type="text" formControlName="id" />
+        </label>
+        <label>
+          <span>Slug</span>
+          <input type="text" formControlName="slug" />
+        </label>
+      </div>
+
+      <div class="two">
+        <label>
+          <span>Hóspedes</span>
+          <input type="number" min="1" formControlName="guests" />
+        </label>
+        <label>
+          <span>Preço (R$)</span>
+          <input type="number" min="0" formControlName="priceAmount" />
+        </label>
+      </div>
+
+      <label>
+        <span>URL da Central de Reservas (opcional)</span>
+        <input type="text" formControlName="bookingUrl" placeholder="https://central.exemplo.com/quarto/123" />
+      </label>
+
+      <div class="two">
+        <label>
+          <span>Área (m²)</span>
+          <input type="text" formControlName="area" placeholder="Ex.: 35" />
+        </label>
+        <div></div>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Idioma do conteúdo</div>
+            <div class="muted">PT é o padrão. EN/ES traduzem apenas textos (ícones e ordem vêm do PT).</div>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="lang-tabs">
+            <button class="lang-tab" type="button" [class.active]="lang() === 'pt'" (click)="setLang('pt')">
+              Português (PT)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'en'" (click)="setLang('en')">
+              Inglês (EN)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'es'" (click)="setLang('es')">
+              Espanhol (ES)
+            </button>
+          </div>
+
+          @if (lang() === 'pt') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (PT)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome *</span>
+                <input type="text" formControlName="name" (blur)="generateIdAndSlugFromName()" />
+              </label>
+              <label>
+                <span>Vista</span>
+                <input type="text" formControlName="view" placeholder="Ex.: Vista Mar" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="4" formControlName="description"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Amenidades (PT)</div>
+                    <div class="muted">Escolha um ícone e preencha o texto.</div>
+                  </div>
+                  <button class="btn btn-secondary" type="button" (click)="addAmenity()">Adicionar item</button>
+                </div>
+                <div class="rows">
+                  @for (c of amenityControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-picker">
+                        <button
+                          class="btn btn-secondary icon-btn"
+                          type="button"
+                          (click)="toggleAmenityIconMenu($index)"
+                          aria-label="Escolher ícone"
+                          title="Escolher ícone"
+                        >
+                          <i [class]="faIconClass(amenityIconControl(c).value)" aria-hidden="true"></i>
+                        </button>
+
+                        @if (openAmenityIconMenuIndex() === $index) {
+                          <div class="icon-menu" role="listbox" aria-label="Ícones">
+                            @for (opt of amenityIconOptions; track opt.value) {
+                              <button
+                                class="icon-option"
+                                type="button"
+                                (click)="selectAmenityIcon(c, opt.value)"
+                                [attr.title]="opt.label"
+                                [attr.aria-label]="opt.label"
+                              >
+                                <i [class]="faIconClass(opt.value)" aria-hidden="true"></i>
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+
+                      <input [formControl]="amenityTextControl(c)" type="text" placeholder="Digite a amenidade…" />
+                      <button class="icon-danger" type="button" (click)="removeAmenity($index)" aria-label="Remover">
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Destaques (PT)</div>
+                    <div class="muted">Lista de benefícios (ex.: café da manhã incluso).</div>
+                  </div>
+                  <button class="btn btn-secondary" type="button" (click)="addFeature()">Adicionar item</button>
+                </div>
+                <div class="rows">
+                  @for (c of featureControls(); track $index) {
+                    <div class="row">
+                      <input [formControl]="c" type="text" placeholder="Digite um destaque…" />
+                      <button class="icon-danger" type="button" (click)="removeFeature($index)" aria-label="Remover">
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (lang() === 'en') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (EN)</div>
+              <div class="muted" style="margin-top: 6px;">Os itens seguem o PT. Aqui você traduz somente os textos.</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEnName" />
+              </label>
+              <label>
+                <span>Vista</span>
+                <input type="text" formControlName="i18nEnView" placeholder="Ex.: Sea view" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="3" formControlName="i18nEnDescription"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Amenidades (EN)</div>
+                    <div class="muted">Ícones vêm do PT.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of enAmenityTextControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-btn btn btn-secondary" style="pointer-events: none;">
+                        <i [class]="faIconClass(amenityIconAt($index))" aria-hidden="true"></i>
+                      </div>
+                      <input [formControl]="t" type="text" placeholder="Amenity in English…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Destaques (EN)</div>
+                    <div class="muted">Lista em inglês.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of enFeatureTextControls(); track $index) {
+                    <div class="row">
+                      <input [formControl]="t" type="text" placeholder="Feature in English…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (lang() === 'es') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (ES)</div>
+              <div class="muted" style="margin-top: 6px;">Os itens seguem o PT. Aqui você traduz somente os textos.</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEsName" />
+              </label>
+              <label>
+                <span>Vista</span>
+                <input type="text" formControlName="i18nEsView" placeholder="Ex.: Vista al mar" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="3" formControlName="i18nEsDescription"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Amenidades (ES)</div>
+                    <div class="muted">Ícones vêm do PT.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of esAmenityTextControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-btn btn btn-secondary" style="pointer-events: none;">
+                        <i [class]="faIconClass(amenityIconAt($index))" aria-hidden="true"></i>
+                      </div>
+                      <input [formControl]="t" type="text" placeholder="Amenidad en Español…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Destaques (ES)</div>
+                    <div class="muted">Lista em espanhol.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of esFeatureTextControls(); track $index) {
+                    <div class="row">
+                      <input [formControl]="t" type="text" placeholder="Destacado en Español…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Imagens</div>
+            <div class="muted">Adicione imagens (upload) e remova pela lista.</div>
+          </div>
+          <div class="upload">
+            <button class="btn btn-secondary" type="button" [disabled]="uploading()" (click)="openImagePicker(imagesInput)">
+              Adicionar imagens
+            </button>
+            <input
+              #imagesInput
+              class="file-hidden"
+              type="file"
+              accept="image/*"
+              multiple
+              (change)="pickFiles($event)"
+            />
+          </div>
+        </div>
+
+        @if (images.controls.length) {
+          <div class="image-list">
+            @for (c of imageControls(); track $index) {
+              <div class="image-item">
+                <div class="thumb">
+                  <img [src]="c.value" alt="" />
+                </div>
+                <button class="icon-danger" type="button" (click)="removeImage($index)" aria-label="Remover imagem">
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty muted">Nenhuma imagem adicionada ainda.</div>
+        }
+      </div>
+    </form>
+
+    <div class="form-actions">
+      @if (!isNew()) {
+        <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+          Excluir
+        </button>
+      }
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Salvando…' : 'Salvar' }}
+      </button>
+    </div>
+
+    <app-confirm-dialog
+      [open]="confirmDeleteOpen()"
+      title="Excluir quarto?"
+      message="Você tem certeza que deseja excluir este quarto?"
+      hint="Essa ação é irreversível."
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    />
+  </section>
+}
+

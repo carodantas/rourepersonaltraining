@@ -130,6 +130,33 @@ npm run serve:ssr:staging
 
 If you are deploying behind a reverse-proxy, make sure requests to `/staging/*` reach this server, and your proxy does not rewrite away the `/staging` prefix (or set `BASE_PATH=/staging` accordingly).
 
+## Deploy URL layout (production + staging)
+
+This repo is designed to be deployed with these paths on the same domain:
+
+- Production:
+  - `/` (site)
+  - `/api` (PHP backend)
+  - `/dashboard` (CMS dashboard)
+- Staging:
+  - `/staging` (site)
+  - `/staging/api` (PHP backend)
+  - `/staging/dashboard` (CMS dashboard)
+
+### Quick post-deploy verification
+
+1. API is reachable:
+   - `GET /api/content.json`
+   - `GET /staging/api/content.json` (should be different from prod if you keep staging isolated)
+2. Dashboard loads:
+   - `/dashboard`
+   - `/staging/dashboard`
+3. Login + upload works in both environments:
+   - Login cookie is scoped correctly (prod uses `/api`, staging uses `/staging/api`)
+   - Upload returns the correct URL prefix:
+     - prod: `/api/uploads/...`
+     - staging: `/staging/api/uploads/...`
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

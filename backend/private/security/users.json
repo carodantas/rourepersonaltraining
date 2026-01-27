@@ -1,0 +1,14 @@
+{
+    "users": [
+        {
+            "username": "admin",
+            "role": "admin",
+            "passwordHash": "$2y$12$UpFRywPbzs2ICU72yJ1ma.QwlNtFWOR0O9PoeVD2BCZE1mY5bb3gi",
+            "id": "u_13ad8aa3763c602e",
+            "active": true,
+            "name": "",
+            "createdAt": "2026-01-16T20:52:16+00:00",
+            "updatedAt": "2026-01-16T20:52:16+00:00"
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+@if (loading()) {
+  <div class="card section">Loading…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <h2>Posts</h2>
+        <p class="muted">Select a post to edit, or create a new one.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="refresh()">Reload</button>
+        <button class="btn btn-primary" type="button" (click)="create()">New post</button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Search by title or slug…"
+        [value]="query()"
+        (input)="onQueryInput($event)"
+      />
+    </div>
+
+    <div class="items">
+      @for (p of filtered(); track p.id) {
+        <button class="item" type="button" (click)="edit(p.id)">
+          <div class="thumb">
+            <img [src]="p.cardImage || '/images/sem-imagem.jpg'" alt="" />
+          </div>
+          <div class="meta">
+            <div class="name">{{ p.title }}</div>
+            <div class="muted mono">{{ p.slug }}</div>
+          </div>
+          <div class="right">
+            <div class="pill">{{ statusLabel(p) }}</div>
+            <div class="pill">Edit</div>
+          </div>
+        </button>
+      } @empty {
+        <div class="empty muted">No posts found.</div>
+      }
+    </div>
+  </section>
+}
+

@@ -1,0 +1,47 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <h2>Cardápio</h2>
+        <p class="muted">Cadastre categorias e subcategorias, e depois os itens (nome, preço, descrição e status).</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="refresh()">Recarregar</button>
+        <button class="btn btn-primary" type="button" (click)="createCategory()">Nova categoria</button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Buscar por nome ou ID…"
+        [value]="query()"
+        (input)="onQueryInput($event)"
+      />
+    </div>
+
+    <div class="items">
+      @for (c of filtered(); track c.id) {
+        <button class="item" type="button" (click)="editCategory(c.id)">
+          <div class="meta">
+            <div class="name">{{ c.name }}</div>
+            <div class="muted mono">{{ c.id }}</div>
+          </div>
+          <div class="right">
+            <div class="pill">{{ c.subcategories.length }} sub</div>
+            <div class="pill">Editar</div>
+          </div>
+        </button>
+      } @empty {
+        <div class="empty muted">Nenhuma categoria cadastrada ainda.</div>
+      }
+    </div>
+  </section>
+}
+

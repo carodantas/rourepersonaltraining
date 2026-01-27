@@ -1,0 +1,269 @@
+@if (loading()) {
+  <div class="card section">Loading…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Back to posts</a>
+        <h2>{{ isNew() ? 'New post' : 'Edit post' }}</h2>
+        <p class="muted">Edit Dutch base + English translation. Save updates the shared <code>content.json</code>.</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="grid" [formGroup]="form">
+      <section class="card inner">
+        <h3>Meta</h3>
+
+        <div class="form-grid">
+          <label>
+            <span>Slug *</span>
+            <input type="text" formControlName="slug" (blur)="normalizeSlug()" placeholder="e.g. mindful-exercise-mindfulness-workouts" />
+          </label>
+
+          <label>
+            <span>Status</span>
+            <select formControlName="status">
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Published date</span>
+            <input type="date" formControlName="publishedDate" />
+          </label>
+
+          <label>
+            <span>Category</span>
+            <select formControlName="categoryId">
+              <option value="">(none)</option>
+              @for (c of categories(); track c.id) {
+                <option [value]="c.id">{{ c.name }}</option>
+              }
+            </select>
+          </label>
+        </div>
+
+        <div class="two">
+          <div class="upload-card" (dragover)="onDragOver($event)" (drop)="onDropFile($event, 'cardImage')">
+            <div class="upload-header">
+              <div>
+                <label class="label">Card image</label>
+                <p class="hint muted">Used in the posts list and spotlight background.</p>
+              </div>
+            </div>
+
+            <div class="upload-preview">
+              <img [src]="form.controls.cardImage.value || '/images/sem-imagem.jpg'" alt="Card preview" />
+            </div>
+
+            <div class="upload-actions">
+              <input
+                #cardFile
+                class="file-input"
+                type="file"
+                accept="image/*"
+                (change)="onFilePicked($event, 'cardImage')"
+              />
+              <button class="btn btn-secondary" type="button" (click)="cardFile.click()" [disabled]="uploading()">
+                <i class="fa fa-upload"></i>
+                {{ uploading() ? 'Uploading…' : 'Upload' }}
+              </button>
+              <button
+                class="btn btn-danger"
+                type="button"
+                (click)="clearImage('cardImage')"
+                [disabled]="uploading() || !form.controls.cardImage.value"
+              >
+                <i class="fa fa-times"></i>
+                Clear
+              </button>
+            </div>
+
+            <p class="upload-hint muted">Drag & drop an image here, or click Upload.</p>
+          </div>
+
+          <div class="upload-card" (dragover)="onDragOver($event)" (drop)="onDropFile($event, 'heroImage')">
+            <div class="upload-header">
+              <div>
+                <label class="label">Hero image</label>
+                <p class="hint muted">Used inside the post page header.</p>
+              </div>
+            </div>
+
+            <div class="upload-preview">
+              <img [src]="form.controls.heroImage.value || '/images/sem-imagem.jpg'" alt="Hero preview" />
+            </div>
+
+            <div class="upload-actions">
+              <input
+                #heroFile
+                class="file-input"
+                type="file"
+                accept="image/*"
+                (change)="onFilePicked($event, 'heroImage')"
+              />
+              <button class="btn btn-secondary" type="button" (click)="heroFile.click()" [disabled]="uploading()">
+                <i class="fa fa-upload"></i>
+                {{ uploading() ? 'Uploading…' : 'Upload' }}
+              </button>
+              <button
+                class="btn btn-danger"
+                type="button"
+                (click)="clearImage('heroImage')"
+                [disabled]="uploading() || !form.controls.heroImage.value"
+              >
+                <i class="fa fa-times"></i>
+                Clear
+              </button>
+            </div>
+
+            <p class="upload-hint muted">Drag & drop an image here, or click Upload.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card inner">
+        <h3>Content</h3>
+
+        <div class="lang-tabs">
+          <button class="lang-tab" type="button" [class.active]="activeTab() === 'nl'" (click)="activeTab.set('nl')">
+            NL
+          </button>
+          <button class="lang-tab" type="button" [class.active]="activeTab() === 'en'" (click)="activeTab.set('en')">
+            EN
+          </button>
+        </div>
+
+        @if (activeTab() === 'nl') {
+          <div class="tab-content">
+            <div class="form-grid">
+              <label>
+                <span>Title *</span>
+                <input type="text" formControlName="titleNl" placeholder="Enter Dutch title" />
+              </label>
+              <label>
+                <span>Excerpt</span>
+                <textarea formControlName="excerptNl" rows="2" placeholder="Brief summary in Dutch"></textarea>
+              </label>
+              <label>
+                <span>Introduction *</span>
+                <textarea formControlName="introNl" rows="4" placeholder="Opening paragraph in Dutch"></textarea>
+              </label>
+              <div class="two">
+                <label>
+                  <span>Conclusion</span>
+                  <textarea formControlName="conclusionNl" rows="2" placeholder="Closing thoughts in Dutch"></textarea>
+                </label>
+                <label>
+                  <span>Call to action</span>
+                  <textarea formControlName="ctaNl" rows="2" placeholder="E.g. 'Share your experiences!'"></textarea>
+                </label>
+              </div>
+            </div>
+
+            <div class="sections" formArrayName="sectionsNl">
+              <div class="sections-head">
+                <h4>Sections</h4>
+                <button class="btn btn-secondary" type="button" (click)="addSection('nl')">Add section</button>
+              </div>
+
+              @for (s of sectionsNl().controls; track $index) {
+                <div class="section-card" [formGroupName]="$index">
+                  <div class="section-actions">
+                    <div class="muted mono">#{{ $index + 1 }}</div>
+                    <button class="btn btn-danger" type="button" (click)="removeSection('nl', $index)">Remove</button>
+                  </div>
+                  <div class="form-grid">
+                    <label>
+                      <span>Section title *</span>
+                      <input type="text" formControlName="title" placeholder="Section heading" />
+                    </label>
+                    <label>
+                      <span>Body *</span>
+                      <textarea formControlName="body" rows="4" placeholder="Section content"></textarea>
+                    </label>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (activeTab() === 'en') {
+          <div class="tab-content">
+            <div class="form-grid">
+              <label>
+                <span>Title *</span>
+                <input type="text" formControlName="titleEn" placeholder="Enter English title" />
+              </label>
+              <label>
+                <span>Excerpt</span>
+                <textarea formControlName="excerptEn" rows="2" placeholder="Brief summary in English"></textarea>
+              </label>
+              <label>
+                <span>Introduction *</span>
+                <textarea formControlName="introEn" rows="4" placeholder="Opening paragraph in English"></textarea>
+              </label>
+              <div class="two">
+                <label>
+                  <span>Conclusion</span>
+                  <textarea formControlName="conclusionEn" rows="2" placeholder="Closing thoughts in English"></textarea>
+                </label>
+                <label>
+                  <span>Call to action</span>
+                  <textarea formControlName="ctaEn" rows="2" placeholder="E.g. 'Share your experiences!'"></textarea>
+                </label>
+              </div>
+            </div>
+
+            <div class="sections" formArrayName="sectionsEn">
+              <div class="sections-head">
+                <h4>Sections</h4>
+                <p class="muted hint">Sections mirror the Dutch structure. Add or remove sections in the NL tab.</p>
+              </div>
+
+              @for (s of sectionsEn().controls; track $index) {
+                <div class="section-card" [formGroupName]="$index">
+                  <div class="section-actions">
+                    <div class="muted mono">#{{ $index + 1 }}</div>
+                  </div>
+                  <div class="form-grid">
+                    <label>
+                      <span>Section title *</span>
+                      <input type="text" formControlName="title" placeholder="Section heading" />
+                    </label>
+                    <label>
+                      <span>Body *</span>
+                      <textarea formControlName="body" rows="4" placeholder="Section content"></textarea>
+                    </label>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </section>
+    </form>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Saving…' : 'Save' }}
+      </button>
+    </div>
+  </section>
+}
+

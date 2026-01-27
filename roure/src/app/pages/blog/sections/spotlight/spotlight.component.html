@@ -1,0 +1,22 @@
+<section class="spotlight" aria-labelledby="spotlight-title">
+  <div class="container">
+    @if (spotlightArticle()) {
+      <article 
+        class="spotlight-card" 
+        [style.background-image]="'url(' + (spotlightArticle()!.cardImage) + ')'"
+        [routerLink]="['/blog', spotlightArticle()!.slug]"
+        role="link"
+        tabindex="0"
+        [attr.aria-label]="'Read article: ' + spotlightArticle()!.title"
+      >
+        <div class="spotlight-overlay"></div>
+        <div class="spotlight-content">
+          <span class="spotlight-category small-1">{{ spotlightArticle()!.categoryLabel }}</span>
+          <h1 id="spotlight-title" class="spotlight-title headline-1">{{ spotlightArticle()!.title }}</h1>
+          <p class="spotlight-date body-2">{{ spotlightArticle()!.dateLabel }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+

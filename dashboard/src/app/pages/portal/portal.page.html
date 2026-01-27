@@ -1,0 +1,35 @@
+<div class="portal">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">R</div>
+      <div class="titles">
+        <div class="name">Roure Blog</div>
+        <div class="subtitle muted">Admin dashboard</div>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <a class="link" routerLink="/advanced/json">Advanced</a>
+      <button class="btn btn-secondary" type="button" (click)="logout()">Log out</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <div class="container tabs-inner">
+      <a class="tab" routerLink="posts" routerLinkActive="active">Posts</a>
+      <a class="tab" routerLink="categories" routerLinkActive="active">Categories</a>
+      <a class="tab" routerLink="users" routerLinkActive="active">Users</a>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="container">
+      @if (checkingSession()) {
+        <div class="card loading">Loading…</div>
+      } @else {
+        <router-outlet />
+      }
+    </div>
+  </main>
+</div>
+

@@ -1,0 +1,143 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Voltar para categorias</a>
+        <h2>{{ isNew() ? 'Nova categoria' : 'Editar categoria' }}</h2>
+        <p class="muted">Cadastre subcategorias para depois inserir itens.</p>
+      </div>
+
+      <div class="actions">
+        @if (!isNew()) {
+          <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+            Excluir
+          </button>
+        }
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Salvando…' : 'Salvar' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="form-grid" [formGroup]="form">
+      <label>
+        <span>ID *</span>
+        <input type="text" formControlName="id" />
+      </label>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Idioma do conteúdo</div>
+            <div class="muted">PT é o padrão. EN/ES traduzem apenas o nome da categoria.</div>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="lang-tabs">
+            <button class="lang-tab" type="button" [class.active]="lang() === 'pt'" (click)="setLang('pt')">
+              Português (PT)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'en'" (click)="setLang('en')">
+              Inglês (EN)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'es'" (click)="setLang('es')">
+              Espanhol (ES)
+            </button>
+          </div>
+
+          @if (lang() === 'pt') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (PT)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome *</span>
+                <input type="text" formControlName="name" (blur)="generateIdFromName()" />
+              </label>
+            </div>
+          }
+
+          @if (lang() === 'en') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (EN)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEnName" placeholder="Category name in English…" />
+              </label>
+            </div>
+          }
+
+          @if (lang() === 'es') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (ES)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEsName" placeholder="Nombre en Español…" />
+              </label>
+            </div>
+          }
+        </div>
+      </div>
+    </form>
+
+    <div class="form-actions">
+      @if (!isNew()) {
+        <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+          Excluir
+        </button>
+      }
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Salvando…' : 'Salvar' }}
+      </button>
+    </div>
+
+    <app-confirm-dialog
+      [open]="confirmDeleteOpen()"
+      title="Excluir categoria?"
+      message="Você tem certeza que deseja excluir esta categoria e todas as subcategorias/itens?"
+      hint="Essa ação é irreversível."
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    />
+
+    <div class="divider"></div>
+
+    <div class="block">
+      <div class="block-header">
+        <div>
+          <div class="label">Subcategorias</div>
+          <div class="muted">Ex.: Entradas, Principais, Bebidas, Sobremesas…</div>
+        </div>
+        <button class="btn btn-secondary" type="button" (click)="createSubcategory()">Nova subcategoria</button>
+      </div>
+
+      <div class="items">
+        @for (sc of (category()?.subcategories ?? []); track sc.id) {
+          <button class="item" type="button" (click)="editSubcategory(sc.id)">
+            <div class="meta">
+              <div class="name">{{ sc.name }}</div>
+              <div class="muted mono">{{ sc.id }}</div>
+            </div>
+            <div class="right">
+              <div class="pill">{{ sc.items.length }} itens</div>
+              <div class="pill">Editar</div>
+            </div>
+          </button>
+        } @empty {
+          <div class="empty muted">Nenhuma subcategoria cadastrada ainda.</div>
+        }
+      </div>
+    </div>
+  </section>
+}
+

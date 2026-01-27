@@ -1,0 +1,199 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Voltar para categoria</a>
+        <h2>{{ isNew() ? 'Nova subcategoria' : 'Editar subcategoria' }}</h2>
+        <p class="muted">Cadastre os itens do cardápio. O status (ativo/inativo) é por item.</p>
+      </div>
+
+      <div class="actions">
+        @if (!isNew()) {
+          <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+            Excluir
+          </button>
+        }
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Salvando…' : 'Salvar' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="form-grid" [formGroup]="form">
+      <label>
+        <span>ID *</span>
+        <input type="text" formControlName="id" />
+      </label>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Idioma do conteúdo</div>
+            <div class="muted">PT é o padrão. EN/ES traduzem apenas textos.</div>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="lang-tabs">
+            <button class="lang-tab" type="button" [class.active]="lang() === 'pt'" (click)="setLang('pt')">
+              Português (PT)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'en'" (click)="setLang('en')">
+              Inglês (EN)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'es'" (click)="setLang('es')">
+              Espanhol (ES)
+            </button>
+          </div>
+
+          @if (lang() === 'pt') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Subcategoria (PT)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome *</span>
+                <input type="text" formControlName="name" (blur)="generateSubIdFromName()" />
+              </label>
+            </div>
+          }
+
+          @if (lang() === 'en') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Subcategoria (EN)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEnName" placeholder="Subcategory name in English…" />
+              </label>
+            </div>
+          }
+
+          @if (lang() === 'es') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Subcategoria (ES)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEsName" placeholder="Nombre en Español…" />
+              </label>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Itens</div>
+            <div class="muted">Nome, preço, descrição e status.</div>
+          </div>
+          <button class="btn btn-secondary" type="button" (click)="addItem()">Adicionar item</button>
+        </div>
+
+        <div class="rows" formArrayName="items">
+          @for (c of items.controls; track $index) {
+            <div class="item-card" [formGroupName]="$index">
+              <div class="row three">
+                <label>
+                  <span>Status *</span>
+                  <select formControlName="active">
+                    <option [ngValue]="true">Ativo</option>
+                    <option [ngValue]="false">Inativo</option>
+                  </select>
+                </label>
+
+                @if (lang() === 'pt') {
+                  <label>
+                    <span>Nome (PT) *</span>
+                    <input type="text" formControlName="name" (blur)="generateItemIdFromName(c)" />
+                  </label>
+                }
+                @if (lang() === 'en') {
+                  <label>
+                    <span>Nome (EN)</span>
+                    <input type="text" formControlName="i18nEnName" placeholder="Item name in English…" />
+                  </label>
+                }
+                @if (lang() === 'es') {
+                  <label>
+                    <span>Nome (ES)</span>
+                    <input type="text" formControlName="i18nEsName" placeholder="Nombre en Español…" />
+                  </label>
+                }
+
+                <label>
+                  <span>Preço (R$)</span>
+                  <input type="number" min="0" formControlName="priceAmount" />
+                </label>
+              </div>
+
+              <div class="row two">
+                <label>
+                  <span>ID *</span>
+                  <input type="text" formControlName="id" />
+                </label>
+                <div class="right-actions">
+                  <button class="icon-danger" type="button" (click)="removeItem($index)" aria-label="Remover item">
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              @if (lang() === 'pt') {
+                <label>
+                  <span>Descrição (PT)</span>
+                  <textarea rows="3" formControlName="description" placeholder="Descrição do item…"></textarea>
+                </label>
+              }
+              @if (lang() === 'en') {
+                <label>
+                  <span>Descrição (EN)</span>
+                  <textarea rows="3" formControlName="i18nEnDescription" placeholder="Description in English…"></textarea>
+                </label>
+              }
+              @if (lang() === 'es') {
+                <label>
+                  <span>Descrição (ES)</span>
+                  <textarea rows="3" formControlName="i18nEsDescription" placeholder="Descripción en Español…"></textarea>
+                </label>
+              }
+            </div>
+          } @empty {
+            <div class="empty muted">Nenhum item adicionado ainda.</div>
+          }
+        </div>
+      </div>
+    </form>
+
+    <div class="form-actions">
+      @if (!isNew()) {
+        <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+          Excluir
+        </button>
+      }
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Salvando…' : 'Salvar' }}
+      </button>
+    </div>
+
+    <app-confirm-dialog
+      [open]="confirmDeleteOpen()"
+      title="Excluir subcategoria?"
+      message="Você tem certeza que deseja excluir esta subcategoria e todos os itens?"
+      hint="Essa ação é irreversível."
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    />
+  </section>
+}
+

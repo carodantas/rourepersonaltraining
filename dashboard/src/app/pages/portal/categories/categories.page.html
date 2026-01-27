@@ -1,0 +1,63 @@
+@if (loading()) {
+  <div class="card section">Loading…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <h2>Categories</h2>
+        <p class="muted">Manage blog categories (Dutch base + English translation).</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="refresh()">Reload</button>
+        <button class="btn" type="button" (click)="add()">Add category</button>
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="table" [formGroup]="form">
+      <div class="row head">
+        <div>ID</div>
+        <div>Dutch (nl)</div>
+        <div>English (en)</div>
+        <div></div>
+      </div>
+
+      <div formArrayName="categories">
+        @for (group of categoriesArray.controls; track $index) {
+          <div class="row" [formGroupName]="$index">
+          <div>
+            <input type="text" class="mono" formControlName="id" (blur)="normalizeId($index)" placeholder="e.g. personal-training" />
+          </div>
+          <div>
+            <input type="text" formControlName="nameNl" placeholder="Dutch name" />
+          </div>
+          <div>
+            <input type="text" formControlName="nameEn" placeholder="English name" />
+          </div>
+          <div class="right">
+            <button class="btn btn-danger" type="button" (click)="removeAt($index)">Remove</button>
+          </div>
+          </div>
+        } @empty {
+          <div class="empty muted">No categories.</div>
+        }
+      </div>
+    </form>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Saving…' : 'Save' }}
+      </button>
+    </div>
+  </section>
+}
+

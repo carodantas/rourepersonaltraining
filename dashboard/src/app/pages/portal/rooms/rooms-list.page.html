@@ -1,0 +1,53 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <h2>Quartos</h2>
+        <p class="muted">Selecione um quarto para editar ou crie um novo.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="refresh()">Recarregar</button>
+        <button class="btn btn-primary" type="button" (click)="create()">Novo quarto</button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Buscar por nome ou ID…"
+        [value]="query()"
+        (input)="onQueryInput($event)"
+      />
+    </div>
+
+    <div class="items">
+      @for (r of filtered(); track r.id) {
+        <button class="item" type="button" (click)="edit(r.id)">
+          <div class="thumb">
+            <img [src]="r.images[0] || '/images/sem-imagem.jpg'" alt="" />
+          </div>
+          <div class="meta">
+            <div class="name">{{ r.name }}</div>
+            <div class="muted mono">{{ r.id }}</div>
+          </div>
+          <div class="right">
+            <div class="pill">{{ r.active === false ? 'Inativo' : 'Ativo' }}</div>
+            @if (r.price?.amount) {
+              <div class="pill">R$ {{ r.price?.amount }}</div>
+            }
+            <div class="pill">Editar</div>
+          </div>
+        </button>
+      } @empty {
+        <div class="empty muted">Nenhum quarto encontrado.</div>
+      }
+    </div>
+  </section>
+}
+

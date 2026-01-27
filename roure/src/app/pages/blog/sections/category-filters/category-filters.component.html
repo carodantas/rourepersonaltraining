@@ -1,0 +1,18 @@
+<section class="category-filters" [attr.aria-label]="'blog.filterAria' | translate">
+  <div class="container">
+    <div class="filters-list">
+      @for (category of categories(); track category.id) {
+        <button
+          type="button"
+          class="filter-button"
+          [class.active]="selectedCategoryId() === category.id"
+          (click)="selectCategory(category.id)"
+          [attr.aria-pressed]="selectedCategoryId() === category.id"
+        >
+          {{ category.id === 'all' ? ('blog.allArticles' | translate) : category.label }}
+        </button>
+      }
+    </div>
+  </div>
+</section>
+

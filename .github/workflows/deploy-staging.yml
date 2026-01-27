@@ -36,18 +36,41 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: |
+            roure/package-lock.json
+            dashboard/package-lock.json
 
-      - name: Install deps
+      - name: Install deps (roure)
+        working-directory: roure
         run: npm ci
 
-      - name: Build (staging config, base-href=/staging/)
+      - name: Build site (staging, base-href=/staging/)
+        working-directory: roure
         run: npm run build -- --configuration=staging --base-href=/staging/
 
       - name: Ensure build output exists
+        working-directory: roure
         run: test -d dist/rourepersonaltraining/browser
 
       - name: Add Apache SPA .htaccess into build output
+        working-directory: roure
         run: cp src/.htaccess dist/rourepersonaltraining/browser/.htaccess
+
+      - name: Install deps (dashboard)
+        working-directory: dashboard
+        run: npm ci
+
+      - name: Build dashboard (staging, base-href=/staging/dashboard/)
+        working-directory: dashboard
+        run: npm run build -- --configuration=staging
+
+      - name: Ensure dashboard build output exists
+        working-directory: dashboard
+        run: test -f dist/dashboard/index.html
+
+      - name: Add Apache SPA .htaccess into dashboard build output
+        working-directory: dashboard
+        run: cp src/.htaccess dist/dashboard/.htaccess
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
@@ -62,19 +85,57 @@ jobs:
           test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
           test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
 
-      - name: Clean remote staging folder (keep folder)
+      - name: Prepare remote staging folders (preserve staging/api data)
         run: >
           sshpass -p "$SSH_PASS" ssh
           -p "$SSH_PORT" $SSH_OPTS
           "$SSH_USER@$SSH_HOST"
-          "mkdir -p '$REMOTE_ROOT/staging' && find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
+          "mkdir -p '$REMOTE_ROOT/staging' '$REMOTE_ROOT/staging/api' '$REMOTE_ROOT/staging/dashboard' &&
+           rm -rf '$REMOTE_ROOT/staging/dashboard' &&
+           find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 ! -name 'api' -exec rm -rf {} + &&
+           mkdir -p '$REMOTE_ROOT/staging/dashboard' &&
+           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging'"
 
-      - name: Upload to staging via SCP
+      - name: Upload site to staging via SCP
         run: >
           sshpass -p "$SSH_PASS" scp
           -O
           -P "$SSH_PORT"
           $SSH_OPTS
-          -r dist/rourepersonaltraining/browser/*
+          -r roure/dist/rourepersonaltraining/browser/*
           "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
 
+      - name: Upload dashboard to staging via SCP
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -O
+          -P "$SSH_PORT"
+          $SSH_OPTS
+          -r dashboard/dist/dashboard/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/dashboard/"
+
+      - name: Upload backend code to staging API (preserve data)
+        run: |
+          set -euo pipefail
+          # Upload code files
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/index.php"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/.htaccess"
+
+          # Seed content/users only if missing (isolated staging data) - stored under ../_private
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/content-staging.seed.json"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/users-staging.seed.json"
+
+          sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" "
+            set -e;
+            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging';
+            if [ ! -f '$REMOTE_ROOT/../_private/content-staging.json' ]; then
+              mv '$REMOTE_ROOT/../_private/content-staging.seed.json' '$REMOTE_ROOT/../_private/content-staging.json';
+            else
+              rm -f '$REMOTE_ROOT/../_private/content-staging.seed.json';
+            fi
+            if [ ! -f '$REMOTE_ROOT/../_private/users-staging.json' ]; then
+              mv '$REMOTE_ROOT/../_private/users-staging.seed.json' '$REMOTE_ROOT/../_private/users-staging.json';
+            else
+              rm -f '$REMOTE_ROOT/../_private/users-staging.seed.json';
+            fi
+          "

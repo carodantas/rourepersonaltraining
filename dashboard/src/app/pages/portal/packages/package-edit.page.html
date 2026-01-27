@@ -1,0 +1,282 @@
+@if (loading()) {
+  <div class="card section">Carregando…</div>
+} @else {
+  <section class="card section">
+    <div class="header">
+      <div>
+        <a class="link back" (click)="back()">← Voltar para lista</a>
+        <h2>{{ isNew() ? 'Novo pacote' : 'Editar pacote' }}</h2>
+        <p class="muted">Edite o pacote e salve. Upload de imagens aceita múltiplas (máx. 500KB).</p>
+      </div>
+
+      <div class="actions">
+        @if (!isNew()) {
+          <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+            Excluir
+          </button>
+        }
+        <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+          {{ saving() ? 'Salvando…' : 'Salvar' }}
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+    @if (info()) {
+      <div class="alert info">{{ info() }}</div>
+    }
+
+    <form class="form-grid" [formGroup]="form">
+      <label>
+        <span>Status *</span>
+        <select formControlName="active">
+          <option [ngValue]="true">Ativo</option>
+          <option [ngValue]="false">Inativo</option>
+        </select>
+      </label>
+
+      <div class="two">
+        <label>
+          <span>ID *</span>
+          <input type="text" formControlName="id" />
+        </label>
+        <label>
+          <span>Noites</span>
+          <input type="number" min="1" formControlName="nights" />
+        </label>
+      </div>
+
+      <div class="two">
+        <label>
+          <span>Preço (R$)</span>
+          <input type="number" min="0" formControlName="priceAmount" />
+        </label>
+        <div></div>
+      </div>
+
+      <label>
+        <span>URL da Central de Reservas (opcional)</span>
+        <input type="text" formControlName="bookingUrl" placeholder="https://central.exemplo.com/pacote/123" />
+      </label>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Idioma do conteúdo</div>
+            <div class="muted">PT é o padrão. EN/ES traduzem apenas textos (ícones e ordem vêm do PT).</div>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="lang-tabs">
+            <button class="lang-tab" type="button" [class.active]="lang() === 'pt'" (click)="setLang('pt')">
+              Português (PT)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'en'" (click)="setLang('en')">
+              Inglês (EN)
+            </button>
+            <button class="lang-tab" type="button" [class.active]="lang() === 'es'" (click)="setLang('es')">
+              Espanhol (ES)
+            </button>
+          </div>
+
+          @if (lang() === 'pt') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (PT)</div>
+              <label style="margin-top: 10px;">
+                <span>Nome *</span>
+                <input type="text" formControlName="name" (blur)="generateIdFromName()" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="3" formControlName="description"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Inclusões (PT)</div>
+                    <div class="muted">Escolha um ícone e preencha o texto.</div>
+                  </div>
+                  <button class="btn btn-secondary" type="button" (click)="addInclusion()">Adicionar item</button>
+                </div>
+                <div class="rows">
+                  @for (c of inclusionControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-picker">
+                        <button
+                          class="btn btn-secondary icon-btn"
+                          type="button"
+                          (click)="toggleInclusionIconMenu($index)"
+                          aria-label="Escolher ícone"
+                          title="Escolher ícone"
+                        >
+                          <i [class]="faIconClass(inclusionIconControl(c).value)" aria-hidden="true"></i>
+                        </button>
+
+                        @if (openInclusionIconMenuIndex() === $index) {
+                          <div class="icon-menu" role="listbox" aria-label="Ícones">
+                            @for (opt of inclusionIconOptions; track opt.value) {
+                              <button
+                                class="icon-option"
+                                type="button"
+                                (click)="selectInclusionIcon(c, opt.value)"
+                                [attr.title]="opt.label"
+                                [attr.aria-label]="opt.label"
+                              >
+                                <i [class]="faIconClass(opt.value)" aria-hidden="true"></i>
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+
+                      <input [formControl]="inclusionTextControl(c)" type="text" placeholder="Digite uma inclusão…" />
+                      <button class="icon-danger" type="button" (click)="removeInclusion($index)" aria-label="Remover">
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (lang() === 'en') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (EN)</div>
+              <div class="muted" style="margin-top: 6px;">Os itens seguem o PT. Aqui você traduz somente os textos.</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEnName" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="3" formControlName="i18nEnDescription"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Inclusões (EN)</div>
+                    <div class="muted">Ícones vêm do PT.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of enInclusionTextControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-btn btn btn-secondary" style="pointer-events: none;">
+                        <i [class]="faIconClass(inclusionIconAt($index))" aria-hidden="true"></i>
+                      </div>
+                      <input [formControl]="t" type="text" placeholder="Inclusion in English…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (lang() === 'es') {
+            <div class="card section" style="padding: 12px;">
+              <div class="label">Conteúdo (ES)</div>
+              <div class="muted" style="margin-top: 6px;">Os itens seguem o PT. Aqui você traduz somente os textos.</div>
+              <label style="margin-top: 10px;">
+                <span>Nome</span>
+                <input type="text" formControlName="i18nEsName" />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <textarea rows="3" formControlName="i18nEsDescription"></textarea>
+              </label>
+
+              <div class="block" style="margin-top: 12px;">
+                <div class="block-header">
+                  <div>
+                    <div class="label">Inclusões (ES)</div>
+                    <div class="muted">Ícones vêm do PT.</div>
+                  </div>
+                </div>
+                <div class="rows">
+                  @for (t of esInclusionTextControls(); track $index) {
+                    <div class="row icon-row">
+                      <div class="icon-btn btn btn-secondary" style="pointer-events: none;">
+                        <i [class]="faIconClass(inclusionIconAt($index))" aria-hidden="true"></i>
+                      </div>
+                      <input [formControl]="t" type="text" placeholder="Inclusión en Español…" />
+                      <div></div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header">
+          <div>
+            <div class="label">Imagens</div>
+            <div class="muted">Adicione imagens (upload) e remova pela lista.</div>
+          </div>
+          <div class="upload">
+            <button class="btn btn-secondary" type="button" [disabled]="uploading()" (click)="openImagePicker(imagesInput)">
+              Adicionar imagens
+            </button>
+            <input
+              #imagesInput
+              class="file-hidden"
+              type="file"
+              accept="image/*"
+              multiple
+              (change)="pickFiles($event)"
+            />
+          </div>
+        </div>
+
+        @if (images.controls.length) {
+          <div class="image-list">
+            @for (c of imageControls(); track $index) {
+              <div class="image-item">
+                <div class="thumb">
+                  <img [src]="c.value" alt="" />
+                </div>
+                <button class="icon-danger" type="button" (click)="removeImage($index)" aria-label="Remover imagem">
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty muted">Nenhuma imagem adicionada ainda.</div>
+        }
+      </div>
+    </form>
+
+    <div class="form-actions">
+      @if (!isNew()) {
+        <button class="btn btn-danger" type="button" (click)="askDelete()" [disabled]="saving()">
+          Excluir
+        </button>
+      }
+      <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
+        {{ saving() ? 'Salvando…' : 'Salvar' }}
+      </button>
+    </div>
+
+    <app-confirm-dialog
+      [open]="confirmDeleteOpen()"
+      title="Excluir pacote?"
+      message="Você tem certeza que deseja excluir este pacote?"
+      hint="Essa ação é irreversível."
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    />
+  </section>
+}
+
