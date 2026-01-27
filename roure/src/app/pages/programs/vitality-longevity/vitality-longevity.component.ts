@@ -2,11 +2,19 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../shared/components/button-primary-glass/button-primary-glass.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { TranslationService } from '../../../services/translation.service';
+
+type Testimonial = {
+  textKey: string;
+  author: string;
+  rating: number;
+};
 
 @Component({
   selector: 'app-vitality-longevity',
   standalone: true,
-  imports: [CommonModule, ButtonPrimaryGlassComponent],
+  imports: [CommonModule, ButtonPrimaryGlassComponent, TranslatePipe],
   templateUrl: './vitality-longevity.component.html',
   styleUrl: './vitality-longevity.component.css'
 })
@@ -14,23 +22,29 @@ export class VitalityLongevityComponent {
   currentPage = 0;
   expandedTestimonials: { [key: number]: boolean } = {};
 
-  testimonials = [
+  testimonials: Testimonial[] = [
     {
-      text: "If I could turn back time, I would have signed up for Roure Personal Training immediately when I first walked past it years ago. This studio is a real gem — a perfect mix of a warm, welcoming atmosphere and top-level professionalism. It's relaxed yet focused, friendly yet results-driven. From day one, you feel seen, supported, and inspired to grow — regardless of your level or background. When I signed up, I had absolutely no clue — I knew nothing about body composition, muscle growth, or lifting anything heavier than my phone 😅. But after six months of training with Niels, not only has my body changed, my mindset has completely transformed. I feel stronger, more confident, and genuinely excited about the journey ahead — something I never thought I'd say about fitness. Niels has a real talent for reading people — he knows when to push you to your limits and when to meet you with patience, support, and a good dose of humor. His approach is truly personal, positive, and always motivating. You never feel like \"just another client\" here. I've made real progress — physically, mentally, and emotionally. No matter how intense the session is, I always leave with a smile and renewed energy.",
-      author: "Olga L",
+      textKey: 'programs.vitality.testimonials.0.text',
+      author: 'Olga L',
       rating: 5
     },
     {
-      text: "If I could turn back time, I would have signed up for Roure Personal Training immediately when I first walked past it years ago. This studio is a real gem — a perfect mix of a warm, welcoming atmosphere and top-level professionalism. It's relaxed yet focused, friendly yet results-driven. From day one, you feel seen, supported, and inspired to grow — regardless of your level or background. When I signed up, I had absolutely no clue — I knew nothing about body composition, muscle growth, or lifting anything heavier than my phone 😅. But after six months of training with Niels, not only has my body changed, my mindset has completely transformed. I feel stronger, more confident, and genuinely excited about the journey ahead — something I never thought I'd say about fitness. Niels has a real talent for reading people — he knows when to push you to your limits and when to meet you with patience, support, and a good dose of humor. His approach is truly personal, positive, and always motivating. You never feel like \"just another client\" here. I've made real progress — physically, mentally, and emotionally. No matter how intense the session is, I always leave with a smile and renewed energy.",
-      author: "Anita Boelsums",
+      textKey: 'programs.vitality.testimonials.1.text',
+      author: 'Anita Boelsums',
       rating: 5
     },
     {
-      text: "I've disliked sports my entire life. But I've been training with Niels every week for two months now, and it's been really good for me. He always finds exercises that suit me well.",
-      author: "Frank Smallegange",
+      textKey: 'programs.vitality.testimonials.2.text',
+      author: 'Frank Smallegange',
       rating: 5
     }
   ];
+
+  readMoreKey = 'programs.vitality.feedback.readMore';
+  readLessKey = 'programs.vitality.feedback.readLess';
+  prevAriaKey = 'programs.vitality.feedback.prevAria';
+  nextAriaKey = 'programs.vitality.feedback.nextAria';
+  goToAriaPrefixKey = 'programs.vitality.feedback.goToAriaPrefix';
 
   get totalPages(): number {
     return Math.ceil(this.testimonials.length / 2);
@@ -45,7 +59,10 @@ export class VitalityLongevityComponent {
     return this.testimonials.slice(start, start + 2);
   }
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private translation: TranslationService
+  ) {}
 
   goToFreeIntake(): void {
     void this.router.navigate(['/free-intake'], {
@@ -86,6 +103,11 @@ export class VitalityLongevityComponent {
     // Rough estimate: 5 lines * ~70 characters per line = 350 characters
     // This ensures consistent behavior across all testimonials
     return text.length > 350;
+  }
+
+  needsTruncationKey(key: string): boolean {
+    const text = this.translation.translate(key);
+    return this.needsTruncation(text);
   }
 }
 

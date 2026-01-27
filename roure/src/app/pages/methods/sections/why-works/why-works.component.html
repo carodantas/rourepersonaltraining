@@ -1,21 +1,21 @@
 <section class="why-works" aria-labelledby="why-works-title">
   <div class="container">
-    <h2 id="why-works-title" class="title headline-1">Why this works</h2>
+    <h2 id="why-works-title" class="title headline-1">{{ 'methods.whyWorks.title' | translate }}</h2>
 
     <div class="content-wrapper">
       <div class="text-content">
         <div class="body body-1">
           <p>
-            Our method blends:
+            {{ 'methods.whyWorks.leadIn' | translate }}
           </p>
         </div>
 
         <ul class="list">
-          <li *ngFor="let item of bullets">{{ item }}</li>
+          <li *ngFor="let itemKey of bulletsKeys">{{ itemKey | translate }}</li>
         </ul>
 
         <p class="footer body-1">
-          At Roure we believe in smart, individualized coaching that leads to real lifestyle results.
+          {{ 'methods.whyWorks.footer' | translate }}
         </p>
       </div>
 
@@ -26,7 +26,7 @@
               width="100%" 
               height="100%" 
               [src]="videoUrl" 
-              title="Why this works video" 
+              [title]="'methods.whyWorks.videoTitle' | translate" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowfullscreen>

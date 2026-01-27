@@ -1,6 +1,6 @@
 <section class="steps-detail" aria-labelledby="steps-detail-title">
   <div class="container">
-    <h2 id="steps-detail-title" class="section-title headline-1">From assessment to momentum</h2>
+    <h2 id="steps-detail-title" class="section-title headline-1">{{ 'methods.stepsDetail.title' | translate }}</h2>
 
     <div class="rows">
       <article
@@ -10,19 +10,19 @@
       >
         <div class="detail-text">
           <div class="detail-kicker small-1">{{ step.number }}</div>
-          <h3 class="detail-title headline-2">{{ step.title }}</h3>
+          <h3 class="detail-title headline-2">{{ step.titleKey | translate }}</h3>
 
           <div class="detail-body body-1">
-            <p *ngFor="let paragraph of step.body">{{ paragraph }}</p>
+            <p *ngFor="let paragraphKey of step.bodyKeys">{{ paragraphKey | translate }}</p>
 
-            <ul class="detail-list" *ngIf="step.bullets?.length">
-              <li *ngFor="let item of step.bullets">{{ item }}</li>
+            <ul class="detail-list" *ngIf="step.bulletKeys?.length">
+              <li *ngFor="let itemKey of step.bulletKeys">{{ itemKey | translate }}</li>
             </ul>
           </div>
         </div>
 
         <div class="detail-media" aria-hidden="true">
-          <img class="detail-image" [src]="getStepImage(step.title)" [alt]="step.imageAlt" />
+          <img class="detail-image" [src]="getStepImage(step.id)" [attr.alt]="step.imageAltKey | translate" />
         </div>
       </article>
     </div>

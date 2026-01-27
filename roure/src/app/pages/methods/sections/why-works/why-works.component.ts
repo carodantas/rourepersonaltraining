@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-why-works',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './why-works.component.html',
   styleUrl: './why-works.component.css'
 })
 export class WhyWorksComponent {
-  bullets: string[] = [
-    'Personalized coaching',
-    'Data-informed decisions',
-    'Structured support',
-    'Progressive adjustments',
-    'Consistent accountability'
+  bulletsKeys: string[] = [
+    'methods.whyWorks.bullets.0',
+    'methods.whyWorks.bullets.1',
+    'methods.whyWorks.bullets.2',
+    'methods.whyWorks.bullets.3',
+    'methods.whyWorks.bullets.4'
   ];
 
   videoUrl: SafeResourceUrl | null;

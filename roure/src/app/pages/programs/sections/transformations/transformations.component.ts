@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 interface Video {
   videoUrl: string;
@@ -10,7 +11,7 @@ interface Video {
 @Component({
   selector: 'app-transformations',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './transformations.component.html',
   styleUrl: './transformations.component.css'
 })

@@ -2,15 +2,15 @@
   <div class="hero-decoration" aria-hidden="true"></div>
   <div class="hero-container">
     <h1 id="hero-title" class="hero-title display-1">
-      It's your Journey<br />
-      Your Pace with<br />
-      Real Results
+      {{ 'home.hero.titleLine1' | translate }}<br />
+      {{ 'home.hero.titleLine2' | translate }}<br />
+      {{ 'home.hero.titleLine3' | translate }}
     </h1>
     <p class="hero-subtitle featured-3">
-      Supportive personal training in Amsterdam, tailored to your needs — helping you build strength, confidence, and energy in a safe, inclusive environment.
+      {{ 'home.hero.subtitle' | translate }}
     </p>
     <div class="hero-actions">
-      <app-button-primary-glass type="button" (clicked)="scrollToForm()">Book free intake</app-button-primary-glass>
+      <app-button-primary-glass type="button" (clicked)="scrollToForm()">{{ 'header.actions.bookFreeIntake' | translate }}</app-button-primary-glass>
     </div>
   </div>
 </section>

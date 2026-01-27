@@ -2,16 +2,16 @@
   <div class="hero-decoration" aria-hidden="true"></div>
   <div class="hero-container">
     <h1 id="about-hero-title" class="hero-title display-1">
-      You are our<br />
-      number one<br />
-      priority
+      {{ 'aboutUs.hero.titleLine1' | translate }}<br />
+      {{ 'aboutUs.hero.titleLine2' | translate }}<br />
+      {{ 'aboutUs.hero.titleLine3' | translate }}
     </h1>
     <p class="hero-subtitle featured-3">
-      A private personal training studio in<span class="mobile-break"><br /></span> Amsterdam East.
+      {{ 'aboutUs.hero.subtitle' | translate }}
     </p>
     <div class="hero-actions">
       <app-button-primary-glass type="button" (clicked)="goToFreeIntake()">
-        Book free intake
+        {{ 'aboutUs.hero.cta' | translate }}
       </app-button-primary-glass>
     </div>
   </div>

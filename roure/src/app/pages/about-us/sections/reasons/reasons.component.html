@@ -1,8 +1,8 @@
 <section class="reasons" aria-labelledby="reasons-title">
   <div class="container">
     <div class="reasons-header">
-      <div class="reasons-kicker small-1">Why people choose Roure</div>
-      <h2 id="reasons-title" class="reasons-title headline-1">A coaching style that fits real life</h2>
+      <div class="reasons-kicker small-1">{{ 'aboutUs.reasons.kicker' | translate }}</div>
+      <h2 id="reasons-title" class="reasons-title headline-1">{{ 'aboutUs.reasons.title' | translate }}</h2>
     </div>
 
     <div class="reasons-grid">
@@ -36,9 +36,9 @@
               </svg>
             }
           </div>
-          <h3 class="reason-title headline-2">{{ reason.title }}</h3>
+          <h3 class="reason-title headline-2">{{ reason.titleKey | translate }}</h3>
         </div>
-        <p class="reason-description body-2">{{ reason.description }}</p>
+        <p class="reason-description body-2">{{ reason.descriptionKey | translate }}</p>
       </article>
     </div>
   </div>

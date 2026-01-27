@@ -5,11 +5,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 import { IntakeFormSubmission, getGoalLabel, getPlanLabel, getProgramLabel } from './intake-form.interface';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-promotion',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonPrimaryGlassComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, ButtonPrimaryGlassComponent, RouterLink, TranslatePipe],
   templateUrl: './promotion.component.html',
   styleUrl: './promotion.component.css'
 })
@@ -22,31 +23,31 @@ export class PromotionComponent implements OnInit {
   selectedProgram = '';
 
   programOptions = [
-    { value: '', label: 'Select a program' },
-    { value: 'weight-loss-muscle-mass', label: 'Weight loss & muscle mass' },
-    { value: 'peak-performance', label: 'Peak performance' },
-    { value: 'vitality-longevity', label: 'Vitality & longevity' },
-    { value: 'prenatal-postpartum', label: 'Prenatal & postpartum' },
-    { value: 'not-sure', label: 'Not sure yet' }
+    { value: '', labelKey: 'home.promotion.select.program' },
+    { value: 'weight-loss-muscle-mass', labelKey: 'home.promotion.program.weightLoss' },
+    { value: 'peak-performance', labelKey: 'home.promotion.program.peak' },
+    { value: 'vitality-longevity', labelKey: 'home.promotion.program.vitality' },
+    { value: 'prenatal-postpartum', labelKey: 'home.promotion.program.prenatal' },
+    { value: 'not-sure', labelKey: 'home.promotion.program.notSure' }
   ];
 
   planOptions = [
-    { value: '', label: 'Select a plan' },
-    { value: 'duo-buddy', label: 'Duo / Buddy' },
-    { value: 'solo-standard', label: 'Solo Standard' },
-    { value: 'long-term', label: 'Long-Term' },
-    { value: 'not-sure', label: 'Not sure yet' }
+    { value: '', labelKey: 'home.promotion.select.plan' },
+    { value: 'duo-buddy', labelKey: 'home.promotion.plan.duo' },
+    { value: 'solo-standard', labelKey: 'home.promotion.plan.solo' },
+    { value: 'long-term', labelKey: 'home.promotion.plan.long' },
+    { value: 'not-sure', labelKey: 'home.promotion.plan.notSure' }
   ];
 
   trainingGoals = [
-    { value: 'improve-health', label: 'Improve my overall health' },
-    { value: 'increase-flexibility', label: 'Increase flexibility' },
-    { value: 'improve-posture', label: 'Improve posture' },
-    { value: 'get-stronger', label: 'Get stronger' },
-    { value: 'feel-confident', label: 'Feel more confident / improve my appearance' },
-    { value: 'tone-shape', label: 'Tone and shape my body' },
-    { value: 'lose-weight', label: 'Lose weight' },
-    { value: 'other', label: 'Other' }
+    { value: 'improve-health', labelKey: 'home.promotion.goals.improveHealth' },
+    { value: 'increase-flexibility', labelKey: 'home.promotion.goals.increaseFlexibility' },
+    { value: 'improve-posture', labelKey: 'home.promotion.goals.improvePosture' },
+    { value: 'get-stronger', labelKey: 'home.promotion.goals.getStronger' },
+    { value: 'feel-confident', labelKey: 'home.promotion.goals.feelConfident' },
+    { value: 'tone-shape', labelKey: 'home.promotion.goals.toneShape' },
+    { value: 'lose-weight', labelKey: 'home.promotion.goals.loseWeight' },
+    { value: 'other', labelKey: 'home.promotion.goals.other' }
   ];
 
   constructor(
@@ -215,7 +216,7 @@ export class PromotionComponent implements OnInit {
         next: (res) => {
           this.isSubmitting = false;
           if (!res?.ok) {
-            this.submitError = res?.message || 'Submission failed. Please try again.';
+            this.submitError = res?.message || 'home.promotion.errors.submissionFailed';
             return;
           }
 
@@ -241,7 +242,7 @@ export class PromotionComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
-          this.submitError = 'We could not submit your request right now. Please try again later.';
+          this.submitError = 'home.promotion.errors.submissionUnavailable';
         }
       });
     } else {
@@ -280,10 +281,10 @@ export class PromotionComponent implements OnInit {
   getErrorMessage(controlName: string): string {
     const control = this.intakeForm.get(controlName);
     if (control?.hasError('required')) {
-      return 'This field is required';
+      return 'home.promotion.errors.required';
     }
     if (control?.hasError('email')) {
-      return 'Please enter a valid email address';
+      return 'home.promotion.errors.email';
     }
     return '';
   }

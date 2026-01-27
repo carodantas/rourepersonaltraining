@@ -3,18 +3,18 @@
   <div class="hero-decoration" aria-hidden="true"></div>
   <div class="hero-container">
     <h1 id="program-hero-title" class="hero-title display-1">
-      Peak<br />
-      Performance
+      {{ 'programs.peak.hero.titleLine1' | translate }}<br />
+      {{ 'programs.peak.hero.titleLine2' | translate }}
     </h1>
     <p class="hero-subtitle featured-3">
-      This program focuses on improving movement quality, strength, energy, and long-term resilience.
+      {{ 'programs.peak.hero.subtitle' | translate }}
     </p>
     <div class="hero-actions">
       <app-button-primary-glass type="button" (clicked)="goToFreeIntake()">
-        Book free intake
+        {{ 'programs.peak.hero.ctaPrimary' | translate }}
       </app-button-primary-glass>
       <app-button-primary-glass type="button" variant="secondary" (clicked)="goToPrograms()">
-        Explore programs
+        {{ 'programs.peak.hero.ctaSecondary' | translate }}
       </app-button-primary-glass>
     </div>
   </div>
@@ -25,23 +25,23 @@
   <div class="container">
     <div class="program-about-content">
       <div class="program-about-text">
-        <h2 id="program-about-title" class="section-title headline-1">What this program is about</h2>
+        <h2 id="program-about-title" class="section-title headline-1">{{ 'programs.peak.about.title' | translate }}</h2>
         <p class="section-intro body-1">
-          This program focuses on improving movement quality, strength, energy, and long-term resilience.
+          {{ 'programs.peak.about.intro' | translate }}
         </p>
         <p class="section-body body-1">
-          We focus on:
+          {{ 'programs.peak.about.p1' | translate }}
         </p>
         <ul class="program-features-list">
-          <li class="feature-item body-1">Functional strength</li>
-          <li class="feature-item body-1">Mobility and joint health</li>
-          <li class="feature-item body-1">Recovery and stress management</li>
-          <li class="feature-item body-1">Long-term consistency</li>
+          <li class="feature-item body-1">{{ 'programs.peak.about.features.0' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.peak.about.features.1' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.peak.about.features.2' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.peak.about.features.3' | translate }}</li>
         </ul>
       </div>
       <div class="program-about-media">
         <div class="media-placeholder">
-          <img src="images/why-peak-performance.jpg" alt="Peak performance training" class="content-image" />
+          <img src="images/why-peak-performance.jpg" [attr.alt]="'programs.peak.about.imageAlt' | translate" class="content-image" />
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
 <!-- Who this is for -->
 <section class="program-who" aria-labelledby="program-who-title">
   <div class="container">
-    <h2 id="program-who-title" class="section-title headline-1">Who this is for</h2>
+    <h2 id="program-who-title" class="section-title headline-1">{{ 'programs.peak.who.title' | translate }}</h2>
     <div class="who-grid">
       <div class="who-item">
         <div class="who-icon">
@@ -59,7 +59,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">People returning to training</p>
+        <p class="who-text body-1">{{ 'programs.peak.who.items.0' | translate }}</p>
       </div>
       <div class="who-item">
         <div class="who-icon">
@@ -67,7 +67,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">Anyone focused on long-term health</p>
+        <p class="who-text body-1">{{ 'programs.peak.who.items.1' | translate }}</p>
       </div>
       <div class="who-item">
         <div class="who-icon">
@@ -75,7 +75,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">Those wanting to prevent injuries</p>
+        <p class="who-text body-1">{{ 'programs.peak.who.items.2' | translate }}</p>
       </div>
     </div>
   </div>
@@ -84,7 +84,7 @@
 <!-- How we work -->
 <section class="program-how" aria-labelledby="program-how-title">
   <div class="container">
-    <h2 id="program-how-title" class="section-title headline-1">How we work</h2>
+    <h2 id="program-how-title" class="section-title headline-1">{{ 'programs.peak.how.title' | translate }}</h2>
     <div class="how-grid">
       <div class="how-item">
         <div class="how-icon">
@@ -92,7 +92,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Personal training adapted to your lifestyle</p>
+        <p class="how-text body-1">{{ 'programs.peak.how.items.0' | translate }}</p>
       </div>
       <div class="how-item">
         <div class="how-icon">
@@ -100,7 +100,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Focus on movement quality and recovery</p>
+        <p class="how-text body-1">{{ 'programs.peak.how.items.1' | translate }}</p>
       </div>
       <div class="how-item">
         <div class="how-icon">
@@ -108,7 +108,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Sustainable training frequency</p>
+        <p class="how-text body-1">{{ 'programs.peak.how.items.2' | translate }}</p>
       </div>
     </div>
   </div>
@@ -118,16 +118,16 @@
 <section class="testimonials" aria-labelledby="program-feedback-title">
   <div class="testimonials-container">
     <div class="feedback-header">
-      <span class="feedback-kicker small-1">CLIENT REVIEWS</span>
-      <h2 id="program-feedback-title" class="testimonials-title headline-1">Real transformations from people like you</h2>
-      <p class="feedback-subtitle featured-3">See what's possible when you commit to your goals</p>
+      <span class="feedback-kicker small-1">{{ 'programs.peak.feedback.kicker' | translate }}</span>
+      <h2 id="program-feedback-title" class="testimonials-title headline-1">{{ 'programs.peak.feedback.title' | translate }}</h2>
+      <p class="feedback-subtitle featured-3">{{ 'programs.peak.feedback.subtitle' | translate }}</p>
     </div>
     
     <div class="testimonials-content">
       @for (testimonial of currentTestimonials; track $index) {
         @let testimonialIndex = getTestimonialIndex(currentPage, $index);
         @let expanded = isExpanded(testimonialIndex);
-        @let needsTruncate = needsTruncation(testimonial.text);
+        @let needsTruncate = needsTruncationKey(testimonial.textKey);
         <div class="testimonial-card">
           <div class="testimonial-header">
             <p class="testimonial-name strong-2">{{ testimonial.author }}</p>
@@ -142,7 +142,7 @@
             </div>
           </div>
           <p class="testimonial-text body-1" [class.truncated]="needsTruncate && !expanded">
-            {{ testimonial.text }}
+            {{ testimonial.textKey | translate }}
           </p>
           @if (needsTruncate) {
             <button 
@@ -150,7 +150,7 @@
               (click)="toggleTestimonial(testimonialIndex)"
               type="button"
             >
-              {{ expanded ? 'Read less' : 'Read more' }}
+              {{ expanded ? (readLessKey | translate) : (readMoreKey | translate) }}
             </button>
           }
         </div>
@@ -162,7 +162,7 @@
       type="button"
       class="nav-arrow nav-arrow-left"
       (click)="prevTestimonial()"
-      aria-label="Previous testimonial"
+      [attr.aria-label]="prevAriaKey | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"></polyline>
@@ -173,7 +173,7 @@
       type="button"
       class="nav-arrow nav-arrow-right"
       (click)="nextTestimonial()"
-      aria-label="Next testimonial"
+      [attr.aria-label]="nextAriaKey | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
@@ -188,7 +188,7 @@
           class="pagination-dot"
           [class.active]="currentPage === page"
           (click)="goToTestimonial(page)"
-          [attr.aria-label]="'Go to page ' + (page + 1)"
+          [attr.aria-label]="(goToAriaPrefixKey | translate) + ' ' + (page + 1)"
         ></button>
       }
     </div>
@@ -199,10 +199,10 @@
 <section class="program-important" aria-labelledby="program-important-title">
   <div class="container">
     <div class="important-content">
-      <h2 id="program-important-title" class="section-title headline-1">Important to know</h2>
+      <h2 id="program-important-title" class="section-title headline-1">{{ 'programs.peak.important.title' | translate }}</h2>
       <div class="important-text body-1">
         <p>
-          This program supports health and vitality but does not replace medical care or clinical treatment.
+          {{ 'programs.peak.important.p1' | translate }}
         </p>
       </div>
     </div>
@@ -213,9 +213,9 @@
 <section class="program-cta" aria-labelledby="program-cta-title">
   <div class="container">
     <div class="cta-content">
-      <h2 id="program-cta-title" class="cta-title headline-1">Ready to get started?</h2>
+      <h2 id="program-cta-title" class="cta-title headline-1">{{ 'programs.peak.cta.title' | translate }}</h2>
       <app-button-primary-glass type="button" (clicked)="goToFreeIntake()">
-        Book free intake
+        {{ 'programs.peak.cta.cta' | translate }}
       </app-button-primary-glass>
     </div>
   </div>

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 interface Program {
-  title: string;
-  benefits: string[];
+  titleKey: string;
+  benefitsKeys: string[];
   image: string;
   route?: string;
 }
@@ -12,7 +13,7 @@ interface Program {
 @Component({
   selector: 'app-programs-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './programs-grid.component.html',
   styleUrl: './programs-grid.component.css'
 })
@@ -21,26 +22,26 @@ export class ProgramsGridComponent {
 
   programs: Program[] = [
     {
-      title: 'Weight loss & muscle mass',
-      benefits: ['Sustainable weight loss', 'Increased muscle strength'],
+      titleKey: 'programs.grid.items.weightLoss.title',
+      benefitsKeys: ['programs.grid.items.weightLoss.benefits.0', 'programs.grid.items.weightLoss.benefits.1'],
       image: 'images/card-weight-loss-muscle-mass.jpg',
       route: '/programs/weight-loss-muscle-mass'
     },
     {
-      title: 'Peak performance',
-      benefits: ['Competition readiness', 'Advanced athletic training'],
+      titleKey: 'programs.grid.items.peak.title',
+      benefitsKeys: ['programs.grid.items.peak.benefits.0', 'programs.grid.items.peak.benefits.1'],
       image: 'images/card-peak-performance.jpg',
       route: '/programs/peak-performance'
     },
     {
-      title: 'Vitality & longevity',
-      benefits: ['Train safely for healthy aging', 'Boost energy and vitality'],
+      titleKey: 'programs.grid.items.vitality.title',
+      benefitsKeys: ['programs.grid.items.vitality.benefits.0', 'programs.grid.items.vitality.benefits.1'],
       image: 'images/card-vitality-longevity.jpg',
       route: '/programs/vitality-longevity'
     },
     {
-      title: 'Prenatal & postpartum',
-      benefits: ['Safe pregnancy fitness', 'Postpartum recovery'],
+      titleKey: 'programs.grid.items.prenatal.title',
+      benefitsKeys: ['programs.grid.items.prenatal.benefits.0', 'programs.grid.items.prenatal.benefits.1'],
       image: 'images/card-prenatal-postpartum.jpg',
       route: '/programs/prenatal-postpartum'
     }

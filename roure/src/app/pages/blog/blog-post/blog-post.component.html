@@ -3,43 +3,78 @@
     <div class="blog-post-container">
       <!-- Hero Image -->
       <div class="blog-post-hero">
+<<<<<<< HEAD:roure/src/app/pages/blog/blog-post/blog-post.component.html
         <img [src]="article.heroImage" [alt]="article.title" class="hero-image" />
+=======
+        <img [src]="article.image" [attr.alt]="article.titleKey ? (article.titleKey | translate) : article.title" class="hero-image" />
+>>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/blog-post/blog-post.component.html
       </div>
 
       <!-- Article Header -->
       <header class="blog-post-header">
+<<<<<<< HEAD:roure/src/app/pages/blog/blog-post/blog-post.component.html
         <span class="blog-post-category small-1">{{ article.categoryLabel }}</span>
         <h1 class="blog-post-title headline-1">{{ article.title }}</h1>
         <p class="blog-post-date body-2">{{ article.dateLabel }}</p>
+=======
+        <span class="blog-post-category small-1">
+          @if (article.categoryId) {
+            {{ categoryLabelKey(article.categoryId) | translate }}
+          } @else {
+            {{ article.category }}
+          }
+        </span>
+        <h1 class="blog-post-title headline-1">{{ article.titleKey ? (article.titleKey | translate) : article.title }}</h1>
+        <p class="blog-post-date body-2">{{ article.date }}</p>
+>>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/blog-post/blog-post.component.html
       </header>
 
       <!-- Article Content -->
       <div class="blog-post-content">
         <!-- Introduction -->
-        <p class="blog-post-intro body-1">{{ article.content.introduction }}</p>
+        <p class="blog-post-intro body-1">
+          {{ article.content.introductionKey ? (article.content.introductionKey | translate) : article.content.introduction }}
+        </p>
 
         <!-- Sections -->
-        @for (section of article.content.sections; track section.title) {
+        @for (section of article.content.sections; track (section.titleKey ?? section.title)) {
           <section class="blog-post-section">
+<<<<<<< HEAD:roure/src/app/pages/blog/blog-post/blog-post.component.html
             <h2 class="blog-post-section-title headline-2">{{ section.title }}</h2>
             <p class="blog-post-section-content body-1">{{ section.body }}</p>
+=======
+            <h2 class="blog-post-section-title headline-2">
+              {{ section.titleKey ? (section.titleKey | translate) : section.title }}
+            </h2>
+            <p class="blog-post-section-content body-1">
+              {{ section.contentKey ? (section.contentKey | translate) : section.content }}
+            </p>
+>>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/blog-post/blog-post.component.html
           </section>
         }
 
         <!-- Conclusion -->
-        @if (article.content.conclusion) {
-          <p class="blog-post-conclusion body-1">{{ article.content.conclusion }}</p>
+        @if (article.content.conclusionKey || article.content.conclusion) {
+          <p class="blog-post-conclusion body-1">
+            {{ article.content.conclusionKey ? (article.content.conclusionKey | translate) : article.content.conclusion }}
+          </p>
         }
 
         <!-- Call to Action -->
-        @if (article.content.callToAction) {
-          <p class="blog-post-cta body-1">{{ article.content.callToAction }}</p>
+        @if (article.content.callToActionKey || article.content.callToAction) {
+          <p class="blog-post-cta body-1">
+            {{ article.content.callToActionKey ? (article.content.callToActionKey | translate) : article.content.callToAction }}
+          </p>
         }
       </div>
 
       <!-- Back to Blog Link -->
       <div class="blog-post-footer">
+<<<<<<< HEAD:roure/src/app/pages/blog/blog-post/blog-post.component.html
         <a routerLink="/blog" class="back-to-blog-link body-2">← {{ 'blog.backToBlog' | translate }}</a>
+=======
+        <a routerLink="/blog" class="back-to-blog-link body-2">{{ 'blog.post.backToBlog' | translate }}</a>
+>>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/blog-post/blog-post.component.html
       </div>
     </div>
   </article>

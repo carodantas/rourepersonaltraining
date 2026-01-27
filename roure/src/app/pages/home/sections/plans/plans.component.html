@@ -1,48 +1,47 @@
 <section id="plans" class="plans">
   <div class="plans-container">
     <div class="plans-header">
-      <h2 class="plans-title headline-1">Training plans</h2>
-      <p class="plans-subtitle featured-3">No cancellation fees — pause or stop anytime</p>
+      <h2 class="plans-title headline-1">{{ 'home.plans.title' | translate }}</h2>
+      <p class="plans-subtitle featured-3">{{ 'home.plans.subtitle' | translate }}</p>
     </div>
     
     <div class="plans-grid">
       <div class="plan-card">
-        <h3 class="plan-name featured-2">Duo / Buddy</h3>
-        <div class="plan-price" aria-label="60 euros each">
+        <h3 class="plan-name featured-2">{{ 'home.plans.duo.name' | translate }}</h3>
+        <div class="plan-price" [attr.aria-label]="'home.plans.duo.priceAria' | translate">
           <span class="plan-price-amount">€60</span>
-          <span class="plan-price-suffix">Each</span>
+          <span class="plan-price-suffix">{{ 'home.plans.duo.priceEach' | translate }}</span>
         </div>
         <p class="plan-description body-2">
-          Train together, motivate each other.
-          Best for friends, partners or anyone who loves shared motivation.
+          {{ 'home.plans.duo.description' | translate }}
         </p>
-        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
-        <button class="plan-button" (click)="scrollToForm('duo-buddy')">Get started</button>
+        <p class="plan-footnote small-1">{{ 'home.plans.discountFootnote' | translate }}</p>
+        <button class="plan-button" (click)="scrollToForm('duo-buddy')">{{ 'home.plans.cta' | translate }}</button>
       </div>
       
       <div class="plan-card plan-featured">
-        <h3 class="plan-name featured-2">Solo Standard</h3>
-        <div class="plan-price plan-price-featured" aria-label="85 euros">
+        <h3 class="plan-name featured-2">{{ 'home.plans.solo.name' | translate }}</h3>
+        <div class="plan-price plan-price-featured" [attr.aria-label]="'home.plans.solo.priceAria' | translate">
           <span class="plan-price-amount">€85</span>
         </div>
         <p class="plan-description body-2">
-          Ideal if you want 1 on 1 coaching fully tailored to your goals, level, &amp; pace.
+          {{ 'home.plans.solo.description' | translate }}
         </p>
-        <p class="plan-footnote small-1">Up to 10% discount available with commitment plans</p>
-        <button class="plan-button" (click)="scrollToForm('solo-standard')">Get started</button>
+        <p class="plan-footnote small-1">{{ 'home.plans.discountFootnote' | translate }}</p>
+        <button class="plan-button" (click)="scrollToForm('solo-standard')">{{ 'home.plans.cta' | translate }}</button>
       </div>
       
       <div class="plan-card">
-        <h3 class="plan-name featured-2">Long-Term</h3>
-        <div class="plan-price plan-price-custom" aria-label="Custom pricing">
+        <h3 class="plan-name featured-2">{{ 'home.plans.long.name' | translate }}</h3>
+        <div class="plan-price plan-price-custom" [attr.aria-label]="'home.plans.long.priceAria' | translate">
           <span class="plan-price-amount plan-price-amount--symbol-only">€</span>
-          <span class="plan-price-custom-text">Custom<br />Pricing</span>
+          <span class="plan-price-custom-text">{{ 'home.plans.long.customPricing' | translate }}</span>
         </div>
         <p class="plan-description body-2">
-          For those ready to commit and build lasting results over time.
+          {{ 'home.plans.long.description' | translate }}
         </p>
-        <p class="plan-footnote small-1">Built for sustainable results and long-term value</p>
-        <button class="plan-button" (click)="scrollToForm('long-term')">Get started</button>
+        <p class="plan-footnote small-1">{{ 'home.plans.long.footnote' | translate }}</p>
+        <button class="plan-button" (click)="scrollToForm('long-term')">{{ 'home.plans.cta' | translate }}</button>
       </div>
     </div>
   </div>

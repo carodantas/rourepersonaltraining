@@ -2,12 +2,12 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-import { provideNgcCookieConsent, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { NgcCookieConsentConfig } from 'ngx-cookieconsent';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
-const cookieConfig: NgcCookieConsentConfig = {
+export const baseCookieConfig: NgcCookieConsentConfig = {
   cookie: {
     domain: '' // Deixar vazio usa o domínio atual (ou defina seu domínio específico)
   },
@@ -48,7 +48,6 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideClientHydration(withEventReplay()),
-    provideNgcCookieConsent(cookieConfig),
     Title
   ]
 };

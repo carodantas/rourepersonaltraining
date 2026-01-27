@@ -1,6 +1,6 @@
 <section class="steps-highlight" aria-labelledby="steps-highlight-title">
   <div class="container">
-    <h2 id="steps-highlight-title" class="section-title headline-1">Step by step</h2>
+    <h2 id="steps-highlight-title" class="section-title headline-1">{{ 'methods.stepsHighlight.title' | translate }}</h2>
 
     <div class="cards">
       <article class="step-card" *ngFor="let step of steps">
@@ -9,9 +9,9 @@
           <div class="step-number display-3">{{ step.number }}</div>
         </div>
 
-        <h3 class="step-title headline-2">{{ step.title }}</h3>
-        <div class="step-kicker small-1">{{ step.kicker }}</div>
-        <p class="step-body body-2">{{ step.body }}</p>
+        <h3 class="step-title headline-2">{{ step.titleKey | translate }}</h3>
+        <div class="step-kicker small-1">{{ step.kickerKey | translate }}</div>
+        <p class="step-body body-2">{{ step.bodyKey | translate }}</p>
       </article>
     </div>
   </div>

@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../shared/components/button-primary-glass/button-primary-glass.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-weight-loss-muscle-mass',
   standalone: true,
-  imports: [CommonModule, ButtonPrimaryGlassComponent],
+  imports: [CommonModule, ButtonPrimaryGlassComponent, TranslatePipe],
   templateUrl: './weight-loss-muscle-mass.component.html',
   styleUrl: './weight-loss-muscle-mass.component.css'
 })
@@ -22,10 +23,10 @@ export class WeightLossMuscleMassComponent {
       id: 'jeroen',
       name: 'Jeroen Marré',
       rating: 5,
-      text: "I recently started training at Roure Personal Training, and what a difference it has made! Even though I've been used to personal coaching for over 10 years, from my very first session I experienced a completely new level of professionalism and effectiveness.",
+      textKey: 'programs.weightLoss.testimonials.jeroen.p1',
       expandedText: [
-        "Izabella, my regular trainer, quickly identified where my weak points were and how to push my limits. In a short amount of time, I made tremendous progress thanks to her expertise. During Izabella's vacation, Niels and Carlos took over the sessions seamlessly, continuing exactly where she left off. They know precisely how to get the maximum out of every session.",
-        "I set high standards for myself — and they raise the bar even higher. Roure Personal Training is without a doubt the best studio I've ever trained at. For those who have never trained before: don't worry. The team helps you move forward step by step. If you truly want to improve yourself, you're in excellent hands at Roure PT."
+        'programs.weightLoss.testimonials.jeroen.p2',
+        'programs.weightLoss.testimonials.jeroen.p3'
       ],
       beforeImage: "images/jeroen-marre-before.jpg",
       afterImage: "images/jeroen-marre-after.jpg"
@@ -34,9 +35,9 @@ export class WeightLossMuscleMassComponent {
       id: 'reza',
       name: 'Reza',
       rating: 5,
-      text: "After training at this PT studio (Roure Personal Training) for a year, I can only express praise. The coaching is extremely professional, always enjoyable, and completely tailored to you.",
+      textKey: 'programs.weightLoss.testimonials.reza.p1',
       expandedText: [
-        "Everything is based on facts: my body is measured regularly, and the results are immediately visible. Thanks to their approach, I'm completely back in shape again! Many thanks to the entire team 😊"
+        'programs.weightLoss.testimonials.reza.p2'
       ],
       beforeImage: "images/reza-before.jpg",
       afterImage: "images/reza-after.jpg"

@@ -1,6 +1,6 @@
 <section id="testimonials" class="testimonials">
   <div class="testimonials-container">
-    <h2 class="testimonials-title headline-1">Hear it from them</h2>
+    <h2 class="testimonials-title headline-1">{{ 'home.testimonials.title' | translate }}</h2>
     
     <div class="testimonials-content">
       <!-- Testimonial Card -->
@@ -17,16 +17,19 @@
             </div>
       </div>
         </div>
-        <p class="testimonial-text body-1" [class.truncated]="needsTruncation(currentTestimonial.text) && !isExpanded(currentTestimonial.id)">
-          {{ currentTestimonial.text }}
+        <p
+          class="testimonial-text body-1"
+          [class.truncated]="needsTruncation(currentTestimonial.textKey | translate) && !isExpanded(currentTestimonial.id)"
+        >
+          {{ currentTestimonial.textKey | translate }}
         </p>
-        @if (needsTruncation(currentTestimonial.text)) {
+        @if (needsTruncation(currentTestimonial.textKey | translate)) {
           <button
             class="read-more-btn small-1"
             (click)="toggleTestimonial(currentTestimonial.id)"
             type="button"
           >
-            {{ isExpanded(currentTestimonial.id) ? 'Read less' : 'Read more' }}
+            {{ isExpanded(currentTestimonial.id) ? ('home.testimonials.readLess' | translate) : ('home.testimonials.readMore' | translate) }}
           </button>
         }
       </div>
@@ -39,7 +42,7 @@
               width="100%" 
               height="100%" 
               [src]="currentTestimonial.safeVideoUrl" 
-              [title]="'Client Testimonial Video - ' + currentTestimonial.name" 
+              [title]="('home.testimonials.videoTitlePrefix' | translate) + ' - ' + currentTestimonial.name" 
               frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowfullscreen>
@@ -54,7 +57,7 @@
       type="button"
       class="nav-arrow nav-arrow-left"
       (click)="prevTestimonial()"
-      aria-label="Previous testimonial"
+      [attr.aria-label]="'home.testimonials.prevAria' | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"></polyline>
@@ -65,7 +68,7 @@
       type="button"
       class="nav-arrow nav-arrow-right"
       (click)="nextTestimonial()"
-      aria-label="Next testimonial"
+      [attr.aria-label]="'home.testimonials.nextAria' | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
@@ -80,7 +83,7 @@
           class="pagination-dot"
           [class.active]="currentIndex === $index"
           (click)="goToTestimonial($index)"
-          [attr.aria-label]="'Go to testimonial ' + ($index + 1)"
+          [attr.aria-label]="('home.testimonials.goToAriaPrefix' | translate) + ' ' + ($index + 1)"
         ></button>
       }
     </div>

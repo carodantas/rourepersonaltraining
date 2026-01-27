@@ -3,18 +3,18 @@
   <div class="hero-decoration" aria-hidden="true"></div>
   <div class="hero-container">
     <h1 id="program-hero-title" class="hero-title display-1">
-      Weight loss<br />
-     & muscle mass
+      {{ 'programs.weightLoss.hero.titleLine1' | translate }}<br />
+      {{ 'programs.weightLoss.hero.titleLine2' | translate }}
     </h1>
     <p class="hero-subtitle featured-3">
-      This program is designed for people who want to change their body composition in a realistic and sustainable way. We focus on long-term results — not quick fixes or extreme diets.
+      {{ 'programs.weightLoss.hero.subtitle' | translate }}
     </p>
     <div class="hero-actions">
       <app-button-primary-glass type="button" (clicked)="goToFreeIntake()">
-        Book free intake
+        {{ 'programs.weightLoss.hero.ctaPrimary' | translate }}
       </app-button-primary-glass>
       <app-button-primary-glass type="button" variant="secondary" (clicked)="goToPrograms()">
-        Explore programs
+        {{ 'programs.weightLoss.hero.ctaSecondary' | translate }}
       </app-button-primary-glass>
     </div>
   </div>
@@ -25,26 +25,26 @@
   <div class="container">
     <div class="program-about-content">
       <div class="program-about-text">
-        <h2 id="program-about-title" class="section-title headline-1">What this program is about</h2>
+        <h2 id="program-about-title" class="section-title headline-1">{{ 'programs.weightLoss.about.title' | translate }}</h2>
         <p class="section-intro body-1">
-          Weight loss and muscle gain are not opposites, they work best together.
+          {{ 'programs.weightLoss.about.intro' | translate }}
         </p>
         <p class="section-body body-1">
-          Through structured personal training and practical lifestyle guidance, we help you build strength, lose fat, and improve how your body functions.
+          {{ 'programs.weightLoss.about.p1' | translate }}
         </p>
         <p class="section-body body-1">
-          This program combines:
+          {{ 'programs.weightLoss.about.p2' | translate }}
         </p>
         <ul class="program-features-list">
-          <li class="feature-item body-1">Personal training tailored to your level</li>
-          <li class="feature-item body-1">Habit-based nutrition guidance</li>
-          <li class="feature-item body-1">Progress tracking and adjustments over time</li>
-          <li class="feature-item body-1">Measure real progress beyond the scale by using InBody analysis*</li>
+          <li class="feature-item body-1">{{ 'programs.weightLoss.about.features.0' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.weightLoss.about.features.1' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.weightLoss.about.features.2' | translate }}</li>
+          <li class="feature-item body-1">{{ 'programs.weightLoss.about.features.3' | translate }}</li>
         </ul>
       </div>
       <div class="program-about-media">
         <div class="media-placeholder">
-          <img src="images/weight-loss-about.jpg" alt="Weight loss and muscle mass training" class="content-image" />
+          <img src="images/weight-loss-about.jpg" [attr.alt]="'programs.weightLoss.about.imageAlt' | translate" class="content-image" />
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
 <!-- Who this is for -->
 <section class="program-who" aria-labelledby="program-who-title">
   <div class="container">
-    <h2 id="program-who-title" class="section-title headline-1">Who this is for</h2>
+    <h2 id="program-who-title" class="section-title headline-1">{{ 'programs.weightLoss.who.title' | translate }}</h2>
     <div class="who-grid">
       <div class="who-item">
         <div class="who-icon">
@@ -62,7 +62,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">You want to lose fat without losing strength</p>
+        <p class="who-text body-1">{{ 'programs.weightLoss.who.items.0' | translate }}</p>
       </div>
       <div class="who-item">
         <div class="who-icon">
@@ -70,7 +70,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">You're ready to build sustainable habits</p>
+        <p class="who-text body-1">{{ 'programs.weightLoss.who.items.1' | translate }}</p>
       </div>
       <div class="who-item">
         <div class="who-icon">
@@ -78,7 +78,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="who-text body-1">You don't want crash diets or extreme plans</p>
+        <p class="who-text body-1">{{ 'programs.weightLoss.who.items.2' | translate }}</p>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@
 <!-- How we work -->
 <section class="program-how" aria-labelledby="program-how-title">
   <div class="container">
-    <h2 id="program-how-title" class="section-title headline-1">How we work</h2>
+    <h2 id="program-how-title" class="section-title headline-1">{{ 'programs.weightLoss.how.title' | translate }}</h2>
     <div class="how-grid">
       <div class="how-item">
         <div class="how-icon">
@@ -95,7 +95,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Strength-focused training</p>
+        <p class="how-text body-1">{{ 'programs.weightLoss.how.items.0' | translate }}</p>
       </div>
       <div class="how-item">
         <div class="how-icon">
@@ -103,7 +103,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Progressive overload & consistency</p>
+        <p class="how-text body-1">{{ 'programs.weightLoss.how.items.1' | translate }}</p>
       </div>
       <div class="how-item">
         <div class="how-icon">
@@ -111,7 +111,7 @@
             <path d="M20 6L9 17l-5-5"></path>
           </svg>
         </div>
-        <p class="how-text body-1">Regular check-ins and adjustments</p>
+        <p class="how-text body-1">{{ 'programs.weightLoss.how.items.2' | translate }}</p>
       </div>
     </div>
   </div>
@@ -121,9 +121,9 @@
 <section class="program-feedback" aria-labelledby="program-feedback-title">
   <div class="container">
     <div class="feedback-header">
-      <span class="feedback-kicker small-1">CLIENT REVIEWS</span>
-      <h2 id="program-feedback-title" class="section-title headline-1">Real transformations from people like you</h2>
-      <p class="feedback-subtitle featured-3">See what's possible when you commit to your goals</p>
+      <span class="feedback-kicker small-1">{{ 'programs.weightLoss.feedback.kicker' | translate }}</span>
+      <h2 id="program-feedback-title" class="section-title headline-1">{{ 'programs.weightLoss.feedback.title' | translate }}</h2>
+      <p class="feedback-subtitle featured-3">{{ 'programs.weightLoss.feedback.subtitle' | translate }}</p>
     </div>
     <div class="testimonials-content">
       <div class="testimonial-item">
@@ -143,28 +143,32 @@
             </div>
             <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials[currentTestimonial.id]">
               <p class="testimonial-text body-2">
-                {{ currentTestimonial.text }}
+                {{ currentTestimonial.textKey | translate }}
               </p>
               <div class="testimonial-text-expanded">
                 @for (paragraph of currentTestimonial.expandedText; track $index) {
                 <p class="testimonial-text body-2">
-                    {{ paragraph }}
+                    {{ paragraph | translate }}
                 </p>
                 }
               </div>
             </div>
             <button class="read-more-btn small-1" (click)="toggleTestimonial(currentTestimonial.id)">
-              {{ expandedTestimonials[currentTestimonial.id] ? 'Read less' : 'Read more' }}
+              {{
+                expandedTestimonials[currentTestimonial.id]
+                  ? ('programs.weightLoss.feedback.readLess' | translate)
+                  : ('programs.weightLoss.feedback.readMore' | translate)
+              }}
             </button>
           </div>
         </div>
         <div class="testimonial-images">
           <div class="before-after-images">
             <div class="before-image">
-              <img [src]="currentTestimonial.beforeImage" alt="Transformation" />
+              <img [src]="currentTestimonial.beforeImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
             </div>
             <div class="after-image">
-              <img [src]="currentTestimonial.afterImage" alt="Transformation" />
+              <img [src]="currentTestimonial.afterImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
             </div>
           </div>
         </div>
@@ -176,7 +180,7 @@
       type="button"
       class="nav-arrow nav-arrow-left"
       (click)="prevTestimonial()"
-      aria-label="Previous testimonial"
+      [attr.aria-label]="'programs.weightLoss.feedback.prevAria' | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"></polyline>
@@ -187,7 +191,7 @@
       type="button"
       class="nav-arrow nav-arrow-right"
       (click)="nextTestimonial()"
-      aria-label="Next testimonial"
+      [attr.aria-label]="'programs.weightLoss.feedback.nextAria' | translate"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
@@ -202,7 +206,7 @@
           class="pagination-dot"
           [class.active]="currentIndex === $index"
           (click)="goToTestimonial($index)"
-          [attr.aria-label]="'Go to testimonial ' + ($index + 1)"
+          [attr.aria-label]="('programs.weightLoss.feedback.goToAriaPrefix' | translate) + ' ' + ($index + 1)"
         ></button>
       }
     </div>
@@ -213,14 +217,10 @@
 <section class="program-important" aria-labelledby="program-important-title">
   <div class="container">
     <div class="important-content">
-      <h2 id="program-important-title" class="section-title headline-1">Important to know</h2>
+      <h2 id="program-important-title" class="section-title headline-1">{{ 'programs.weightLoss.important.title' | translate }}</h2>
       <div class="important-text body-1">
-        <p>
-          We do not offer medical or clinical nutrition plans.
-        </p>
-        <p>
-          If you have allergies or medical conditions, we always recommend working with a certified nutrition professional alongside your training.
-        </p>
+        <p>{{ 'programs.weightLoss.important.p1' | translate }}</p>
+        <p>{{ 'programs.weightLoss.important.p2' | translate }}</p>
       </div>
     </div>
   </div>
@@ -231,24 +231,24 @@
   <div class="container">
     <div class="analysis-content">
       <div class="analysis-text">
-        <h2 id="program-analysis-title" class="section-title headline-1">Body analysis & progress tracking</h2>
+        <h2 id="program-analysis-title" class="section-title headline-1">{{ 'programs.weightLoss.analysis.title' | translate }}</h2>
         <p class="section-body body-1">
-          In this program, body analysis helps us understand how your body composition is changing not just your weight.
+          {{ 'programs.weightLoss.analysis.p1' | translate }}
         </p>
-        <p class="section-body body-1">We use it to:</p>
+        <p class="section-body body-1">{{ 'programs.weightLoss.analysis.p2' | translate }}</p>
         <ul class="analysis-list">
-          <li class="analysis-item body-1">Track fat loss while preserving or building muscle</li>
-          <li class="analysis-item body-1">Measure real progress beyond the scale</li>
-          <li class="analysis-item body-1">Adjust training intensity and volume</li>
-          <li class="analysis-item body-1">Ensure results stay sustainable over time</li>
+          <li class="analysis-item body-1">{{ 'programs.weightLoss.analysis.items.0' | translate }}</li>
+          <li class="analysis-item body-1">{{ 'programs.weightLoss.analysis.items.1' | translate }}</li>
+          <li class="analysis-item body-1">{{ 'programs.weightLoss.analysis.items.2' | translate }}</li>
+          <li class="analysis-item body-1">{{ 'programs.weightLoss.analysis.items.3' | translate }}</li>
         </ul>
         <p class="section-body body-1">
-          This gives clarity, motivation, and realistic feedback throughout your journey.
+          {{ 'programs.weightLoss.analysis.p3' | translate }}
         </p>
       </div>
       <div class="analysis-media">
         <div class="media-placeholder">
-          <img src="images/body-analysis-and-tracking.jpg" alt="InBody analysis tracking" class="content-image" />
+          <img src="images/body-analysis-and-tracking.jpg" [attr.alt]="'programs.weightLoss.analysis.imageAlt' | translate" class="content-image" />
         </div>
       </div>
     </div>
@@ -259,9 +259,9 @@
 <section class="program-cta" aria-labelledby="program-cta-title">
   <div class="container">
     <div class="cta-content">
-      <h2 id="program-cta-title" class="cta-title headline-1">Ready to get started?</h2>
+      <h2 id="program-cta-title" class="cta-title headline-1">{{ 'programs.weightLoss.cta.title' | translate }}</h2>
       <app-button-primary-glass type="button" (clicked)="goToFreeIntake()">
-        Book free intake
+        {{ 'programs.weightLoss.cta.cta' | translate }}
       </app-button-primary-glass>
     </div>
   </div>

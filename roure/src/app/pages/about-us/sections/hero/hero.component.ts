@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, ButtonPrimaryGlassComponent],
+  imports: [CommonModule, ButtonPrimaryGlassComponent, TranslatePipe],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })

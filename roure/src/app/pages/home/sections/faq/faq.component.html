@@ -1,8 +1,8 @@
 <section id="faq" class="faq">
   <div class="faq-container">
     <div class="faq-header">
-      <h2 class="faq-title headline-1">Frequently asked questions</h2>
-      <p class="faq-subtitle featured-3">We are here to help!</p>
+      <h2 class="faq-title headline-1">{{ 'home.faq.title' | translate }}</h2>
+      <p class="faq-subtitle featured-3">{{ 'home.faq.subtitle' | translate }}</p>
     </div>
     
     <div class="faq-list">
@@ -16,7 +16,7 @@
             [attr.aria-expanded]="faq.isOpen"
             [attr.aria-controls]="'faq-answer-' + $index"
           >
-            <span class="faq-question-text strong-1">{{ faq.question }}</span>
+            <span class="faq-question-text strong-1">{{ faq.questionKey | translate }}</span>
             <span class="faq-icon">
               @if (faq.isOpen) {
                 <span class="icon-minus">−</span>
@@ -31,7 +31,7 @@
             [attr.aria-hidden]="!faq.isOpen"
           >
             <div class="faq-answer">
-              <p class="body-1">{{ faq.answer }}</p>
+              <p class="body-1">{{ faq.answerKey | translate }}</p>
             </div>
           </div>
         </div>

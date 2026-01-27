@@ -1,34 +1,35 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
   location = {
-    title: 'Studio location',
-    address: 'Amsterdam, NH',
-    street: 'Domselaerstraat 120, 1093 MB',
-    kvk: 'KVK: 92526268'
+    titleKey: 'aboutUs.contact.location.title',
+    addressKey: 'aboutUs.contact.location.address',
+    streetKey: 'aboutUs.contact.location.street',
+    kvkKey: 'aboutUs.contact.location.kvk'
   };
 
   phone = {
-    title: 'WhatsApp or call us',
+    titleKey: 'aboutUs.contact.phone.title',
     number: '+31 6 241 662 51',
     hours: {
-      weekdays: 'Mon - Fri: 07:00 - 22:00',
-      saturday: 'Saturday: 09:00 - 17:00',
-      sunday: 'Sunday: 09:00 - 17:00'
+      weekdaysKey: 'aboutUs.contact.phone.hours.weekdays',
+      saturdayKey: 'aboutUs.contact.phone.hours.saturday',
+      sundayKey: 'aboutUs.contact.phone.hours.sunday'
     }
   };
 
   email = {
-    title: 'Send us an email',
+    titleKey: 'aboutUs.contact.email.title',
     address: 'Info@roure.nl'
   };
 
