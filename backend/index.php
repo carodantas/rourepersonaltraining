@@ -129,7 +129,7 @@ $domainRoot = null;
   }
 }
 
-$isStaging = isset($GLOBALS['HOTEL_MOUNT_PREFIX']) && $GLOBALS['HOTEL_MOUNT_PREFIX'] === '/staging/api';
+$isStaging = ($mountPrefix === '/staging/api');
 
 function resolve_private_dir($domainRoot, $docRoot) {
   $candidates = array();
