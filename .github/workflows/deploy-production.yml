@@ -65,11 +65,11 @@ jobs:
 
       - name: Ensure dashboard build output exists
         working-directory: dashboard
-        run: test -f dist/dashboard/index.html
+        run: test -f dist/dashboard/browser/index.html
 
       - name: Add Apache SPA .htaccess into dashboard build output
         working-directory: dashboard
-        run: cp src/.htaccess dist/dashboard/.htaccess
+        run: cp src/.htaccess dist/dashboard/browser/.htaccess
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
@@ -110,7 +110,7 @@ jobs:
           -O
           -P "$SSH_PORT"
           $SSH_OPTS
-          -r dashboard/dist/dashboard/*
+          -r dashboard/dist/dashboard/browser/*
           "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/dashboard/"
 
       - name: Upload backend code to production API (preserve data)
