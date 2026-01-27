@@ -1,28 +1,15 @@
-<<<<<<< HEAD:roure/src/app/pages/blog/sections/articles-grid/articles-grid.component.html
 <section class="articles-grid-section" [attr.aria-label]="'blog.articlesAria' | translate">
-=======
-<section class="articles-grid-section" [attr.aria-label]="'blog.articles.aria' | translate">
->>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/sections/articles-grid/articles-grid.component.html
   <div class="container">
     <div class="articles-grid">
       @for (article of articles(); track article.id) {
         <article class="article-card" (click)="openArticle(article)">
           <div class="article-image">
-<<<<<<< HEAD:roure/src/app/pages/blog/sections/articles-grid/articles-grid.component.html
             <img [src]="article.cardImage" [alt]="article.title" />
           </div>
           <div class="article-content">
             <span class="article-category small-1">{{ article.categoryLabel }}</span>
             <h2 class="article-title headline-2">{{ article.title }}</h2>
             <p class="article-excerpt body-2">{{ article.excerpt }}</p>
-=======
-            <img [src]="article.image" [attr.alt]="article.titleKey | translate" />
-          </div>
-          <div class="article-content">
-            <span class="article-category small-1">{{ categoryLabelKey(article.categoryId) | translate }}</span>
-            <h2 class="article-title headline-2">{{ article.titleKey | translate }}</h2>
-            <p class="article-excerpt body-2">{{ article.excerptKey | translate }}</p>
->>>>>>> c3fedbccab48bd4c13438f437cfae09004d66e55:src/app/pages/blog/sections/articles-grid/articles-grid.component.html
             <div class="article-meta body-2">
               <span class="article-date">{{ article.dateLabel }}</span>
               <span class="article-separator">///</span>
