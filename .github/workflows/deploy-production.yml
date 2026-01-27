@@ -71,6 +71,16 @@ jobs:
         working-directory: dashboard
         run: cp src/.htaccess dist/dashboard/browser/.htaccess
 
+      - name: Create dashboard deep-link fallbacks (no .htaccess required)
+        working-directory: dashboard
+        run: |
+          set -euo pipefail
+          ROOT="dist/dashboard/browser"
+          for p in login posts posts/new categories users users/new advanced/json; do
+            mkdir -p "$ROOT/$p"
+            cp "$ROOT/index.html" "$ROOT/$p/index.html"
+          done
+
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 

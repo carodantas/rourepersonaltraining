@@ -85,22 +85,38 @@ $baseDir = __DIR__;
 // - uploads live in the domain "images" folder (outside public_html), per hosting layout
 $domainRoot = null;
 {
+  // Prefer DOCUMENT_ROOT (Apache) when available:
+  // DOCUMENT_ROOT usually points to ".../<domain>/public_html".
+  // Then domain root is one level above it, where "_private" lives.
+  $docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string)$_SERVER['DOCUMENT_ROOT'] : '';
+  if ($docRoot !== '') {
+    $docReal = realpath($docRoot);
+    if ($docReal !== false && is_dir($docReal)) {
+      $candidate = dirname($docReal);
+      if (is_dir($candidate . DIRECTORY_SEPARATOR . 'public_html') && is_dir($candidate . DIRECTORY_SEPARATOR . '_private')) {
+        $domainRoot = $candidate;
+      }
+    }
+  }
+
   // Find domain root by walking up until we see both "public_html" and "_private".
   // Examples:
   // - prod API:    .../public_html/api        -> domain root is .../
   // - staging API: .../public_html/staging/api -> domain root is .../
-  $cursor = $baseDir;
-  for ($i = 0; $i < 8; $i++) {
-    $candidate = realpath($cursor);
-    if ($candidate !== false && is_dir($candidate)) {
-      if (is_dir($candidate . DIRECTORY_SEPARATOR . 'public_html') && is_dir($candidate . DIRECTORY_SEPARATOR . '_private')) {
-        $domainRoot = $candidate;
-        break;
+  if ($domainRoot === null) {
+    $cursor = $baseDir;
+    for ($i = 0; $i < 8; $i++) {
+      $candidate = realpath($cursor);
+      if ($candidate !== false && is_dir($candidate)) {
+        if (is_dir($candidate . DIRECTORY_SEPARATOR . 'public_html') && is_dir($candidate . DIRECTORY_SEPARATOR . '_private')) {
+          $domainRoot = $candidate;
+          break;
+        }
       }
+      $parent = dirname($cursor);
+      if (!is_string($parent) || $parent === '' || $parent === $cursor) break;
+      $cursor = $parent;
     }
-    $parent = dirname($cursor);
-    if (!is_string($parent) || $parent === '' || $parent === $cursor) break;
-    $cursor = $parent;
   }
 
   // Fallback: previous heuristic (may point to public_html/staging in some layouts)
