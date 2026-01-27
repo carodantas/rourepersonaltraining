@@ -56,6 +56,17 @@ jobs:
         working-directory: roure
         run: cp src/.htaccess dist/rourepersonaltraining/browser/.htaccess
 
+      - name: Create site deep-link fallbacks (no .htaccess required)
+        working-directory: roure
+        run: |
+          set -euo pipefail
+          ROOT="dist/rourepersonaltraining/browser"
+          for p in about-us methods blog programs free-intake \
+                   programs/weight-loss-muscle-mass programs/peak-performance programs/vitality-longevity programs/prenatal-postpartum; do
+            mkdir -p "$ROOT/$p"
+            cp "$ROOT/index.html" "$ROOT/$p/index.html"
+          done
+
       - name: Install deps (dashboard)
         working-directory: dashboard
         run: npm ci
