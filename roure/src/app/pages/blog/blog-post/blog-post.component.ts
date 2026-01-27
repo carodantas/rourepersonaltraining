@@ -31,7 +31,7 @@ export class BlogPostComponent {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         switchMap(([params, locale]) => {
-          this.slug = params.get('slug');
+      this.slug = params.get('slug');
           if (!this.slug) return of(null);
           return this.blog.getPostBySlug(locale, this.slug);
         })
@@ -40,8 +40,8 @@ export class BlogPostComponent {
         this.article = post;
         if (this.slug && !post) {
           void this.router.navigate(['/blog']);
-        }
-      });
+      }
+    });
   }
 }
 

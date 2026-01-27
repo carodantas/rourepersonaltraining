@@ -83,12 +83,37 @@ $baseDir = __DIR__;
 //   - production: content.json
 //   - staging:   content-staging.json
 // - uploads live in the domain "images" folder (outside public_html), per hosting layout
-$domainRoot = realpath($baseDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
-if ($domainRoot === false || !is_dir($domainRoot)) {
-  $domainRoot = dirname(dirname($baseDir));
+$domainRoot = null;
+{
+  // Find domain root by walking up until we see both "public_html" and "_private".
+  // Examples:
+  // - prod API:    .../public_html/api        -> domain root is .../
+  // - staging API: .../public_html/staging/api -> domain root is .../
+  $cursor = $baseDir;
+  for ($i = 0; $i < 8; $i++) {
+    $candidate = realpath($cursor);
+    if ($candidate !== false && is_dir($candidate)) {
+      if (is_dir($candidate . DIRECTORY_SEPARATOR . 'public_html') && is_dir($candidate . DIRECTORY_SEPARATOR . '_private')) {
+        $domainRoot = $candidate;
+        break;
+      }
+    }
+    $parent = dirname($cursor);
+    if (!is_string($parent) || $parent === '' || $parent === $cursor) break;
+    $cursor = $parent;
+  }
+
+  // Fallback: previous heuristic (may point to public_html/staging in some layouts)
+  if ($domainRoot === null) {
+    $fallback = realpath($baseDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+    if ($fallback !== false && is_dir($fallback)) $domainRoot = $fallback;
+  }
+  if ($domainRoot === null) {
+    $domainRoot = dirname(dirname($baseDir));
+  }
 }
 
-$isStaging = isset($GLOBALS['MOUNT_PREFIX']) && $GLOBALS['MOUNT_PREFIX'] === '/staging/api';
+$isStaging = isset($GLOBALS['HOTEL_MOUNT_PREFIX']) && $GLOBALS['HOTEL_MOUNT_PREFIX'] === '/staging/api';
 
 $privateDir = $domainRoot . DIRECTORY_SEPARATOR . '_private';
 $contentPath = $privateDir . DIRECTORY_SEPARATOR . ($isStaging ? 'content-staging.json' : 'content.json');
