@@ -237,3 +237,28 @@ body::after {
   opacity: 0.4;
 }
 
+/* -----------------------------------------
+   Blog rich-text rendering (from CMS HTML)
+   Note: HTML injected via [innerHTML] is not
+   affected by component-scoped styles.
+------------------------------------------ */
+.blog-post-content b,
+.blog-post-content strong {
+  font-weight: 700;
+}
+
+.blog-post-content i,
+.blog-post-content em {
+  font-style: italic;
+}
+
+.blog-post-content a {
+  color: #9d8f78;
+  text-decoration: underline;
+}
+
+.blog-post-intro,
+.blog-post-section-content {
+  white-space: pre-line;
+}
+

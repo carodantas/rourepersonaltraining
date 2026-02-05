@@ -16,13 +16,13 @@
       <!-- Article Content -->
       <div class="blog-post-content">
         <!-- Introduction -->
-        <div class="blog-post-intro body-1" [innerHTML]="article.content.introduction"></div>
+        <div class="blog-post-intro body-1" [innerHTML]="article.content.introduction | safeHtml"></div>
 
         <!-- Sections -->
         @for (section of article.content.sections; track section.title) {
           <section class="blog-post-section">
             <h2 class="blog-post-section-title headline-2">{{ section.title }}</h2>
-            <div class="blog-post-section-content body-1" [innerHTML]="section.body"></div>
+            <div class="blog-post-section-content body-1" [innerHTML]="section.body | safeHtml"></div>
           </section>
         }
       </div>

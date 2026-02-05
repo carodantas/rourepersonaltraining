@@ -7,11 +7,12 @@ import { combineLatest, of } from 'rxjs';
 
 import { BlogService, type BlogPostView } from '../../../services/blog.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { SafeHtmlPipe } from '../../../pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslatePipe],
+  imports: [CommonModule, RouterLink, TranslatePipe, SafeHtmlPipe],
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.css'
 })
