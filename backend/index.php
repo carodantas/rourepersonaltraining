@@ -154,6 +154,11 @@ function resolve_users_path($privateDir, $isStaging) {
   return rtrim($privateDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
 }
 
+function resolve_preview_tokens_path($privateDir, $isStaging) {
+  $file = $isStaging ? 'preview-tokens-staging.json' : 'preview-tokens.json';
+  return rtrim($privateDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
+}
+
 function resolve_uploads_dir($domainRoot, $docRoot, $isStaging) {
   $folder = $isStaging ? 'uploads-staging' : 'uploads';
   $candidates = array();
@@ -179,6 +184,7 @@ $contentPath = resolve_content_path($privateDir, $isStaging);
 
 // Keep admin users isolated too (recommended)
 $usersPath = resolve_users_path($privateDir, $isStaging);
+$previewTokensPath = resolve_preview_tokens_path($privateDir, $isStaging);
 
 $uploadsDir = resolve_uploads_dir($domainRoot, $docRoot, $isStaging);
 
@@ -191,6 +197,7 @@ if ($sharedDirReal !== false && is_dir($sharedDirReal)) {
   // Prefer shared storage when present
   $contentPath = $sharedDirReal . DIRECTORY_SEPARATOR . ($isStaging ? 'content-staging.json' : 'content.json');
   $usersPath = $sharedDirReal . DIRECTORY_SEPARATOR . ($isStaging ? 'users-staging.json' : 'users.json');
+  $previewTokensPath = $sharedDirReal . DIRECTORY_SEPARATOR . ($isStaging ? 'preview-tokens-staging.json' : 'preview-tokens.json');
 
   // Uploads go into a dedicated folder (avoid exposing users/content via /api/uploads)
   $uploadsDir = $sharedDirReal . DIRECTORY_SEPARATOR . ($isStaging ? 'uploads-staging' : 'uploads');
@@ -208,6 +215,29 @@ if (is_string($envUploads) && trim($envUploads) !== '' && is_dir($envUploads)) {
 $envUsers = getenv('USERS_PATH');
 if (is_string($envUsers) && trim($envUsers) !== '') {
   $usersPath = $envUsers;
+}
+
+// -----------------------------
+// Local-dev fallback (repo paths)
+// -----------------------------
+// When running the PHP built-in server from the repo (no "public_html/_private" layout),
+// prefer the checked-in JSON files under ./backend/ when present.
+$isCliServer = function_exists('php_sapi_name') && php_sapi_name() === 'cli-server';
+
+$repoContent = $baseDir . DIRECTORY_SEPARATOR . 'content.json';
+if (!file_exists($contentPath) && file_exists($repoContent)) {
+  $contentPath = $repoContent;
+}
+
+$repoUsers = $baseDir . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR . 'security' . DIRECTORY_SEPARATOR . 'users.json';
+if (!file_exists($usersPath) && file_exists($repoUsers)) {
+  $usersPath = $repoUsers;
+}
+
+// Local-only override: if users.local.json exists, always use it when running via php -S.
+$localUsers = $baseDir . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR . 'security' . DIRECTORY_SEPARATOR . 'users.local.json';
+if ($isCliServer && file_exists($localUsers)) {
+  $usersPath = $localUsers;
 }
 
 function starts_with($haystack, $prefix) {
@@ -335,6 +365,56 @@ function write_json_atomic($path, $data) {
     fclose($fp);
   }
   return rename($tmp, $path);
+}
+
+// -----------------------------
+// Preview tokens store (draft preview)
+// -----------------------------
+
+function ensure_preview_tokens_store($previewTokensPath) {
+  $dir = dirname($previewTokensPath);
+  if (!is_dir($dir)) {
+    @mkdir($dir, 0755, true);
+  }
+  if (!file_exists($previewTokensPath)) {
+    write_json_atomic($previewTokensPath, array('tokens' => array()));
+  }
+}
+
+function load_preview_tokens_store($previewTokensPath) {
+  ensure_preview_tokens_store($previewTokensPath);
+  $data = read_json_file($previewTokensPath);
+  if (!is_array($data)) $data = array();
+  if (!isset($data['tokens']) || !is_array($data['tokens'])) $data['tokens'] = array();
+  return $data;
+}
+
+function prune_preview_tokens_store(&$store) {
+  if (!is_array($store) || !isset($store['tokens']) || !is_array($store['tokens'])) return false;
+  $now = time();
+  $before = count($store['tokens']);
+  $next = array();
+  foreach ($store['tokens'] as $t) {
+    if (!is_array($t)) continue;
+    $expiresAt = isset($t['expiresAt']) ? (string)$t['expiresAt'] : '';
+    $expiresTs = $expiresAt !== '' ? strtotime($expiresAt) : false;
+    if ($expiresTs !== false && $expiresTs > $now) {
+      $next[] = $t;
+    }
+  }
+  $store['tokens'] = $next;
+  return count($next) !== $before;
+}
+
+function gen_preview_token($existingTokens) {
+  $existing = is_array($existingTokens) ? $existingTokens : array();
+  for ($i = 0; $i < 10; $i++) {
+    $bytes = function_exists('random_bytes') ? random_bytes(24) : openssl_random_pseudo_bytes(24);
+    if ($bytes === false) $bytes = uniqid('', true);
+    $token = substr(bin2hex($bytes), 0, 48);
+    if (!in_array($token, $existing, true)) return $token;
+  }
+  return substr(md5(uniqid('', true)), 0, 32);
 }
 
 function validate_content_schema($content) {
@@ -540,6 +620,60 @@ if ($method === 'GET' && ($path === '/content.json' || $path === '/content')) {
   exit;
 }
 
+// Public preview endpoint (token-based) to view draft posts on the site.
+// GET /preview/post?token=<token>
+if ($method === 'GET' && $path === '/preview/post') {
+  $tokenRaw = isset($_GET['token']) ? $_GET['token'] : null;
+  $token = is_string($tokenRaw) ? trim($tokenRaw) : '';
+  if ($token === '') {
+    json_response(400, array('error' => 'missing_token'));
+  }
+
+  $store = load_preview_tokens_store($previewTokensPath);
+  // prune expired tokens opportunistically
+  if (prune_preview_tokens_store($store)) {
+    write_json_atomic($previewTokensPath, $store);
+  }
+
+  $found = null;
+  foreach ($store['tokens'] as $t) {
+    if (!is_array($t)) continue;
+    $tToken = isset($t['token']) ? (string)$t['token'] : '';
+    if ($tToken === $token) {
+      $found = $t;
+      break;
+    }
+  }
+  if (!is_array($found)) {
+    json_response(404, array('error' => 'invalid_token'));
+  }
+
+  $postId = isset($found['postId']) ? (string)$found['postId'] : '';
+  if ($postId === '') {
+    json_response(404, array('error' => 'invalid_token'));
+  }
+
+  $content = read_json_file($contentPath);
+  if (!is_array($content) || !isset($content['blog']) || !is_array($content['blog'])) {
+    json_response(500, array('error' => 'content_invalid'));
+  }
+  $posts = isset($content['blog']['posts']) && is_array($content['blog']['posts']) ? $content['blog']['posts'] : array();
+  $post = null;
+  foreach ($posts as $p) {
+    if (!is_array($p)) continue;
+    $id = isset($p['id']) ? (string)$p['id'] : '';
+    if ($id === $postId) {
+      $post = $p;
+      break;
+    }
+  }
+  if (!is_array($post)) {
+    json_response(404, array('error' => 'post_not_found'));
+  }
+
+  json_response(200, array('ok' => true, 'post' => $post));
+}
+
 // Admin login/logout/content/upload
 if (starts_with($path, '/admin/')) {
   if ($path === '/admin/login' && $method === 'POST') {
@@ -616,6 +750,67 @@ if (starts_with($path, '/admin/')) {
       json_response(500, array('error' => 'write_failed'));
     }
     json_response(200, array('ok' => true));
+  }
+
+  // Generate a preview token for a blog post (draft or published).
+  // POST /admin/preview-token { postId: string }
+  if ($path === '/admin/preview-token' && $method === 'POST') {
+    require_admin();
+    $body = get_json_body();
+    $postIdRaw = isset($body['postId']) ? $body['postId'] : null;
+    $postId = is_string($postIdRaw) ? trim($postIdRaw) : '';
+    if ($postId === '') {
+      json_response(400, array('error' => 'missing_post_id'));
+    }
+
+    $content = read_json_file($contentPath);
+    if (!is_array($content) || !isset($content['blog']) || !is_array($content['blog'])) {
+      json_response(500, array('error' => 'content_invalid'));
+    }
+    $posts = isset($content['blog']['posts']) && is_array($content['blog']['posts']) ? $content['blog']['posts'] : array();
+    $post = null;
+    foreach ($posts as $p) {
+      if (!is_array($p)) continue;
+      $id = isset($p['id']) ? (string)$p['id'] : '';
+      if ($id === $postId) {
+        $post = $p;
+        break;
+      }
+    }
+    if (!is_array($post)) {
+      json_response(404, array('error' => 'post_not_found'));
+    }
+
+    $store = load_preview_tokens_store($previewTokensPath);
+    prune_preview_tokens_store($store);
+    $existing = array();
+    foreach ($store['tokens'] as $t) {
+      if (is_array($t) && isset($t['token']) && is_string($t['token']) && $t['token'] !== '') $existing[] = $t['token'];
+    }
+
+    $token = gen_preview_token($existing);
+    $now = gmdate('c');
+    $expiresAt = gmdate('c', time() + 24 * 60 * 60); // 24h
+    $slug = isset($post['slug']) ? (string)$post['slug'] : '';
+    $store['tokens'][] = array(
+      'token' => $token,
+      'postId' => $postId,
+      'slug' => $slug,
+      'createdAt' => $now,
+      'expiresAt' => $expiresAt
+    );
+
+    if (!write_json_atomic($previewTokensPath, $store)) {
+      json_response(500, array('error' => 'write_failed'));
+    }
+
+    json_response(200, array(
+      'ok' => true,
+      'token' => $token,
+      'expiresAt' => $expiresAt,
+      'postId' => $postId,
+      'slug' => $slug
+    ));
   }
 
   if ($path === '/admin/upload' && $method === 'POST') {

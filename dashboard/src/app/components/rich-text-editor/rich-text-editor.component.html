@@ -1,0 +1,55 @@
+<div class="rte">
+  <div class="rte-toolbar" role="toolbar" aria-label="Formatting toolbar">
+    <div class="rte-group">
+      <button class="rte-btn" type="button" (click)="cmd('bold')" [disabled]="disabled" title="Bold">
+        <span class="mono">B</span>
+      </button>
+      <button class="rte-btn" type="button" (click)="cmd('italic')" [disabled]="disabled" title="Italic">
+        <span class="mono"><em>I</em></span>
+      </button>
+      <button class="rte-btn" type="button" (click)="cmd('underline')" [disabled]="disabled" title="Underline">
+        <span class="mono"><u>U</u></span>
+      </button>
+    </div>
+
+    <div class="rte-group">
+      <button class="rte-btn" type="button" (click)="block('P')" [disabled]="disabled" title="Paragraph">
+        P
+      </button>
+      <button class="rte-btn" type="button" (click)="block('H3')" [disabled]="disabled" title="Heading">
+        H
+      </button>
+      <button class="rte-btn" type="button" (click)="block('BLOCKQUOTE')" [disabled]="disabled" title="Quote">
+        “”
+      </button>
+    </div>
+
+    <div class="rte-group">
+      <button class="rte-btn" type="button" (click)="cmd('insertUnorderedList')" [disabled]="disabled" title="Bullets">
+        ••
+      </button>
+      <button class="rte-btn" type="button" (click)="cmd('insertOrderedList')" [disabled]="disabled" title="Numbered">
+        1.
+      </button>
+    </div>
+
+    <div class="rte-group">
+      <button class="rte-btn" type="button" (click)="link()" [disabled]="disabled" title="Link">
+        <i class="fa fa-link"></i>
+      </button>
+      <button class="rte-btn" type="button" (click)="cmd('removeFormat')" [disabled]="disabled" title="Clear formatting">
+        <i class="fa fa-eraser"></i>
+      </button>
+    </div>
+  </div>
+
+  <div
+    #editable
+    class="rte-editor"
+    [attr.contenteditable]="!disabled"
+    [attr.data-placeholder]="placeholder"
+    (input)="onInput()"
+    (blur)="onBlur()"
+  ></div>
+</div>
+

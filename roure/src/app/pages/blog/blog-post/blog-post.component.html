@@ -16,24 +16,14 @@
       <!-- Article Content -->
       <div class="blog-post-content">
         <!-- Introduction -->
-        <p class="blog-post-intro body-1">{{ article.content.introduction }}</p>
+        <div class="blog-post-intro body-1" [innerHTML]="article.content.introduction"></div>
 
         <!-- Sections -->
         @for (section of article.content.sections; track section.title) {
           <section class="blog-post-section">
             <h2 class="blog-post-section-title headline-2">{{ section.title }}</h2>
-            <p class="blog-post-section-content body-1">{{ section.body }}</p>
+            <div class="blog-post-section-content body-1" [innerHTML]="section.body"></div>
           </section>
-        }
-
-        <!-- Conclusion -->
-        @if (article.content.conclusion) {
-          <p class="blog-post-conclusion body-1">{{ article.content.conclusion }}</p>
-        }
-
-        <!-- Call to Action -->
-        @if (article.content.callToAction) {
-          <p class="blog-post-cta body-1">{{ article.content.callToAction }}</p>
         }
       </div>
 

@@ -15,6 +15,14 @@ export interface AdminUser {
   updatedAt?: string;
 }
 
+export interface PreviewTokenResponse {
+  ok: boolean;
+  token: string;
+  expiresAt: string;
+  postId: string;
+  slug?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
   private readonly http = inject(HttpClient);
@@ -50,6 +58,14 @@ export class AdminApiService {
 
   saveContent(content: unknown) {
     return this.http.put<{ ok: boolean }>(this.url('/api/admin/content'), content, { withCredentials: true });
+  }
+
+  createPreviewToken(postId: string) {
+    return this.http.post<PreviewTokenResponse>(
+      this.url('/api/admin/preview-token'),
+      { postId },
+      { withCredentials: true }
+    );
   }
 
   upload(file: File) {

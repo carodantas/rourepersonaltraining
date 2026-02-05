@@ -27,12 +27,16 @@ export class BlogPostComponent {
   constructor() {
     const locale$ = toObservable(this.blog.localeSignal);
 
-    combineLatest([this.route.paramMap, locale$])
+    combineLatest([this.route.paramMap, this.route.queryParamMap, locale$])
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        switchMap(([params, locale]) => {
-      this.slug = params.get('slug');
+        switchMap(([params, query, locale]) => {
+          this.slug = params.get('slug');
+          const previewToken = query.get('preview');
           if (!this.slug) return of(null);
+          if (previewToken) {
+            return this.blog.getPreviewPostByToken(locale, previewToken);
+          }
           return this.blog.getPostBySlug(locale, this.slug);
         })
       )

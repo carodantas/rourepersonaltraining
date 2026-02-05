@@ -10,6 +10,9 @@
       </div>
 
       <div class="actions">
+        <button class="btn btn-secondary" type="button" (click)="preview()" [disabled]="saving() || loading()">
+          Preview
+        </button>
         <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
           {{ saving() ? 'Saving…' : 'Save' }}
         </button>
@@ -161,18 +164,8 @@
               </label>
               <label>
                 <span>Introduction *</span>
-                <textarea formControlName="introNl" rows="4" placeholder="Opening paragraph in Dutch"></textarea>
+                <app-rich-text-editor formControlName="introNl" placeholder="Opening paragraph in Dutch"></app-rich-text-editor>
               </label>
-              <div class="two">
-                <label>
-                  <span>Conclusion</span>
-                  <textarea formControlName="conclusionNl" rows="2" placeholder="Closing thoughts in Dutch"></textarea>
-                </label>
-                <label>
-                  <span>Call to action</span>
-                  <textarea formControlName="ctaNl" rows="2" placeholder="E.g. 'Share your experiences!'"></textarea>
-                </label>
-              </div>
             </div>
 
             <div class="sections" formArrayName="sectionsNl">
@@ -194,7 +187,7 @@
                     </label>
                     <label>
                       <span>Body *</span>
-                      <textarea formControlName="body" rows="4" placeholder="Section content"></textarea>
+                      <app-rich-text-editor formControlName="body" placeholder="Section content"></app-rich-text-editor>
                     </label>
                   </div>
                 </div>
@@ -216,18 +209,8 @@
               </label>
               <label>
                 <span>Introduction *</span>
-                <textarea formControlName="introEn" rows="4" placeholder="Opening paragraph in English"></textarea>
+                <app-rich-text-editor formControlName="introEn" placeholder="Opening paragraph in English"></app-rich-text-editor>
               </label>
-              <div class="two">
-                <label>
-                  <span>Conclusion</span>
-                  <textarea formControlName="conclusionEn" rows="2" placeholder="Closing thoughts in English"></textarea>
-                </label>
-                <label>
-                  <span>Call to action</span>
-                  <textarea formControlName="ctaEn" rows="2" placeholder="E.g. 'Share your experiences!'"></textarea>
-                </label>
-              </div>
             </div>
 
             <div class="sections" formArrayName="sectionsEn">
@@ -248,7 +231,7 @@
                     </label>
                     <label>
                       <span>Body *</span>
-                      <textarea formControlName="body" rows="4" placeholder="Section content"></textarea>
+                      <app-rich-text-editor formControlName="body" placeholder="Section content"></app-rich-text-editor>
                     </label>
                   </div>
                 </div>
@@ -260,6 +243,9 @@
     </form>
 
     <div class="form-actions">
+      <button class="btn btn-secondary" type="button" (click)="preview()" [disabled]="saving() || loading()">
+        Preview
+      </button>
       <button class="btn btn-primary" type="button" (click)="save()" [disabled]="saving()">
         {{ saving() ? 'Saving…' : 'Save' }}
       </button>

@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { BlogCategory, BlogPost, BlogPostSection, ContentModel } from '../../../models/content.model';
 import { slugify } from '../../../utils/slugify';
+import { environment } from '../../../../environments/environment';
+import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 
 type Locale = 'nl' | 'en';
 
@@ -24,7 +26,7 @@ function dateInputToIso(date: string): string | undefined {
 @Component({
   selector: 'app-post-edit-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RichTextEditorComponent],
   templateUrl: './post-edit.page.html',
   styleUrl: './post-edit.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -63,16 +65,12 @@ export class PostEditPage {
     titleNl: ['', [Validators.required]],
     excerptNl: [''],
     introNl: ['', [Validators.required]],
-    conclusionNl: [''],
-    ctaNl: [''],
     sectionsNl: this.fb.array([]),
 
     // EN (translation)
     titleEn: ['', [Validators.required]],
     excerptEn: [''],
     introEn: ['', [Validators.required]],
-    conclusionEn: [''],
-    ctaEn: [''],
     sectionsEn: this.fb.array([])
   });
 
@@ -85,6 +83,54 @@ export class PostEditPage {
 
   back(): void {
     void this.router.navigate(['/posts']);
+  }
+
+  preview(): void {
+    this.error.set(null);
+    this.info.set(null);
+
+    const values = this.form.getRawValue();
+    const id = (values.id ?? '').trim();
+    const slug = slugify(values.slug ?? '');
+    const status = (values.status as 'draft' | 'published') ?? 'draft';
+    const siteBase = (environment.apiBaseUrl ?? '').toString(); // '' or '/staging'
+
+    if (!slug) {
+      this.error.set('Please set a slug before preview.');
+      return;
+    }
+
+    // If already published, just open the public URL (no token needed).
+    if (status === 'published') {
+      const url = `${window.location.origin}${siteBase}/blog/${encodeURIComponent(slug)}`;
+      window.open(url, '_blank', 'noopener');
+      return;
+    }
+
+    if (!id) {
+      this.error.set('Save the post first to preview drafts.');
+      return;
+    }
+
+    this.api.createPreviewToken(id).subscribe({
+      next: (res) => {
+        if (!res?.ok || !res.token) {
+          this.error.set('Failed to create preview token.');
+          return;
+        }
+        const url = `${window.location.origin}${siteBase}/blog/${encodeURIComponent(slug)}?preview=${encodeURIComponent(res.token)}`;
+        window.open(url, '_blank', 'noopener');
+        this.info.set('Preview opened in a new tab.');
+      },
+      error: (err: unknown) => {
+        const statusCode = (err as { status?: number })?.status;
+        if (statusCode === 401) {
+          this.router.navigateByUrl('/login');
+          return;
+        }
+        this.error.set('Failed to create preview token.');
+      }
+    });
   }
 
 
@@ -162,13 +208,9 @@ export class PostEditPage {
       titleNl: '',
       excerptNl: '',
       introNl: '',
-      conclusionNl: '',
-      ctaNl: '',
       titleEn: '',
       excerptEn: '',
-      introEn: '',
-      conclusionEn: '',
-      ctaEn: ''
+      introEn: ''
     });
     this.sectionsNl().clear();
     this.sectionsEn().clear();
@@ -192,13 +234,9 @@ export class PostEditPage {
       titleNl: p.title ?? '',
       excerptNl: p.excerpt ?? '',
       introNl: p.content?.introduction ?? '',
-      conclusionNl: p.content?.conclusion ?? '',
-      ctaNl: p.content?.callToAction ?? '',
       titleEn: en.title ?? p.title ?? '',
       excerptEn: en.excerpt ?? p.excerpt ?? '',
-      introEn: enContent.introduction ?? p.content?.introduction ?? '',
-      conclusionEn: enContent.conclusion ?? p.content?.conclusion ?? '',
-      ctaEn: enContent.callToAction ?? p.content?.callToAction ?? ''
+      introEn: enContent.introduction ?? p.content?.introduction ?? ''
     });
 
     this.sectionsNl().clear();
@@ -343,8 +381,6 @@ export class PostEditPage {
       content: {
         introduction: (values.introNl ?? '').trim(),
         sections: baseSections,
-        conclusion: (values.conclusionNl ?? '').trim() || undefined,
-        callToAction: (values.ctaNl ?? '').trim() || undefined
       },
       i18n: {
         en: {
@@ -352,9 +388,7 @@ export class PostEditPage {
           excerpt: (values.excerptEn ?? '').trim() || undefined,
           content: {
             introduction: (values.introEn ?? '').trim() || undefined,
-            sections: enSections,
-            conclusion: (values.conclusionEn ?? '').trim() || undefined,
-            callToAction: (values.ctaEn ?? '').trim() || undefined
+            sections: enSections
           }
         }
       }

@@ -87,20 +87,33 @@
   margin: 0;
 }
 
-/* Conclusion */
-.blog-post-conclusion {
-  color: rgba(245, 242, 234, 0.9);
-  font-size: 1.125rem;
-  line-height: 1.8;
+/* Rich text defaults (contenteditable HTML from CMS) */
+.blog-post-content :where(p, ul, ol, blockquote) {
   margin: 0;
 }
 
-/* Call to Action */
-.blog-post-cta {
-  color: rgba(245, 242, 234, 0.85);
-  line-height: 1.8;
-  margin: 0;
+.blog-post-content :where(ul, ol) {
+  padding-left: 1.25rem;
+}
+
+.blog-post-content :where(a) {
+  color: #9d8f78;
+  text-decoration: underline;
+}
+
+.blog-post-content :where(strong, b) {
+  font-weight: 700;
+}
+
+.blog-post-content :where(em, i) {
   font-style: italic;
+}
+
+.blog-post-content :where(img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Footer */
@@ -154,7 +167,7 @@
   }
 
   .blog-post-intro,
-  .blog-post-conclusion {
+  .blog-post-section-content {
     font-size: 1rem;
   }
 
