@@ -14,3 +14,34 @@
 </IfModule>
 
 
+# Cache control
+# - index.html (app shell) must NOT be cached so new deployments are picked up immediately
+# - JS/CSS can be cached long-term because Angular builds them with hashes (outputHashing=all)
+# - Other assets are revalidated to avoid "stale" icons/images after a deploy
+<IfModule mod_headers.c>
+  # Always fetch latest app shell / HTML
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Never cache JSON (content/config can change without filename changes)
+  <FilesMatch "\.(json)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Cache-busted bundles (hashed filenames) - safe to cache "forever"
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Static assets (often not hashed) - allow caching but force revalidation
+  <FilesMatch "\.(ico|png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+
