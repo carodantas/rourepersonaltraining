@@ -1,4 +1,4 @@
-/** Staging SPA + CMS share staging.rourepersonaltraining.nl (no separate staging-api URLs). */
+/** Staging marketing site — CMS on staging-api subdomain. */
 export const environment = {
-  apiPublicOrigin: '',
+  apiPublicOrigin: 'https://staging-api.rourepersonaltraining.nl',
 };

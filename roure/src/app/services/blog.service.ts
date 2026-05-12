@@ -206,15 +206,22 @@ export class BlogService {
   }
 
   /**
-   * Root-absolute URLs so assets work when the app is served under a path prefix (e.g. /staging/).
    * CMS may store `/uploads/...`, `uploads/...`, or full HTTPS URLs.
+   * When `apiPublicOrigin` is set, CMS-relative paths are resolved on that host (cross-origin).
    */
   private normalizePublicAssetUrl(raw: string | undefined | null): string {
     const s = raw == null ? '' : String(raw).trim();
     if (!s) return '/images/sem-imagem.jpg';
     if (/^https?:\/\//i.test(s)) return s;
-    if (s.startsWith('/')) return s;
-    return '/' + s.replace(/^\/+/, '');
+    const path = s.startsWith('/') ? s : '/' + s.replace(/^\/+/, '');
+    const o = (environment.apiPublicOrigin ?? '').trim().replace(/\/$/, '');
+    if (
+      o &&
+      (path.startsWith('/uploads/') || path.startsWith('/preview/') || path.startsWith('/api/'))
+    ) {
+      return `${o}${path}`;
+    }
+    return path;
   }
 
   private pickCategoryName(cat: CmsCategory, locale: SupportedLocale): string {

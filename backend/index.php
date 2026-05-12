@@ -73,7 +73,9 @@ $allowedOrigins = array(
   'https://painel.vistabela.fraiptech.com.br',
   'https://vistabela.fraiptech.com.br',
   'https://staging-dashboard.rourepersonaltraining.nl',
-  'https://staging.rourepersonaltraining.nl'
+  'https://staging.rourepersonaltraining.nl',
+  'https://rourepersonaltraining.nl',
+  'https://www.rourepersonaltraining.nl'
 );
 if (is_string($corsEnv) && trim($corsEnv) !== '') {
   $allowedOrigins = array();
