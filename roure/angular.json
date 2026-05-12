@@ -74,8 +74,8 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/staging/",
-              "deployUrl": "/staging/",
+              "baseHref": "/",
+              "deployUrl": "/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
