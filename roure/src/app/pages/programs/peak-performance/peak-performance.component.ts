@@ -1,9 +1,26 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  Inject,
+  OnDestroy,
+  PLATFORM_ID,
+  signal
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../shared/components/button-primary-glass/button-primary-glass.component';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { TranslationService } from '../../../services/translation.service';
+import {
+  PROGRAM_FEEDBACK_COMPACT_MEDIA,
+  programFeedbackItemsPerPage,
+  programFeedbackPageCount,
+  remapFeedbackPageIndex
+} from '../feedback-carousel-breakpoint';
+
+const AUTO_ADVANCE_MS = 10_000;
+const TRANSITION_MS = 360;
 
 type Testimonial = {
   textKey: string;
@@ -18,8 +35,22 @@ type Testimonial = {
   templateUrl: './peak-performance.component.html',
   styleUrl: './peak-performance.component.css'
 })
-export class PeakPerformanceComponent {
-  currentPage = 0;
+export class PeakPerformanceComponent implements AfterViewInit, OnDestroy {
+  readonly feedbackPageIndex = signal(0);
+  readonly feedbackLayoutCompact = signal(false);
+  readonly carouselAutoplayEnabled = signal(true);
+
+  paginationAriaKey = 'programs.peak.feedback.paginationAria';
+
+  readonly carouselTrackTransform = computed(() => {
+    const pages = programFeedbackPageCount(this.testimonials.length, this.feedbackLayoutCompact());
+    return `translateX(-${(100 * this.feedbackPageIndex()) / pages}%)`;
+  });
+
+  readonly pageIndices = computed(() =>
+    Array.from({ length: programFeedbackPageCount(this.testimonials.length, this.feedbackLayoutCompact()) }, (_, i) => i)
+  );
+
   expandedTestimonials: { [key: number]: boolean } = {};
 
   testimonials: Testimonial[] = [
@@ -46,23 +77,69 @@ export class PeakPerformanceComponent {
   nextAriaKey = 'programs.peak.feedback.nextAria';
   goToAriaPrefixKey = 'programs.peak.feedback.goToAriaPrefix';
 
-  get totalPages(): number {
-    return Math.ceil(this.testimonials.length / 2);
-  }
-
-  get pagesArray(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i);
-  }
-
-  get currentTestimonials() {
-    const start = this.currentPage * 2;
-    return this.testimonials.slice(start, start + 2);
-  }
+  private prefersReducedMotion = false;
+  private feedbackMediaQuery: MediaQueryList | null = null;
+  private autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
+  private slideTransitionTimeout: ReturnType<typeof setTimeout> | null = null;
+  private isAnimatingSlide = false;
 
   constructor(
     private router: Router,
-    private translation: TranslationService
+    private translation: TranslationService,
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (this.prefersReducedMotion) this.carouselAutoplayEnabled.set(false);
+    this.initFeedbackCompactMediaQuery();
+    this.scheduleNextAutoAdvance();
+  }
+
+  ngOnDestroy(): void {
+    this.clearAutoAdvanceTimer();
+    if (this.slideTransitionTimeout !== null) clearTimeout(this.slideTransitionTimeout);
+    if (this.feedbackMediaQuery) {
+      this.feedbackMediaQuery.removeEventListener('change', this.onFeedbackCompactChangeBound);
+      this.feedbackMediaQuery = null;
+    }
+  }
+
+  sliceForPage(page: number): Testimonial[] {
+    const per = programFeedbackItemsPerPage(this.feedbackLayoutCompact());
+    const start = page * per;
+    return this.testimonials.slice(start, start + per);
+  }
+
+  testimonialAbsoluteIndex(page: number, itemIndex: number): number {
+    return page * programFeedbackItemsPerPage(this.feedbackLayoutCompact()) + itemIndex;
+  }
+
+  private readonly onFeedbackCompactChangeBound = (): void => this.onFeedbackCompactChange();
+
+  private initFeedbackCompactMediaQuery(): void {
+    const mq = window.matchMedia(PROGRAM_FEEDBACK_COMPACT_MEDIA);
+    this.feedbackMediaQuery = mq;
+    this.feedbackLayoutCompact.set(mq.matches);
+    mq.addEventListener('change', this.onFeedbackCompactChangeBound);
+  }
+
+  private onFeedbackCompactChange(): void {
+    const mq = this.feedbackMediaQuery;
+    if (!mq) return;
+    const compact = mq.matches;
+    const prevCompact = this.feedbackLayoutCompact();
+    if (compact === prevCompact) return;
+    const newIdx = remapFeedbackPageIndex(
+      this.feedbackPageIndex(),
+      prevCompact,
+      compact,
+      this.testimonials.length
+    );
+    this.feedbackPageIndex.set(newIdx);
+    this.feedbackLayoutCompact.set(compact);
+  }
 
   goToFreeIntake(): void {
     void this.router.navigate(['/free-intake'], {
@@ -74,16 +151,37 @@ export class PeakPerformanceComponent {
     void this.router.navigate(['/programs']);
   }
 
+  onFeedbackContentClick(): void {
+    if (this.prefersReducedMotion) return;
+    this.disableCarouselAutoplay();
+  }
+
   nextTestimonial(): void {
-    this.currentPage = (this.currentPage + 1) % this.totalPages;
+    const pages = programFeedbackPageCount(this.testimonials.length, this.feedbackLayoutCompact());
+    this.goToSlide((this.feedbackPageIndex() + 1) % pages);
   }
 
   prevTestimonial(): void {
-    this.currentPage = (this.currentPage - 1 + this.totalPages) % this.totalPages;
+    const pages = programFeedbackPageCount(this.testimonials.length, this.feedbackLayoutCompact());
+    this.goToSlide((this.feedbackPageIndex() - 1 + pages) % pages);
   }
 
-  goToTestimonial(page: number): void {
-    this.currentPage = page;
+  goToTestimonial(pageIndex: number): void {
+    this.goToSlide(pageIndex);
+  }
+
+  onDotClick(event: Event, pageIndex: number): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.goToTestimonial(pageIndex);
+  }
+
+  onDotKeydown(event: KeyboardEvent, pageIndex: number): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.goToTestimonial(pageIndex);
+    }
   }
 
   toggleTestimonial(index: number): void {
@@ -94,14 +192,7 @@ export class PeakPerformanceComponent {
     return this.expandedTestimonials[index] || false;
   }
 
-  getTestimonialIndex(pageIndex: number, itemIndex: number): number {
-    return this.currentPage * 2 + itemIndex;
-  }
-
   needsTruncation(text: string): boolean {
-    // Show read more if text is longer than approximately 5 lines
-    // Rough estimate: 5 lines * ~70 characters per line = 350 characters
-    // This ensures consistent behavior across all testimonials
     return text.length > 350;
   }
 
@@ -109,5 +200,57 @@ export class PeakPerformanceComponent {
     const text = this.translation.translate(key);
     return this.needsTruncation(text);
   }
-}
 
+  private disableCarouselAutoplay(): void {
+    this.carouselAutoplayEnabled.set(false);
+    this.clearAutoAdvanceTimer();
+  }
+
+  private goToSlide(nextPage: number): void {
+    if (nextPage === this.feedbackPageIndex() || this.isAnimatingSlide) return;
+    this.clearAutoAdvanceTimer();
+
+    const finishSlideTransition = (): void => {
+      this.isAnimatingSlide = false;
+      this.slideTransitionTimeout = null;
+      this.scheduleNextAutoAdvance();
+    };
+
+    if (this.prefersReducedMotion) {
+      this.feedbackPageIndex.set(nextPage);
+      this.scheduleNextAutoAdvance();
+      return;
+    }
+
+    this.isAnimatingSlide = true;
+    if (this.slideTransitionTimeout !== null) clearTimeout(this.slideTransitionTimeout);
+
+    this.feedbackPageIndex.set(nextPage);
+    this.slideTransitionTimeout = setTimeout(() => finishSlideTransition(), TRANSITION_MS);
+  }
+
+  private scheduleNextAutoAdvance(): void {
+    this.clearAutoAdvanceTimer();
+    if (
+      !isPlatformBrowser(this.platformId) ||
+      !this.carouselAutoplayEnabled() ||
+      this.prefersReducedMotion
+    ) {
+      return;
+    }
+    this.autoAdvanceTimer = setTimeout(() => {
+      if (!this.carouselAutoplayEnabled() || this.isAnimatingSlide) {
+        if (this.carouselAutoplayEnabled()) this.scheduleNextAutoAdvance();
+        return;
+      }
+      this.nextTestimonial();
+    }, AUTO_ADVANCE_MS);
+  }
+
+  private clearAutoAdvanceTimer(): void {
+    if (this.autoAdvanceTimer !== null) {
+      clearTimeout(this.autoAdvanceTimer);
+      this.autoAdvanceTimer = null;
+    }
+  }
+}

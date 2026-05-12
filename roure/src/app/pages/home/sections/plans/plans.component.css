@@ -169,7 +169,7 @@
 .plan-price-custom-text {
   font-family: var(--font-featured);
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.15;
   font-weight: 500;
   color: rgba(245, 242, 234, 0.95);
   text-align: left;

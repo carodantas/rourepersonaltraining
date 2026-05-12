@@ -93,7 +93,7 @@ export class PostEditPage {
     const id = (values.id ?? '').trim();
     const slug = slugify(values.slug ?? '');
     const status = (values.status as 'draft' | 'published') ?? 'draft';
-    const siteBase = (environment.apiBaseUrl ?? '').toString(); // '' or '/staging'
+    const siteOrigin = (environment.sitePublicOrigin ?? '').toString().trim() || window.location.origin;
 
     if (!slug) {
       this.error.set('Please set a slug before preview.');
@@ -102,7 +102,7 @@ export class PostEditPage {
 
     // If already published, just open the public URL (no token needed).
     if (status === 'published') {
-      const url = `${window.location.origin}${siteBase}/blog/${encodeURIComponent(slug)}`;
+      const url = `${siteOrigin}/blog/${encodeURIComponent(slug)}`;
       window.open(url, '_blank', 'noopener');
       return;
     }
@@ -118,7 +118,7 @@ export class PostEditPage {
           this.error.set('Failed to create preview token.');
           return;
         }
-        const url = `${window.location.origin}${siteBase}/blog/${encodeURIComponent(slug)}?preview=${encodeURIComponent(res.token)}`;
+        const url = `${siteOrigin}/blog/${encodeURIComponent(slug)}?preview=${encodeURIComponent(res.token)}`;
         window.open(url, '_blank', 'noopener');
         this.info.set('Preview opened in a new tab.');
       },

@@ -51,7 +51,8 @@ if ($MAIL_DELAY_MS < 0) $MAIL_DELAY_MS = 0;
 // Default delay ONLY on staging if not configured via env var
 if ($MAIL_DELAY_MS === 0) {
   $scriptNameForEnv = str_replace('\\', '/', (string)($_SERVER['SCRIPT_NAME'] ?? ''));
-  if (strpos($scriptNameForEnv, '/staging/') !== false) {
+  $httpHostForEnv = strtolower((string)($_SERVER['HTTP_HOST'] ?? ''));
+  if (strpos($scriptNameForEnv, '/staging/') !== false || $httpHostForEnv === 'staging.rourepersonaltraining.nl') {
     $MAIL_DELAY_MS = 8000;
   }
 }

@@ -3,49 +3,49 @@ import type { SupportedLocale } from '../locales';
 export const homeTranslations: Record<SupportedLocale, Record<string, string>> = {
   nl: {
     // Hero
-    'home.hero.titleLine1': 'Jouw reis',
-    'home.hero.titleLine2': 'Jouw tempo',
-    'home.hero.titleLine3': 'Echte resultaten',
+    'home.hero.titleLine1': 'Jouw transformatie',
+    'home.hero.titleLine2': 'begint hier.',
+    'home.hero.titleLine3': 'Train op jouw tempo, met resultaten die blijven',
     'home.hero.subtitle':
-      'Ondersteunende personal training in Amsterdam, afgestemd op jouw behoeften — zodat je kracht, zelfvertrouwen en energie opbouwt in een veilige, inclusieve omgeving.',
+      'Persoonlijke training in Amsterdam, volledig afgestemd op jou. Wij helpen je sterker, fitter en zelfverzekerder te worden in een veilige en prettige omgeving.',
 
     // Why us
     'home.whyUs.imageAlt': 'Personal training sessie',
-    'home.whyUs.titleLine1': 'Waarom je hier',
-    'home.whyUs.titleLine2': 'zult slagen',
-    'home.whyUs.p1': 'Jouw succes begint met een plan dat om jou draait.',
+    'home.whyUs.titleLine1': 'Waarom jij hier',
+    'home.whyUs.titleLine2': 'resultaat behaalt',
+    'home.whyUs.p1': 'Jouw resultaat begint met een plan dat volledig op jou is afgestemd.',
     'home.whyUs.p2':
-      'Bij Roure Personal Training is elke sessie afgestemd op jouw doelen, niveau en tempo, zodat vooruitgang haalbaar en meetbaar is.',
+      'Bij Roure Personal Training stemmen we elke training af op jouw doelen, niveau en tempo. Zo boek je vooruitgang die haalbaar én meetbaar is.',
     'home.whyUs.p3':
-      'Je traint in een motiverende, ondersteunende omgeving die je helpt groeien, je zelfvertrouwen versterkt en je dichter bij je volledige potentieel brengt.',
-    'home.whyUs.p4': 'Stap voor stap zie je echte verbeteringen in:',
+      'Je traint in een motiverende en persoonlijke omgeving, waarin we je helpen sterker te worden, meer zelfvertrouwen op te bouwen en het beste uit jezelf te halen.',
+    'home.whyUs.p4': 'Stap voor stap merk je vooruitgang in:',
     'home.whyUs.bullets.strength': 'Kracht',
     'home.whyUs.bullets.energy': 'Energie',
-    'home.whyUs.bullets.wellbeing': 'Algemeen welzijn',
+    'home.whyUs.bullets.wellbeing': 'Algehele fitheid',
 
     // Plans
     'home.plans.title': 'Trainingsplannen',
-    'home.plans.subtitle': 'Geen annuleringskosten — pauzeer of stop wanneer je wilt',
-    'home.plans.cta': 'Plan een gratis intake',
-    'home.plans.duo.name': 'Duo',
+    'home.plans.subtitle': '\u00A0',
+    'home.plans.cta': 'Start nu',
+    'home.plans.duo.name': 'Duo / Buddy',
     'home.plans.duo.priceAria': '60 euro per persoon',
-    'home.plans.duo.priceEach': 'per persoon',
+    'home.plans.duo.priceEach': 'p.p.',
     'home.plans.duo.description':
-      'Train samen en motiveer elkaar — met persoonlijke begeleiding.',
-    'home.plans.discountFootnote': 'Kortingen kunnen van toepassing zijn. Vraag naar de mogelijkheden.',
-    'home.plans.solo.name': 'Solo',
+      'Train samen en motiveer elkaar. Ideaal voor vrienden, partners of iedereen die sterker wordt met een beetje extra motivatie.',
+    'home.plans.discountFootnote': 'Tot 10% korting mogelijk bij een traject',
+    'home.plans.solo.name': 'Solo Standaard',
     'home.plans.solo.priceAria': '85 euro',
     'home.plans.solo.description':
-      '1-op-1 coaching, volledig afgestemd op jouw doelen.',
-    'home.plans.long.name': 'Lang traject',
+      'Ideaal als je 1-op-1 begeleiding wilt, volledig afgestemd op jouw doelen, niveau en tempo.',
+    'home.plans.long.name': 'Lange termijn',
     'home.plans.long.priceAria': 'Prijs op maat',
-    'home.plans.long.customPricing': 'Prijs op maat',
+    'home.plans.long.customPricing': 'Prijs<br/>op maat',
     'home.plans.long.description':
-      'Consistentie loont: duurzame resultaten met een langer traject.',
-    'home.plans.long.footnote': 'Afhankelijk van frequentie en doel.',
+      'Voor wie echt wil doorpakken en bouwen aan blijvende resultaten.',
+    'home.plans.long.footnote': 'Gericht op duurzame progressie en lange termijn resultaat',
 
     // Testimonials
-    'home.testimonials.title': 'Ervaringen',
+    'home.testimonials.title': 'Recensies',
     'home.testimonials.subtitle': 'Wat klanten zeggen',
     'home.testimonials.readMore': 'Lees meer',
     'home.testimonials.readLess': 'Lees minder',
@@ -53,30 +53,33 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
     'home.testimonials.prevAria': 'Vorige testimonial',
     'home.testimonials.nextAria': 'Volgende testimonial',
     'home.testimonials.goToAriaPrefix': 'Ga naar testimonial',
+    'home.testimonials.videoOverlayPauseAria':
+      'tik om automatisch doorschuiven te stoppen, daarna kunt u de video bedienen',
+    'home.testimonials.paginationAria': 'Navigatie tussen recensies',
     'home.testimonials.items.caro.text':
-      'Ik heb me nog nooit zo sterk en zelfverzekerd gevoeld! Carlos pusht me tot het uiterste en geeft tegelijkertijd de support en begeleiding die ik nodig heb. Absoluut een aanrader!',
+      'Ik heb me nog nooit eerder zo sterk en zelfverzekerd gevoeld! Carlos heeft me tot het uiterste gedreven en mij de begeleiding en ondersteuning gegeven die ik nodig had om succes te hebben.',
     'home.testimonials.items.goncagul.text':
-      'Trainen hier hielp me om kracht, zelfvertrouwen en balans terug te krijgen na een moeilijke periode in mijn leven. Wat begon als een doel om af te vallen, werd een langdurige reis naar een gezonder en gelukkiger gevoel.',
+      'Hier trainen heeft me geholpen om mijn kracht, zelfverzekerdheid en balans terug te krijgen na een moeilijke periode in mijn leven. Wat begonnen was als doel om af te vallen groeide door naar een reis naar geluk en gezondheid.',
     'home.testimonials.items.marcel.text':
-      'Ik train hier nu al een paar jaar en mijn programma\'s zijn altijd op mij afgestemd. Ik merk echt dat ik groei — niet alleen fysiek, maar ook mentaal. Fijn dat de coaching verder kijkt dan alleen het lichaam.',
+      'Ik train hier nu al een paar jaar, en mijn trainingsprogramma\'s zijn altijd op maat voor mij gemaakt. Ik voel echt dat ik groei en verbeter - niet alleen lichamelijk, maar ook mentaal. Het is geweldig dat de coaching verder kijkt naar alleen het lichaam.',
     'home.testimonials.items.jeroen.text':
-      'Ik ben hier begonnen met een heel specifiek doel: spiermassa opbouwen en vetpercentage verlagen. Met een duidelijke intake en een stap-voor-stap trainingsplan werk ik consistent naar mijn doelen toe. Het is hard werken, maar de resultaten spreken voor zich.',
+      'Ik begon hier te trainen met een heel specifiek doel: spiermassa opbouwen en vet te verliezen. Door een grondige analyse en een stapsgewijs trainingsprogramma heb ik met regelmaat naar mijn doel kunnen werken. Het is hard werk, maar de resultaten spreken voor zich.',
 
     // FAQ
     'home.faq.title': 'Veelgestelde vragen',
-    'home.faq.subtitle': 'Korte antwoorden op de meest gestelde vragen.',
+    'home.faq.subtitle': '\u00A0',
     'home.faq.items.0.question': 'Hoe vaak moet ik trainen?',
     'home.faq.items.0.answer':
-      'Dat hangt af van je doelen en je huidige fitheid. We maken een persoonlijk plan dat past bij jouw schema.',
-    'home.faq.items.1.question': 'Heb ik een sportschoolabonnement nodig?',
+      'Dit hangt af van jouw doelen en huidig niveau. We zullen een gepersonaliseerd programma opstellen dat met jouw beschikbaarheid past.',
+    'home.faq.items.1.question': 'Heb ik een sportschool abonnement nodig?',
     'home.faq.items.1.answer':
-      'Niet per se. We bieden zowel training in de gym als thuistraining aan, afhankelijk van wat jij prettig vindt.',
-    'home.faq.items.2.question': 'Wat moet ik meenemen naar mijn eerste sessie?',
+      'Niet per se. Wij bieden zowel trainingen in de gym als thuis trainingen aan, afhankelijk van jouw voorkeuren.',
+    'home.faq.items.2.question': 'Wat zal ik meebrengen naar mijn eerste training?',
     'home.faq.items.2.answer':
-      'Neem comfortabele sportkleding, water en een positieve instelling mee. De rest regelen wij.',
-    'home.faq.items.3.question': 'Kan ik mijn plan annuleren of wijzigen?',
+      'Breng comfortabele kleding, water, en een positieve houding. Wij zorgen voor alle andere dingen die je nodig zult hebben.',
+    'home.faq.items.3.question': 'Kan ik mijn plan annuleren/van plan veranderen?',
     'home.faq.items.3.answer':
-      'Ja, je kunt je plan op elk moment aanpassen of stopzetten. We zijn flexibel en denken graag met je mee.',
+      'Ja, je kunt je plan op elk moment veranderen of annuleren. Wij zijn flexibel en willen met je meewerken.',
 
     // Promotion / intake form
     'home.promotion.success.title': 'Hartelijk dank voor je aanvraag!',
@@ -93,37 +96,37 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
     'home.promotion.success.signature': 'Met vriendelijke groet,',
     'home.promotion.success.exploreCta': 'Ontdek de website',
 
-    'home.promotion.title': 'Boek je gratis intake-sessie bij ons',
-    'home.promotion.subtitle': 'Laten we samen aan je fitnessreis beginnen',
+    'home.promotion.title': 'Plan je gratis intake',
+    'home.promotion.subtitle': 'Samen starten we met een plan dat bij je past.',
 
     'home.promotion.honeypot.website': 'Website',
 
     'home.promotion.planQuestion': 'In welk trainingsplan ben je geïnteresseerd?',
-    'home.promotion.programQuestion': 'In welk programma ben je geïnteresseerd?',
-    'home.promotion.learnMore': 'Meer info',
+    'home.promotion.programQuestion': 'In welk trainingsprogramma ben je geïnteresseerd?',
+    'home.promotion.learnMore': 'Meer informatie',
 
-    'home.promotion.select.plan': 'Selecteer een plan',
-    'home.promotion.select.program': 'Selecteer een programma',
+    'home.promotion.select.plan': 'Kies een plan',
+    'home.promotion.select.program': 'Kies een plan',
 
-    'home.promotion.plan.duo': 'Duo / Buddy',
-    'home.promotion.plan.solo': 'Solo Standard',
-    'home.promotion.plan.long': 'Lang traject',
-    'home.promotion.plan.notSure': 'Nog niet zeker',
+    'home.promotion.plan.duo': 'Duo training',
+    'home.promotion.plan.solo': '1-op-1 training',
+    'home.promotion.plan.long': 'Lange termijn coaching',
+    'home.promotion.plan.notSure': 'Weet ik nog niet',
 
     'home.promotion.program.weightLoss': 'Gewichtsverlies & spiermassa',
-    'home.promotion.program.peak': 'Piekprestatie',
-    'home.promotion.program.vitality': 'Vitaliteit & lang leven',
+    'home.promotion.program.peak': 'Prestaties verbeteren',
+    'home.promotion.program.vitality': 'Vitaliteit & gezondheid',
     'home.promotion.program.prenatal': 'Zwangerschap & postpartum',
     'home.promotion.program.notSure': 'Nog niet zeker',
 
     'home.promotion.goals.title': 'Wat wil je bereiken met je training?',
-    'home.promotion.goals.hint': '(Voel je vrij om er meer dan één te selecteren!)',
+    'home.promotion.goals.hint': '(Voel je vrij om meerdere opties te selecteren)',
     'home.promotion.goals.improveHealth': 'Mijn algehele gezondheid verbeteren',
-    'home.promotion.goals.increaseFlexibility': 'Flexibiliteit vergroten',
-    'home.promotion.goals.improvePosture': 'Houding verbeteren',
+    'home.promotion.goals.increaseFlexibility': 'Flexibeler worden',
+    'home.promotion.goals.improvePosture': 'Mijn houding verbeteren',
     'home.promotion.goals.getStronger': 'Sterker worden',
-    'home.promotion.goals.feelConfident': 'Meer zelfvertrouwen / mijn uiterlijk verbeteren',
-    'home.promotion.goals.toneShape': 'Mijn lichaam strakker maken en vormgeven',
+    'home.promotion.goals.feelConfident': 'Meer zelfvertrouwen krijgen / beter in mijn vel zitten',
+    'home.promotion.goals.toneShape': 'Mijn lichaam strakker en sterker maken',
     'home.promotion.goals.loseWeight': 'Afvallen',
     'home.promotion.goals.other': 'Anders',
     'home.promotion.goals.otherPlaceholder': 'Specificeer a.u.b....',
@@ -132,19 +135,20 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
     'home.promotion.personalInfo.firstName': 'Voornaam',
     'home.promotion.personalInfo.lastName': 'Achternaam',
     'home.promotion.personalInfo.phone': 'Telefoonnummer',
-    'home.promotion.personalInfo.email': 'E-mail',
+    'home.promotion.personalInfo.email': 'E-mailadres',
     'home.promotion.personalInfo.firstNamePlaceholder': 'Vul je voornaam in',
     'home.promotion.personalInfo.lastNamePlaceholder': 'Vul je achternaam in',
     'home.promotion.personalInfo.phonePlaceholder': 'Vul je telefoonnummer in',
     'home.promotion.personalInfo.emailPlaceholder': 'Vul je e-mailadres in',
 
-    'home.promotion.questions.title': 'Heb je vragen of is er iets dat je ons wilt laten weten?',
-    'home.promotion.questions.placeholder': 'Stel je vragen...',
+    'home.promotion.questions.title': 'Heb je nog vragen of iets dat we moeten weten?',
+    'home.promotion.questions.placeholder': 'Stel hier je vraag…',
 
     'home.promotion.privacy.title': 'Privacyverklaring',
     'home.promotion.privacy.text':
-      'Roure Personal Training respecteert je privacy. We gebruiken je gegevens alleen om contact met je op te nemen over je sessie.',
-    'home.promotion.privacy.consent': 'Ik ga ermee akkoord dat ik andere communicatie van Roure Personal Training ontvang.',
+      'Roure Personal Training respecteert jouw privacy. We gebruiken je gegevens alleen om contact met je op te nemen over je intake.',
+    'home.promotion.privacy.consent':
+      'Ik ga akkoord met het ontvangen van communicatie van Roure Personal Training.',
 
     'home.promotion.submit': 'Verzenden',
     'home.promotion.submitting': 'Verzenden...',
@@ -157,11 +161,10 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
   },
   en: {
     // Hero
-    'home.hero.titleLine1': 'Personal training',
-    'home.hero.titleLine2': 'in Amsterdam Oost',
-    'home.hero.titleLine3': 'with real results',
-    'home.hero.subtitle':
-      'Get stronger, fitter, and more energized with a plan built for you.',
+    'home.hero.titleLine1': "It's your Journey",
+    'home.hero.titleLine2': 'Your Pace with',
+    'home.hero.titleLine3': 'Real Results',
+    'home.hero.subtitle': 'Supportive personal training in Amsterdam, tailored to your needs, helping you build strength, confidence, and energy in a safe, inclusive environment.',
 
     // Why us
     'home.whyUs.imageAlt': 'Personal training session',
@@ -179,20 +182,19 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
 
     // Plans
     'home.plans.title': 'Training plans',
-    'home.plans.subtitle': 'No cancellation fees — pause or stop anytime',
-    'home.plans.cta': 'Book a free intake',
-    'home.plans.duo.name': 'Duo',
-    'home.plans.duo.priceAria': '60 euros each',
-    'home.plans.duo.priceEach': 'per person',
-    'home.plans.duo.description':
-      'Train together and stay motivated — with personal guidance.',
-    'home.plans.discountFootnote': 'Discounts may apply. Ask for details.',
-    'home.plans.solo.name': 'Solo',
-    'home.plans.solo.priceAria': '85 euros',
-    'home.plans.solo.description': '1:1 coaching tailored to your goals.',
+    'home.plans.subtitle': 'No cancellation fees, pause or stop anytime',
+    'home.plans.cta': 'Book free intake',
+    'home.plans.duo.name': 'Duo / Buddy',
+    'home.plans.duo.priceAria': '60',
+    'home.plans.duo.priceEach': 'Each',
+    'home.plans.duo.description': 'Train together, motivate each other. Best for friends, partners or anyone who loves shared motivation.',
+    'home.plans.discountFootnote': 'Up to 10% discount available with commitment plans',
+    'home.plans.solo.name': 'Solo Standard',
+    'home.plans.solo.priceAria': '85',
+    'home.plans.solo.description': 'Ideal if you want 1 on 1 coaching fully tailored to your goals, level, & pace.',
     'home.plans.long.name': 'Long-term',
-    'home.plans.long.priceAria': 'Custom pricing',
-    'home.plans.long.customPricing': 'Custom pricing',
+    'home.plans.long.priceAria': 'Custom Pricing',
+    'home.plans.long.customPricing': 'Custom<br/>Pricing',
     'home.plans.long.description': 'Consistency pays off: sustainable results with a longer program.',
     'home.plans.long.footnote': 'Depends on frequency and goal.',
 
@@ -205,12 +207,15 @@ export const homeTranslations: Record<SupportedLocale, Record<string, string>> =
     'home.testimonials.prevAria': 'Previous testimonial',
     'home.testimonials.nextAria': 'Next testimonial',
     'home.testimonials.goToAriaPrefix': 'Go to testimonial',
+    'home.testimonials.videoOverlayPauseAria':
+      'Activate to pause auto-rotate — you can then use the video controls',
+    'home.testimonials.paginationAria': 'Testimonial navigation',
     'home.testimonials.items.caro.text':
       "I've never felt stronger and confident! Carlos pushed me to my limits while providing the support and the guidance I needed to succeed. Highly recommended!",
     'home.testimonials.items.goncagul.text':
       'Training here helped me regain strength, confidence, and balance after a difficult period in my life. What started as a goal to lose weight became a long-term journey toward feeling healthier and happier.',
     'home.testimonials.items.marcel.text':
-      "I've been training here for a few years now, and my programs are always tailored to me. I truly feel I'm growing—not only physically, but mentally as well. It's great that the coaching looks beyond just the body.",
+      "I've been training here for a few years now, and my programs are always tailored to me. I truly feel I'm growing, not only physically, but mentally as well. It's great that the coaching looks beyond just the body.",
     'home.testimonials.items.jeroen.text':
       "I started training here with a very specific goal: gaining muscle and reducing body fat. Through a clear assessment and a step-by-step training plan, I've been able to work consistently toward my goals. It's hard work, but the results speak for themselves.",
 

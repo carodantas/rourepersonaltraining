@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { ButtonPrimaryGlassComponent } from '../../../../shared/components/button-primary-glass/button-primary-glass.component';
 import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
@@ -12,10 +11,14 @@ import { TranslatePipe } from '../../../../pipes/translate.pipe';
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
-  private router = inject(Router);
-
-  goToFreeIntake(): void {
-    void this.router.navigate(['/free-intake']);
+  /** Próxima seção na mesma página: grid de programas (`programs-grid`). */
+  scrollToProgramsGrid(): void {
+    setTimeout(() => {
+      const element = document.getElementById('programs-grid');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 0);
   }
 }
 

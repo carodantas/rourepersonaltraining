@@ -20,7 +20,7 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "baseHref": "/dashboard/",
+            "baseHref": "/",
             "assets": [
               {
                 "glob": "**/*",
@@ -54,8 +54,6 @@
               "outputHashing": "all"
             },
             "staging": {
-              "baseHref": "/staging/dashboard/",
-              "deployUrl": "/staging/dashboard/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

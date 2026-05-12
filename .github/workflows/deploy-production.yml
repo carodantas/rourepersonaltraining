@@ -70,7 +70,7 @@ jobs:
         working-directory: dashboard
         run: npm ci
 
-      - name: Build dashboard (production, base-href=/dashboard/)
+      - name: Build dashboard (production, base-href=/, sibling docroot dashboard/)
         working-directory: dashboard
         run: npm run build -- --configuration=production
 
@@ -105,17 +105,19 @@ jobs:
           test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
           test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
 
-      - name: Clean remote production web root (preserve /staging, /api data, /dashboard)
-        run: >
-          sshpass -p "$SSH_PASS" ssh
-          -p "$SSH_PORT" $SSH_OPTS
-          "$SSH_USER@$SSH_HOST"
-          "cd '$REMOTE_ROOT' &&
-           find . -mindepth 1 -maxdepth 1 ! -name 'staging' ! -name '.well-known' ! -name 'api' ! -name 'dashboard' -exec rm -rf {} + &&
-           rm -rf '$REMOTE_ROOT/dashboard' &&
-           mkdir -p '$REMOTE_ROOT/dashboard' '$REMOTE_ROOT/api' &&
-           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads' &&
-           mkdir -p '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads'"
+      - name: Clean remote production web root (preserve /staging, /api; dashboard beside public_html)
+        shell: bash
+        env:
+          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          PARENT_REMOTE="$(dirname "$REMOTE_ROOT")"
+          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
+          PARENT_Q="$(printf '%q' "$PARENT_REMOTE")"
+          sshpass -p "$SSH_PASS" ssh \
+            -p "$SSH_PORT" $SSH_OPTS \
+            "$SSH_USER@$SSH_HOST" \
+            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; PARENT_REMOTE=$PARENT_Q; cd \"\$REMOTE_ROOT\" && find . -mindepth 1 -maxdepth 1 ! -name staging ! -name .well-known ! -name api -exec rm -rf {} + && mkdir -p \"\$REMOTE_ROOT/api\" \"\$PARENT_REMOTE/dashboard\" \"\$REMOTE_ROOT/../_private\" \"\$REMOTE_ROOT/../images/uploads\" \"\$REMOTE_ROOT/_private\" \"\$REMOTE_ROOT/images/uploads\"'"
 
       - name: Upload site to production via SCP
         run: >
@@ -126,14 +128,15 @@ jobs:
           -r roure/dist/rourepersonaltraining/browser/*
           "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/"
 
-      - name: Upload dashboard to production via SCP
-        run: >
-          sshpass -p "$SSH_PASS" scp
-          -O
-          -P "$SSH_PORT"
-          $SSH_OPTS
-          -r dashboard/dist/dashboard/browser/*
-          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/dashboard/"
+      - name: Upload dashboard to production via SCP (sibling dashboard/ docroot)
+        shell: bash
+        env:
+          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          DASH_REMOTE="$(dirname "$REMOTE_ROOT")/dashboard"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS \
+            -r dashboard/dist/dashboard/browser/* "$SSH_USER@$SSH_HOST:$DASH_REMOTE/"
 
       - name: Upload backend code to production API (preserve data)
         run: |

@@ -9,6 +9,18 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Legacy: /api/... still hits api/index.php (PHP sees full /api/... URI)
+  RewriteRule ^api(?:/|$) api/index.php [L]
+
+  # CMS + uploads on same host as the public site (no /api prefix)
+  RewriteRule ^content\.json$ api/index.php [L,QSA]
+  RewriteRule ^content$ api/index.php [L,QSA]
+  RewriteRule ^preview/ api/index.php [L,QSA]
+  RewriteCond %{REQUEST_URI} ^/uploads/
+  RewriteRule ^ api/index.php [L,QSA]
+  RewriteCond %{REQUEST_URI} ^/admin/
+  RewriteRule ^ api/index.php [L,QSA]
+
   # Angular SPA fallback (redirect 404s to index.html)
   RewriteRule ^ index.html [L]
 </IfModule>

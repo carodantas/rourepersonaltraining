@@ -35,7 +35,10 @@
         <h3 class="plan-name featured-2">{{ 'home.plans.long.name' | translate }}</h3>
         <div class="plan-price plan-price-custom" [attr.aria-label]="'home.plans.long.priceAria' | translate">
           <span class="plan-price-amount plan-price-amount--symbol-only">€</span>
-          <span class="plan-price-custom-text">{{ 'home.plans.long.customPricing' | translate }}</span>
+          <span
+            class="plan-price-custom-text"
+            [innerHTML]="('home.plans.long.customPricing' | translate) | safeHtml"
+          ></span>
         </div>
         <p class="plan-description body-2">
           {{ 'home.plans.long.description' | translate }}

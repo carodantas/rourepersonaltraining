@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IntakeFormSubmission } from './intake-form.interface';
+import { environment } from '../../../../../environments/environment';
 
 /**
  * Service for handling intake form submissions
@@ -11,11 +12,15 @@ import { IntakeFormSubmission } from './intake-form.interface';
   providedIn: 'root'
 })
 export class IntakeFormService {
-  // TODO: Update with your actual API endpoint
-  // Relative URL so it works both at "/" (prod) and "/staging/" (staging)
-  private apiUrl = 'api/intake/submit'; // Example endpoint
+  private apiUrl = this.buildApiUrl('form.php');
 
   constructor(private http: HttpClient) {}
+
+  private buildApiUrl(path: string): string {
+    const o = (environment.apiPublicOrigin ?? '').trim().replace(/\/$/, '');
+    const p = path.replace(/^\//, '');
+    return o ? `${o}/${p}` : p;
+  }
 
   /**
    * Submits intake form data to backend

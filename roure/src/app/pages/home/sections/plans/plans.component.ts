@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SafeHtmlPipe } from '../../../../pipes/safe-html.pipe';
 import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-plans',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, SafeHtmlPipe],
   templateUrl: './plans.component.html',
   styleUrl: './plans.component.css'
 })

@@ -23,7 +23,7 @@ export const footerTranslations: Record<SupportedLocale, Record<string, string>>
     'footer.nav.methods': 'Methods',
     'footer.nav.programs': 'Programs',
     'footer.nav.blog': 'Blog',
-    'footer.actions.freeIntake': 'Free intake',
+    'footer.actions.freeIntake': 'Book free intake',
 
     'footer.social.followUs': 'Follow Us',
     'footer.social.instagram': 'Instagram',

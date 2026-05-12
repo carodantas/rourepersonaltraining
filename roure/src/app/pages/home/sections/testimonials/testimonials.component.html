@@ -1,90 +1,140 @@
 <section id="testimonials" class="testimonials">
   <div class="testimonials-container">
     <h2 class="testimonials-title headline-1">{{ 'home.testimonials.title' | translate }}</h2>
-    
-    <div class="testimonials-content">
-      <!-- Testimonial Card -->
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <p class="testimonial-name strong-2">{{ currentTestimonial.name }}</p>
-          <div class="testimonial-rating">
-            <div class="stars">
-              @for (star of [1, 2, 3, 4, 5]; track star) {
-                <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= currentTestimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-              }
-            </div>
-      </div>
-        </div>
-        <p
-          class="testimonial-text body-1"
-          [class.truncated]="needsTruncation(currentTestimonial.textKey | translate) && !isExpanded(currentTestimonial.id)"
-        >
-          {{ currentTestimonial.textKey | translate }}
-        </p>
-        @if (needsTruncation(currentTestimonial.textKey | translate)) {
-          <button
-            class="read-more-btn small-1"
-            (click)="toggleTestimonial(currentTestimonial.id)"
-            type="button"
-          >
-            {{ isExpanded(currentTestimonial.id) ? ('home.testimonials.readLess' | translate) : ('home.testimonials.readMore' | translate) }}
-          </button>
-        }
-      </div>
 
-      <!-- Video -->
-      <div class="testimonial-video">
-        <div class="video-embed">
-          @if (currentTestimonial.safeVideoUrl) {
-            <iframe 
-              width="100%" 
-              height="100%" 
-              [src]="currentTestimonial.safeVideoUrl" 
-              [title]="('home.testimonials.videoTitlePrefix' | translate) + ' - ' + currentTestimonial.name" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              allowfullscreen>
-            </iframe>
+    <div class="testimonials-content" (click)="onTestimonialsContentClick()">
+      <button
+        type="button"
+        class="nav-arrow nav-arrow-side"
+        (click)="prevTestimonial()"
+        [attr.aria-label]="'home.testimonials.prevAria' | translate"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <div
+          class="carousel-track"
+          [style.width.%]="100 * testimonials.length"
+          [style.transform]="carouselTrackTransform()"
+        >
+          @for (t of testimonials; track t.id) {
+            <div class="carousel-slide" [style.width.%]="100 / testimonials.length">
+              <div class="testimonial-card">
+                <div class="testimonial-header">
+                  <p class="testimonial-name strong-2">{{ t.name }}</p>
+                  <div class="testimonial-rating">
+                    <div class="stars">
+                      @for (star of [1, 2, 3, 4, 5]; track star) {
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          [attr.fill]="star <= t.rating ? 'currentColor' : 'none'"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <p
+                  class="testimonial-text body-1"
+                  [class.truncated]="needsTruncation(t.textKey | translate) && !isExpanded(t.id)"
+                >
+                  {{ t.textKey | translate }}
+                </p>
+                @if (needsTruncation(t.textKey | translate)) {
+                  <button
+                    class="read-more-btn small-1"
+                    (click)="toggleTestimonial(t.id)"
+                    type="button"
+                  >
+                    {{
+                      isExpanded(t.id)
+                        ? ('home.testimonials.readLess' | translate)
+                        : ('home.testimonials.readMore' | translate)
+                    }}
+                  </button>
+                }
+              </div>
+
+              <div class="testimonial-video">
+                <div class="video-embed">
+                  @if (t.safeVideoUrl) {
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      [src]="t.safeVideoUrl"
+                      [title]="('home.testimonials.videoTitlePrefix' | translate) + ' - ' + t.name"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  }
+                  @if (carouselAutoplayEnabled()) {
+                    <button
+                      type="button"
+                      class="video-interaction-layer"
+                      (click)="onVideoInteractionPauseAutoplay()"
+                      [attr.aria-label]="'home.testimonials.videoOverlayPauseAria' | translate"
+                    ></button>
+                  }
+                </div>
+              </div>
+            </div>
           }
         </div>
       </div>
+
+      <button
+        type="button"
+        class="nav-arrow nav-arrow-side"
+        (click)="nextTestimonial()"
+        [attr.aria-label]="'home.testimonials.nextAria' | translate"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
 
-    <!-- Navigation Arrows -->
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-left"
-      (click)="prevTestimonial()"
-      [attr.aria-label]="'home.testimonials.prevAria' | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-right"
-      (click)="nextTestimonial()"
-      [attr.aria-label]="'home.testimonials.nextAria' | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
-
-    <!-- Pagination Dots -->
-    <div class="pagination-dots">
-      @for (testimonial of testimonials; track $index) {
-        <button
-          type="button"
+    <div class="pagination-dots" role="group" [attr.aria-label]="'home.testimonials.paginationAria' | translate">
+      @for (testimonial of testimonials; track testimonial.id) {
+        <span
           class="pagination-dot"
-          [class.active]="currentIndex === $index"
-          (click)="goToTestimonial($index)"
+          role="button"
+          tabindex="0"
+          [class.active]="currentIndex() === $index"
+          (click)="onDotClick($event, $index)"
+          (keydown)="onDotKeydown($event, $index)"
+          [attr.aria-current]="currentIndex() === $index ? 'true' : null"
           [attr.aria-label]="('home.testimonials.goToAriaPrefix' | translate) + ' ' + ($index + 1)"
-        ></button>
+        ></span>
       }
     </div>
   </div>

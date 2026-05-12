@@ -125,89 +125,127 @@
       <h2 id="program-feedback-title" class="section-title headline-1">{{ 'programs.weightLoss.feedback.title' | translate }}</h2>
       <p class="feedback-subtitle featured-3">{{ 'programs.weightLoss.feedback.subtitle' | translate }}</p>
     </div>
-    <div class="testimonials-content">
-      <div class="testimonial-item">
-        <div class="testimonial-content">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <p class="testimonial-name strong-2">{{ currentTestimonial.name }}</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                  @for (star of [1, 2, 3, 4, 5]; track star) {
-                    <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= currentTestimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  }
+    <div class="feedback-carousel-shell" (click)="onFeedbackContentClick()">
+      <button
+        type="button"
+        class="nav-arrow nav-arrow-feedback"
+        (click)="prevTestimonial()"
+        [attr.aria-label]="'programs.weightLoss.feedback.prevAria' | translate"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <div
+          class="carousel-track"
+          [style.width.%]="100 * testimonials.length"
+          [style.transform]="carouselTrackTransform()"
+        >
+          @for (t of testimonials; track t.id) {
+            <div class="carousel-slide" [style.width.%]="100 / testimonials.length">
+              <div class="testimonial-item">
+                <div class="testimonial-content">
+                  <div class="testimonial-card">
+                    <div class="testimonial-header">
+                      <p class="testimonial-name strong-2">{{ t.name }}</p>
+                      <div class="testimonial-rating">
+                        <div class="stars">
+                          @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              [attr.fill]="star <= t.rating ? 'currentColor' : 'none'"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                            >
+                              <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                              />
+                            </svg>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials[t.id]">
+                      <p class="testimonial-text body-2">
+                        {{ t.textKey | translate }}
+                      </p>
+                      <div class="testimonial-text-expanded">
+                        @for (paragraph of t.expandedText; track $index) {
+                          <p class="testimonial-text body-2">{{ paragraph | translate }}</p>
+                        }
+                      </div>
+                    </div>
+                    <button class="read-more-btn small-1" type="button" (click)="toggleTestimonial(t.id)">
+                      {{
+                        expandedTestimonials[t.id]
+                          ? ('programs.weightLoss.feedback.readLess' | translate)
+                          : ('programs.weightLoss.feedback.readMore' | translate)
+                      }}
+                    </button>
+                  </div>
+                </div>
+                <div class="testimonial-images">
+                  <div class="before-after-images">
+                    <div class="before-image">
+                      <img [src]="t.beforeImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
+                    </div>
+                    <div class="after-image">
+                      <img [src]="t.afterImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="testimonial-text-wrapper" [class.expanded]="expandedTestimonials[currentTestimonial.id]">
-              <p class="testimonial-text body-2">
-                {{ currentTestimonial.textKey | translate }}
-              </p>
-              <div class="testimonial-text-expanded">
-                @for (paragraph of currentTestimonial.expandedText; track $index) {
-                <p class="testimonial-text body-2">
-                    {{ paragraph | translate }}
-                </p>
-                }
-              </div>
-            </div>
-            <button class="read-more-btn small-1" (click)="toggleTestimonial(currentTestimonial.id)">
-              {{
-                expandedTestimonials[currentTestimonial.id]
-                  ? ('programs.weightLoss.feedback.readLess' | translate)
-                  : ('programs.weightLoss.feedback.readMore' | translate)
-              }}
-            </button>
-          </div>
-        </div>
-        <div class="testimonial-images">
-          <div class="before-after-images">
-            <div class="before-image">
-              <img [src]="currentTestimonial.beforeImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
-            </div>
-            <div class="after-image">
-              <img [src]="currentTestimonial.afterImage" [attr.alt]="'programs.weightLoss.feedback.imageAlt' | translate" />
-            </div>
-          </div>
+          }
         </div>
       </div>
+
+      <button
+        type="button"
+        class="nav-arrow nav-arrow-feedback"
+        (click)="nextTestimonial()"
+        [attr.aria-label]="'programs.weightLoss.feedback.nextAria' | translate"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
 
-    <!-- Navigation Arrows -->
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-left"
-      (click)="prevTestimonial()"
-      [attr.aria-label]="'programs.weightLoss.feedback.prevAria' | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-right"
-      (click)="nextTestimonial()"
-      [attr.aria-label]="'programs.weightLoss.feedback.nextAria' | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
-
-    <!-- Pagination Dots -->
-    <div class="pagination-dots">
-      @for (testimonial of testimonials; track $index) {
-        <button
-          type="button"
+    <div class="pagination-dots" role="group" [attr.aria-label]="'programs.weightLoss.feedback.paginationAria' | translate">
+      @for (testimonial of testimonials; track testimonial.id) {
+        <span
           class="pagination-dot"
-          [class.active]="currentIndex === $index"
-          (click)="goToTestimonial($index)"
+          role="button"
+          tabindex="0"
+          [class.active]="currentIndex() === $index"
+          (click)="onDotClick($event, $index)"
+          (keydown)="onDotKeydown($event, $index)"
+          [attr.aria-current]="currentIndex() === $index ? 'true' : null"
           [attr.aria-label]="('programs.weightLoss.feedback.goToAriaPrefix' | translate) + ' ' + ($index + 1)"
-        ></button>
+        ></span>
       }
     </div>
   </div>

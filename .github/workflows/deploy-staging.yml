@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy to Staging (/staging)
+    name: Deploy to Staging (subdomains)
     runs-on: ubuntu-latest
     environment: deploy
 
@@ -44,9 +44,9 @@ jobs:
         working-directory: roure
         run: npm ci
 
-      - name: Build site (staging, base-href=/staging/)
+      - name: Build site (staging, base-href=/)
         working-directory: roure
-        run: npm run build -- --configuration=staging --base-href=/staging/
+        run: npm run build -- --configuration=staging
 
       - name: Ensure build output exists
         working-directory: roure
@@ -71,7 +71,7 @@ jobs:
         working-directory: dashboard
         run: npm ci
 
-      - name: Build dashboard (staging, base-href=/staging/dashboard/)
+      - name: Build dashboard (staging, base-href=/)
         working-directory: dashboard
         run: npm run build -- --configuration=staging
 
@@ -106,17 +106,17 @@ jobs:
           test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
           test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
 
-      - name: Prepare remote staging folders (preserve staging/api data)
-        run: >
-          sshpass -p "$SSH_PASS" ssh
-          -p "$SSH_PORT" $SSH_OPTS
-          "$SSH_USER@$SSH_HOST"
-          "mkdir -p '$REMOTE_ROOT/staging' '$REMOTE_ROOT/staging/api' '$REMOTE_ROOT/staging/dashboard' &&
-           rm -rf '$REMOTE_ROOT/staging/dashboard' &&
-           find '$REMOTE_ROOT/staging' -mindepth 1 -maxdepth 1 ! -name 'api' -exec rm -rf {} + &&
-           mkdir -p '$REMOTE_ROOT/staging/dashboard' &&
-           mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging' &&
-           mkdir -p '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads-staging'"
+      - name: Prepare remote staging folders (site + sibling staging-dashboard + staging/api)
+        shell: bash
+        env:
+          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          PARENT_REMOTE="$(dirname "$REMOTE_ROOT")"
+          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
+          PARENT_Q="$(printf '%q' "$PARENT_REMOTE")"
+          sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" \
+            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; PARENT_REMOTE=$PARENT_Q; mkdir -p \"\$REMOTE_ROOT/staging\" \"\$REMOTE_ROOT/staging-api\" \"\$REMOTE_ROOT/staging/api\" \"\$PARENT_REMOTE/staging-dashboard\" && find \"\$REMOTE_ROOT/staging\" -mindepth 1 -maxdepth 1 -exec rm -rf {} + && find \"\$PARENT_REMOTE/staging-dashboard\" -mindepth 1 -maxdepth 1 -exec rm -rf {} + && mkdir -p \"\$REMOTE_ROOT/../_private\" \"\$REMOTE_ROOT/../images/uploads-staging\" \"\$REMOTE_ROOT/_private\" \"\$REMOTE_ROOT/images/uploads-staging\"'"
 
       - name: Upload site to staging via SCP
         run: >
@@ -127,19 +127,22 @@ jobs:
           -r roure/dist/rourepersonaltraining/browser/*
           "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
 
-      - name: Upload dashboard to staging via SCP
-        run: >
-          sshpass -p "$SSH_PASS" scp
-          -O
-          -P "$SSH_PORT"
-          $SSH_OPTS
-          -r dashboard/dist/dashboard/browser/*
-          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/dashboard/"
+      - name: Upload dashboard to staging via SCP (sibling staging-dashboard docroot)
+        shell: bash
+        env:
+          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          DASH_REMOTE="$(dirname "$REMOTE_ROOT")/staging-dashboard"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS \
+            -r dashboard/dist/dashboard/browser/* "$SSH_USER@$SSH_HOST:$DASH_REMOTE/"
 
       - name: Upload backend code to staging API (preserve data)
         run: |
           set -euo pipefail
-          # Upload code files
+          # Upload code files — primary on public site /staging subtree + legacy staging-api vhost.
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/index.php"
+          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/.htaccess"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/.htaccess"
 

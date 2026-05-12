@@ -126,73 +126,71 @@
       <p class="feedback-subtitle featured-3">{{ 'programs.prenatal.feedback.subtitle' | translate }}</p>
     </div>
     
-    <div class="testimonials-content">
-      @for (testimonial of currentTestimonials; track $index) {
-        @let testimonialIndex = getTestimonialIndex(currentPage, $index);
-        @let expanded = isExpanded(testimonialIndex);
-        @let needsTruncate = needsTruncationKey(testimonial.textKey);
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-            <p class="testimonial-name strong-2">{{ testimonial.author }}</p>
-              <div class="testimonial-rating">
-                <div class="stars">
-                @for (star of [1, 2, 3, 4, 5]; track star) {
-                  <svg width="20" height="20" viewBox="0 0 24 24" [attr.fill]="star <= testimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
+    <div class="feedback-carousel-shell" (click)="onFeedbackContentClick()">
+      <button type="button" class="nav-arrow nav-arrow-feedback" (click)="prevTestimonial()" [attr.aria-label]="prevAriaKey | translate">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <div class="carousel-track" [style.width.%]="100 * pageIndices().length" [style.transform]="carouselTrackTransform()">
+          @for (page of pageIndices(); track page) {
+            <div class="carousel-slide" [style.width.%]="100 / pageIndices().length">
+              <div class="testimonials-page-grid">
+                @for (testimonial of sliceForPage(page); track testimonial.textKey) {
+                  @let testimonialIndex = testimonialAbsoluteIndex(page, $index);
+                  @let expanded = isExpanded(testimonialIndex);
+                  @let needsTruncate = needsTruncationKey(testimonial.textKey);
+                  <div class="testimonial-card">
+                    <div class="testimonial-header">
+                      <p class="testimonial-name strong-2">{{ testimonial.author }}</p>
+                      <div class="testimonial-rating">
+                        <div class="stars">
+                          @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <svg width="20" height="20" viewBox="0 0 24 24"
+                              [attr.fill]="star <= testimonial.rating ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <p class="testimonial-text body-1" [class.truncated]="needsTruncate && !expanded">
+                      {{ testimonial.textKey | translate }}
+                    </p>
+                    @if (needsTruncate) {
+                      <button type="button" class="read-more-btn small-1" (click)="toggleTestimonial(testimonialIndex)">
+                        {{ expanded ? (readLessKey | translate) : (readMoreKey | translate) }}
+                      </button>
+                    }
+                  </div>
                 }
               </div>
             </div>
-          </div>
-          <p class="testimonial-text body-1" [class.truncated]="needsTruncate && !expanded">
-            {{ testimonial.textKey | translate }}
-          </p>
-          @if (needsTruncate) {
-            <button 
-              class="read-more-btn small-1" 
-              (click)="toggleTestimonial(testimonialIndex)"
-              type="button"
-            >
-              {{ expanded ? (readLessKey | translate) : (readMoreKey | translate) }}
-            </button>
           }
         </div>
-      }
-            </div>
+      </div>
 
-    <!-- Navigation Arrows -->
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-left"
-      (click)="prevTestimonial()"
-      [attr.aria-label]="prevAriaKey | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-                  </svg>
-            </button>
-    
-    <button 
-      type="button"
-      class="nav-arrow nav-arrow-right"
-      (click)="nextTestimonial()"
-      [attr.aria-label]="nextAriaKey | translate"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-            </button>
+      <button type="button" class="nav-arrow nav-arrow-feedback" (click)="nextTestimonial()" [attr.aria-label]="nextAriaKey | translate">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
 
-    <!-- Pagination Dots -->
-    <div class="pagination-dots">
-      @for (page of pagesArray; track page) {
-        <button
-          type="button"
+    <div class="pagination-dots" role="group" [attr.aria-label]="paginationAriaKey | translate">
+      @for (page of pageIndices(); track page) {
+        <span
           class="pagination-dot"
-          [class.active]="currentPage === page"
-          (click)="goToTestimonial(page)"
+          role="button"
+          tabindex="0"
+          [class.active]="feedbackPageIndex() === page"
+          (click)="onDotClick($event, page)"
+          (keydown)="onDotKeydown($event, page)"
+          [attr.aria-current]="feedbackPageIndex() === page ? 'true' : null"
           [attr.aria-label]="(goToAriaPrefixKey | translate) + ' ' + (page + 1)"
-        ></button>
+        ></span>
       }
     </div>
   </div>

@@ -41,12 +41,12 @@ export class PromotionComponent implements OnInit {
 
   trainingGoals = [
     { value: 'improve-health', labelKey: 'home.promotion.goals.improveHealth' },
-    { value: 'increase-flexibility', labelKey: 'home.promotion.goals.increaseFlexibility' },
     { value: 'improve-posture', labelKey: 'home.promotion.goals.improvePosture' },
-    { value: 'get-stronger', labelKey: 'home.promotion.goals.getStronger' },
     { value: 'feel-confident', labelKey: 'home.promotion.goals.feelConfident' },
-    { value: 'tone-shape', labelKey: 'home.promotion.goals.toneShape' },
     { value: 'lose-weight', labelKey: 'home.promotion.goals.loseWeight' },
+    { value: 'increase-flexibility', labelKey: 'home.promotion.goals.increaseFlexibility' },
+    { value: 'get-stronger', labelKey: 'home.promotion.goals.getStronger' },
+    { value: 'tone-shape', labelKey: 'home.promotion.goals.toneShape' },
     { value: 'other', labelKey: 'home.promotion.goals.other' }
   ];
 

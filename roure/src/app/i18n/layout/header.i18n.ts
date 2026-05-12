@@ -9,7 +9,8 @@ export const headerTranslations: Record<SupportedLocale, Record<string, string>>
     'header.nav.blog': 'Blog',
     'header.actions.bookFreeIntake': 'Gratis intake boeken',
     'header.a11y.backToHome': 'Terug naar start',
-    'header.a11y.toggleNavigation': 'Navigatiemenu openen/sluiten'
+    'header.a11y.toggleNavigation': 'Navigatiemenu openen/sluiten',
+    'header.a11y.languageSwitch': 'Taal'
   },
   en: {
     'header.nav.home': 'Home',
@@ -19,7 +20,8 @@ export const headerTranslations: Record<SupportedLocale, Record<string, string>>
     'header.nav.blog': 'Blog',
     'header.actions.bookFreeIntake': 'Book free intake',
     'header.a11y.backToHome': 'Back to home',
-    'header.a11y.toggleNavigation': 'Toggle navigation menu'
+    'header.a11y.toggleNavigation': 'Toggle navigation menu',
+    'header.a11y.languageSwitch': 'Language'
   }
 };
 

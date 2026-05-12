@@ -1,7 +1,7 @@
 <?php
 // Compatible with older PHP runtimes (no scalar type hints / return types).
 
-// Minimal PHP backend under /api/ (also supports /staging/api/)
+// Minimal PHP backend under /api/ (also supports /staging/api/ legacy path and staging-api subdomain)
 // Public:
 //   GET  /content.json
 //   GET  /uploads/<file>
@@ -19,7 +19,9 @@ if (!is_string($reqPathForMount) || $reqPathForMount === '') $reqPathForMount = 
 
 // Detect where this API is mounted:
 // - production: /api
-// - staging: /staging/api
+// - staging (legacy): /staging/api
+// - staging (subdomain docroot): paths are /api/... or /content.json like production
+$httpHost = isset($_SERVER['HTTP_HOST']) ? strtolower((string)$_SERVER['HTTP_HOST']) : '';
 $mountPrefix = '/api';
 if (substr($reqPathForMount, 0, 12) === '/staging/api') {
   $mountPrefix = '/staging/api';
@@ -33,8 +35,27 @@ $GLOBALS['MOUNT_PREFIX'] = $mountPrefix;
 
 $cookiePath = $mountPrefix;
 $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
-// session_set_cookie_params(lifetime, path, domain, secure, httponly)
-session_set_cookie_params(0, $cookiePath, '', $secureCookie, true);
+$cookieDomainEnv = getenv('SESSION_COOKIE_DOMAIN');
+$cookieDomain = (is_string($cookieDomainEnv) && trim($cookieDomainEnv) !== '') ? trim($cookieDomainEnv) : '';
+if (PHP_VERSION_ID >= 70300) {
+  $cookieParams = array(
+    'lifetime' => 0,
+    'path' => $cookiePath,
+    'secure' => $secureCookie,
+    'httponly' => true,
+    'samesite' => 'Lax',
+  );
+  if ($cookieDomain !== '') {
+    $cookieParams['domain'] = $cookieDomain;
+    if ($secureCookie) {
+      // Dashboard on another subdomain uses credentialed cross-origin requests to this API.
+      $cookieParams['samesite'] = 'None';
+    }
+  }
+  session_set_cookie_params($cookieParams);
+} else {
+  session_set_cookie_params(0, $cookiePath, $cookieDomain, $secureCookie, true);
+}
 session_start();
 
 header('X-Content-Type-Options: nosniff');
@@ -50,7 +71,9 @@ $origin = isset($_SERVER['HTTP_ORIGIN']) ? (string)$_SERVER['HTTP_ORIGIN'] : '';
 $corsEnv = getenv('CORS_ORIGINS');
 $allowedOrigins = array(
   'https://painel.vistabela.fraiptech.com.br',
-  'https://vistabela.fraiptech.com.br'
+  'https://vistabela.fraiptech.com.br',
+  'https://staging-dashboard.rourepersonaltraining.nl',
+  'https://staging.rourepersonaltraining.nl'
 );
 if (is_string($corsEnv) && trim($corsEnv) !== '') {
   $allowedOrigins = array();
@@ -129,7 +152,9 @@ $domainRoot = null;
   }
 }
 
-$isStaging = ($mountPrefix === '/staging/api');
+$isStaging = ($mountPrefix === '/staging/api')
+  || ($httpHost === 'staging-api.rourepersonaltraining.nl')
+  || (getenv('ROURE_STAGING') === '1');
 
 function resolve_private_dir($domainRoot, $docRoot) {
   $candidates = array();
@@ -862,9 +887,11 @@ if (starts_with($path, '/admin/')) {
     $prefix = isset($GLOBALS['MOUNT_PREFIX']) && is_string($GLOBALS['MOUNT_PREFIX'])
       ? rtrim($GLOBALS['MOUNT_PREFIX'], '/')
       : '/api';
-    if ($prefix === '') $prefix = '/api';
 
-    $pathUrl = $prefix . '/uploads/' . $name;
+    // Root-mounted API serves uploads at /uploads/... (not //uploads).
+    $pathUrl = ($prefix === '' || $prefix === '/')
+      ? ('/uploads/' . $name)
+      : ($prefix . '/uploads/' . $name);
     $base = detect_public_base_url();
     $publicUrl = ($base !== '') ? ($base . $pathUrl) : $pathUrl;
     json_response(200, array('ok' => true, 'url' => $publicUrl));

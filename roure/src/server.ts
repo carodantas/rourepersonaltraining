@@ -32,8 +32,8 @@ function normalizeBasePath(input: string | undefined): string {
 const BASE_PATH = normalizeBasePath(process.env['BASE_PATH']);
 
 /**
- * Proxy `/api/*` requests to the PHP backend (backend-exemplo).
- * This allows both SSR and the browser to call same-origin `/api/...` endpoints.
+ * Proxy CMS + intake paths to PHP (Apache does this in static hosting via .htaccess).
+ * Same-origin URLs: `/content.json`, `/admin/*`, `/uploads/*`, `/preview/*`, `/form.php` (legacy `/api/*`).
  *
  * Configure with env:
  * - ROURE_API_TARGET (preferred)
@@ -45,9 +45,29 @@ const API_TARGET = (process.env['ROURE_API_TARGET'] || process.env['API_TARGET']
   .toString()
   .replace(/\/+$/g, '');
 
-app.use('/api', async (req, res, next) => {
+function pathOnlyFromUrl(url: string): string {
+  return (url.split(/[?#]/)[0] || '/').replace(/\\/g, '/');
+}
+
+function shouldForwardToPhpUpstream(url: string): boolean {
+  const p = pathOnlyFromUrl(url);
+  if (p === '/content.json' || p === '/content') return true;
+  if (p === '/admin' || p.startsWith('/admin/')) return true;
+  if (p.startsWith('/uploads/')) return true;
+  if (p.startsWith('/preview/')) return true;
+  if (p === '/form.php') return true;
+  if (p.startsWith('/api/') || p === '/api') return true;
+  return false;
+}
+
+app.use(async (req, res, next) => {
+  const orig = req.originalUrl ?? req.url ?? '/';
+  if (!shouldForwardToPhpUpstream(orig)) {
+    next();
+    return;
+  }
   try {
-    const targetUrl = `${API_TARGET}${req.originalUrl}`;
+    const targetUrl = `${API_TARGET}${orig}`;
     const headers: Record<string, string> = {};
     for (const [k, v] of Object.entries(req.headers)) {
       if (typeof v === 'string') headers[k] = v;
@@ -96,9 +116,7 @@ app.use('/api', async (req, res, next) => {
  *
  * Example:
  * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
+ * app.use((req,res) => ...)
  * ```
  */
 

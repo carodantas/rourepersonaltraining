@@ -21,7 +21,11 @@
         </span>
       }
     </button>
-    <div class="language-switch" role="group" aria-label="Language">
+    <div
+      class="language-switch language-switch--header"
+      role="group"
+      [attr.aria-label]="'header.a11y.languageSwitch' | translate"
+    >
       <button
         type="button"
         class="language-button"
@@ -63,6 +67,30 @@
   <!-- Dropdown Menu Estilo Luna -->
   @if (isMobileMenuOpen) {
     <div class="dropdown-menu">
+      <div class="dropdown-menu-lang">
+        <div
+          class="language-switch language-switch--dropdown"
+          role="group"
+          [attr.aria-label]="'header.a11y.languageSwitch' | translate"
+        >
+          <button
+            type="button"
+            class="language-button"
+            [class.active]="currentLocale === 'nl'"
+            (click)="setLocale('nl')"
+          >
+            NL
+          </button>
+          <button
+            type="button"
+            class="language-button"
+            [class.active]="currentLocale === 'en'"
+            (click)="setLocale('en')"
+          >
+            EN
+          </button>
+        </div>
+      </div>
       <nav class="dropdown-menu-nav" id="dropdown-navigation" aria-label="Main Navigation">
         <ul class="dropdown-nav-list">
           @for (item of navigationItems; track item.anchor) {
