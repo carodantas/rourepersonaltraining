@@ -72,9 +72,13 @@ $corsEnv = getenv('CORS_ORIGINS');
 $allowedOrigins = array(
   'https://painel.vistabela.fraiptech.com.br',
   'https://vistabela.fraiptech.com.br',
+  'http://staging-dashboard.rourepersonaltraining.nl',
   'https://staging-dashboard.rourepersonaltraining.nl',
+  'http://staging.rourepersonaltraining.nl',
   'https://staging.rourepersonaltraining.nl',
+  'http://rourepersonaltraining.nl',
   'https://rourepersonaltraining.nl',
+  'http://www.rourepersonaltraining.nl',
   'https://www.rourepersonaltraining.nl'
 );
 if (is_string($corsEnv) && trim($corsEnv) !== '') {

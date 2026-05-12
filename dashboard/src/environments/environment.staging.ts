@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
-  /** CMS is served on the public staging hostname (paths like /admin, /content.json) */
-  apiBaseUrl: 'https://staging.rourepersonaltraining.nl',
-  sitePublicOrigin: 'https://staging.rourepersonaltraining.nl',
+  /** PHP CMS API (subdomain; plain HTTP until TLS is enabled). */
+  apiBaseUrl: 'http://staging-api.rourepersonaltraining.nl',
+  /** Public marketing site origin (preview links). */
+  sitePublicOrigin: 'http://staging.rourepersonaltraining.nl',
 };
 
