@@ -65,11 +65,11 @@ export class StepsDetailComponent {
 
   getStepImage(id: DetailStep['id']): string {
     const images: Record<DetailStep['id'], string> = {
-      inbody: 'images/body-analysis-inbody.jpg',
-      app: 'images/progress-tracking.jpg',
-      evaluation: 'images/ongoing-evaluation.jpg'
+      inbody: '/images/body-analysis-inbody.jpg',
+      app: '/images/progress-tracking.jpg',
+      evaluation: '/images/ongoing-evaluation.jpg'
     };
-    return images[id] ?? 'images/no-image.jpg';
+    return images[id] ?? '/images/no-image.jpg';
   }
 }
 

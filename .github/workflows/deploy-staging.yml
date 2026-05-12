@@ -65,9 +65,9 @@ jobs:
         -o PreferredAuthentications=password,keyboard-interactive
         -o PubkeyAuthentication=no
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -103,7 +103,7 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Upload site to staging/
+      - name: Upload site to staging/ (REMOTE_ROOT/staging)
         run: >
           sshpass -p "$SSH_PASS" scp
           -O
@@ -130,9 +130,9 @@ jobs:
         -o PreferredAuthentications=password,keyboard-interactive
         -o PubkeyAuthentication=no
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -194,13 +194,28 @@ jobs:
         -o PreferredAuthentications=password,keyboard-interactive
         -o PubkeyAuthentication=no
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
       - name: Upload backend to staging-api/
+        shell: bash
         run: |
           set -euo pipefail
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/.htaccess"
+
+          upload_if_absent() {
+            local name="$1"
+            if sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" \
+                "[ -f \"${REMOTE_ROOT}/staging-api/${name}\" ]"; then
+              echo "staging-api/${name} already present — skip"
+            else
+              echo "staging-api/${name} missing — uploading"
+              sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS \
+                "backend/${name}" "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/${name}"
+            fi
+          }
+          upload_if_absent router.php
+          upload_if_absent content.json

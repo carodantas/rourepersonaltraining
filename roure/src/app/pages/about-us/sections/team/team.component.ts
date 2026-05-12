@@ -22,25 +22,25 @@ export class TeamComponent {
       name: 'Carlos Alberto Torres Roure',
       titleKey: 'aboutUs.team.members.carlos.title',
       bioKey: 'aboutUs.team.members.carlos.bio',
-      image: 'images/carlos-torres.jpg'
+      image: '/images/carlos-torres.jpg'
     },
     {
       name: 'Niels Greven',
       titleKey: 'aboutUs.team.members.niels.title',
       bioKey: 'aboutUs.team.members.niels.bio',
-      image: 'images/niels-greven.jpg'
+      image: '/images/niels-greven.jpg'
     },
     {
       name: 'Izabela Gasparovic',
       titleKey: 'aboutUs.team.members.izabela.title',
       bioKey: 'aboutUs.team.members.izabela.bio',
-      image: 'images/izabela-gasparovic.jpg'
+      image: '/images/izabela-gasparovic.jpg'
     },
     {
       name: 'Dennis Bakker',
       titleKey: 'aboutUs.team.members.dennis.title',
       bioKey: 'aboutUs.team.members.dennis.bio',
-      image: 'images/dennis-bakker.jpg'
+      image: '/images/dennis-bakker.jpg'
     }
   ];
 }

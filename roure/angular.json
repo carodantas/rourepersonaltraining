@@ -68,8 +68,8 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/",
-              "deployUrl": "/",
+              "baseHref": "/staging/",
+              "deployUrl": "/staging/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -78,8 +78,7 @@
               ],
               "styles": [
                 "src/styles.css",
-                "node_modules/cookieconsent/build/cookieconsent.min.css",
-                "src/styles.staging.css"
+                "node_modules/cookieconsent/build/cookieconsent.min.css"
               ]
             },
             "development": {

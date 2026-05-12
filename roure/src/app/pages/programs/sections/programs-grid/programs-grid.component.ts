@@ -24,25 +24,25 @@ export class ProgramsGridComponent {
     {
       titleKey: 'programs.grid.items.weightLoss.title',
       benefitsKeys: ['programs.grid.items.weightLoss.benefits.0', 'programs.grid.items.weightLoss.benefits.1'],
-      image: 'images/card-weight-loss-muscle-mass.jpg',
+      image: '/images/card-weight-loss-muscle-mass.jpg',
       route: '/programs/weight-loss-muscle-mass'
     },
     {
       titleKey: 'programs.grid.items.peak.title',
       benefitsKeys: ['programs.grid.items.peak.benefits.0', 'programs.grid.items.peak.benefits.1'],
-      image: 'images/card-peak-performance.jpg',
+      image: '/images/card-peak-performance.jpg',
       route: '/programs/peak-performance'
     },
     {
       titleKey: 'programs.grid.items.vitality.title',
       benefitsKeys: ['programs.grid.items.vitality.benefits.0', 'programs.grid.items.vitality.benefits.1'],
-      image: 'images/card-vitality-longevity.jpg',
+      image: '/images/card-vitality-longevity.jpg',
       route: '/programs/vitality-longevity'
     },
     {
       titleKey: 'programs.grid.items.prenatal.title',
       benefitsKeys: ['programs.grid.items.prenatal.benefits.0', 'programs.grid.items.prenatal.benefits.1'],
-      image: 'images/card-prenatal-postpartum.jpg',
+      image: '/images/card-prenatal-postpartum.jpg',
       route: '/programs/prenatal-postpartum'
     }
   ];

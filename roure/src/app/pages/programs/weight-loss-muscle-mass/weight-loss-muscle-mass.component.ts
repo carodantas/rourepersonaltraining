@@ -54,8 +54,8 @@ export class WeightLossMuscleMassComponent implements AfterViewInit, OnDestroy {
       rating: 5,
       textKey: 'programs.weightLoss.testimonials.jeroen.p1',
       expandedText: ['programs.weightLoss.testimonials.jeroen.p2', 'programs.weightLoss.testimonials.jeroen.p3'],
-      beforeImage: 'images/jeroen-marre-before.jpg',
-      afterImage: 'images/jeroen-marre-after.jpg'
+      beforeImage: '/images/jeroen-marre-before.jpg',
+      afterImage: '/images/jeroen-marre-after.jpg'
     },
     {
       id: 'reza',
@@ -63,8 +63,8 @@ export class WeightLossMuscleMassComponent implements AfterViewInit, OnDestroy {
       rating: 5,
       textKey: 'programs.weightLoss.testimonials.reza.p1',
       expandedText: ['programs.weightLoss.testimonials.reza.p2'],
-      beforeImage: 'images/reza-before.jpg',
-      afterImage: 'images/reza-after.jpg'
+      beforeImage: '/images/reza-before.jpg',
+      afterImage: '/images/reza-after.jpg'
     }
   ];
 

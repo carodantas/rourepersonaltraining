@@ -205,6 +205,18 @@ export class BlogService {
     return o ? `${o}/${p}` : p;
   }
 
+  /**
+   * Root-absolute URLs so assets work when the app is served under a path prefix (e.g. /staging/).
+   * CMS may store `/uploads/...`, `uploads/...`, or full HTTPS URLs.
+   */
+  private normalizePublicAssetUrl(raw: string | undefined | null): string {
+    const s = raw == null ? '' : String(raw).trim();
+    if (!s) return '/images/sem-imagem.jpg';
+    if (/^https?:\/\//i.test(s)) return s;
+    if (s.startsWith('/')) return s;
+    return '/' + s.replace(/^\/+/, '');
+  }
+
   private pickCategoryName(cat: CmsCategory, locale: SupportedLocale): string {
     if (locale === 'en') return cat.i18n?.en?.name ?? cat.name ?? '';
     return cat.name ?? '';
@@ -239,7 +251,7 @@ export class BlogService {
     const p = this.pickPost(post, locale);
     const category = cats.find((c) => c.id === p.categoryId) ?? null;
     const categoryLabel = category ? this.pickCategoryName(category, locale) : this.i18n.translate('blog.uncategorized');
-    const cardImage = p.cardImage ?? p.heroImage ?? 'images/sem-imagem.jpg';
+    const cardImage = this.normalizePublicAssetUrl(p.cardImage ?? p.heroImage);
     return {
       id: p.id,
       slug: p.slug,
@@ -258,7 +270,7 @@ export class BlogService {
     const card = this.toCardView(post, cats, locale);
     return {
       ...card,
-      heroImage: p.heroImage ?? p.cardImage ?? card.cardImage,
+      heroImage: this.normalizePublicAssetUrl(p.heroImage ?? p.cardImage ?? card.cardImage),
       content: p.content,
     };
   }
