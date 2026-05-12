@@ -67,6 +67,26 @@ header('X-Content-Type-Options: nosniff');
 // while keeping credentials (cookies) working.
 //
 // Configure via env: CORS_ORIGINS="https://painel.example.com,https://site.example.com"
+// When set, entries replace the default list below (rourepersonaltraining.nl hosts still allowed via suffix rule).
+function roure_cors_origin_is_allowed($origin, $allowedExact) {
+  if (!is_string($origin) || $origin === '') {
+    return false;
+  }
+  if (in_array($origin, $allowedExact, true)) {
+    return true;
+  }
+  $parts = parse_url($origin);
+  if (!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+    return false;
+  }
+  $scheme = strtolower((string)$parts['scheme']);
+  if ($scheme !== 'http' && $scheme !== 'https') {
+    return false;
+  }
+  $host = strtolower((string)$parts['host']);
+  return (bool)preg_match('/(^|\\.)rourepersonaltraining\\.nl$/', $host);
+}
+
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? (string)$_SERVER['HTTP_ORIGIN'] : '';
 $corsEnv = getenv('CORS_ORIGINS');
 $allowedOrigins = array(
@@ -90,7 +110,7 @@ if (is_string($corsEnv) && trim($corsEnv) !== '') {
   }
 }
 
-if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
+if ($origin !== '' && roure_cors_origin_is_allowed($origin, $allowedOrigins)) {
   header('Access-Control-Allow-Origin: ' . $origin);
   header('Vary: Origin');
   header('Access-Control-Allow-Credentials: true');
