@@ -9,11 +9,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Deploy to Staging (subdomains)
+  prepare-remote:
+    name: Staging — prepare server folders
     runs-on: ubuntu-latest
     environment: deploy
-
     env:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
@@ -26,25 +25,59 @@ jobs:
         -o PubkeyAcceptedAlgorithms=+ssh-rsa
         -o PreferredAuthentications=password,keyboard-interactive
         -o PubkeyAuthentication=no
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Validate SSH secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SSH_HOST:-}" || (echo "Missing SSH_HOST secret" && exit 1)
+          test -n "${SSH_USER:-}" || (echo "Missing SSH_USER secret" && exit 1)
+          test -n "${SSH_PASS:-}" || (echo "Missing SSH_PASS secret (Environment 'deploy'?)" && exit 1)
+          test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
+          test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
+
+      - name: Create docroots and clear SPA targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
+          sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" \
+            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; mkdir -p \"\$REMOTE_ROOT/staging\" \"\$REMOTE_ROOT/staging-api\" \"\$REMOTE_ROOT/staging-dashboard\" && find \"\$REMOTE_ROOT/staging\" -mindepth 1 -maxdepth 1 -exec rm -rf {} + && find \"\$REMOTE_ROOT/staging-dashboard\" -mindepth 1 -maxdepth 1 -exec rm -rf {} +'"
+
+  staging-site:
+    name: Staging — site (build + upload)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: |
-            roure/package-lock.json
-            dashboard/package-lock.json
+          cache-dependency-path: roure/package-lock.json
 
       - name: Install deps (roure)
         working-directory: roure
         run: npm ci
 
-      - name: Build site (staging, base-href=/)
+      - name: Build site (staging)
         working-directory: roure
         run: npm run build -- --configuration=staging
 
@@ -52,11 +85,11 @@ jobs:
         working-directory: roure
         run: test -d dist/rourepersonaltraining/browser
 
-      - name: Add Apache SPA .htaccess into build output
+      - name: Add Apache SPA .htaccess
         working-directory: roure
         run: cp src/.htaccess dist/rourepersonaltraining/browser/.htaccess
 
-      - name: Create site deep-link fallbacks (no .htaccess required)
+      - name: Site deep-link fallbacks
         working-directory: roure
         run: |
           set -euo pipefail
@@ -67,23 +100,61 @@ jobs:
             cp "$ROOT/index.html" "$ROOT/$p/index.html"
           done
 
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Upload site to staging/
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -O
+          -P "$SSH_PORT"
+          $SSH_OPTS
+          -r roure/dist/rourepersonaltraining/browser/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
+
+  staging-dashboard:
+    name: Staging — dashboard (build + upload)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
       - name: Install deps (dashboard)
         working-directory: dashboard
         run: npm ci
 
-      - name: Build dashboard (staging, base-href=/)
+      - name: Build dashboard (staging)
         working-directory: dashboard
         run: npm run build -- --configuration=staging
 
-      - name: Ensure dashboard build output exists
+      - name: Ensure dashboard build exists
         working-directory: dashboard
         run: test -f dist/dashboard/browser/index.html
 
-      - name: Add Apache SPA .htaccess into dashboard build output
+      - name: Add Apache SPA .htaccess
         working-directory: dashboard
         run: cp src/.htaccess dist/dashboard/browser/.htaccess
 
-      - name: Create dashboard deep-link fallbacks (no .htaccess required)
+      - name: Dashboard deep-link fallbacks
         working-directory: dashboard
         run: |
           set -euo pipefail
@@ -96,88 +167,40 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Validate SSH secrets (fail fast if missing)
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "${SSH_HOST:-}" || (echo "Missing SSH_HOST secret" && exit 1)
-          test -n "${SSH_USER:-}" || (echo "Missing SSH_USER secret" && exit 1)
-          test -n "${SSH_PASS:-}" || (echo "Missing SSH_PASS secret (is it set in Environment 'deploy'?)" && exit 1)
-          test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
-          test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
-
-      - name: Prepare remote staging folders (site + sibling staging-dashboard + staging/api)
-        shell: bash
-        env:
-          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
-        run: |
-          set -euo pipefail
-          PARENT_REMOTE="$(dirname "$REMOTE_ROOT")"
-          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
-          PARENT_Q="$(printf '%q' "$PARENT_REMOTE")"
-          sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" \
-            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; PARENT_REMOTE=$PARENT_Q; mkdir -p \"\$REMOTE_ROOT/staging\" \"\$REMOTE_ROOT/staging-api\" \"\$REMOTE_ROOT/staging/api\" \"\$PARENT_REMOTE/staging-dashboard\" && find \"\$REMOTE_ROOT/staging\" -mindepth 1 -maxdepth 1 -exec rm -rf {} + && find \"\$PARENT_REMOTE/staging-dashboard\" -mindepth 1 -maxdepth 1 -exec rm -rf {} + && mkdir -p \"\$REMOTE_ROOT/../_private\" \"\$REMOTE_ROOT/../images/uploads-staging\" \"\$REMOTE_ROOT/_private\" \"\$REMOTE_ROOT/images/uploads-staging\"'"
-
-      - name: Upload site to staging via SCP
+      - name: Upload dashboard to staging-dashboard/
         run: >
           sshpass -p "$SSH_PASS" scp
           -O
           -P "$SSH_PORT"
           $SSH_OPTS
-          -r roure/dist/rourepersonaltraining/browser/*
-          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/"
+          -r dashboard/dist/dashboard/browser/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-dashboard/"
 
-      - name: Upload dashboard to staging via SCP (sibling staging-dashboard docroot)
-        shell: bash
-        env:
-          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+  staging-api:
+    name: Staging — API (upload PHP)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Upload backend to staging-api/
         run: |
           set -euo pipefail
-          DASH_REMOTE="$(dirname "$REMOTE_ROOT")/staging-dashboard"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS \
-            -r dashboard/dist/dashboard/browser/* "$SSH_USER@$SSH_HOST:$DASH_REMOTE/"
-
-      - name: Upload backend code to staging API (preserve data)
-        run: |
-          set -euo pipefail
-          # Upload code files — primary on public site /staging subtree + legacy staging-api vhost.
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging-api/.htaccess"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/index.php"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/staging/api/.htaccess"
-
-          # Seed content/users only if missing (isolated staging data).
-          # We seed both locations:
-          # - ../_private (preferred)
-          # - ./_private inside public_html (fallback for open_basedir hosts)
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/content-staging.seed.json"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/users-staging.seed.json"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/content-staging.seed.json"
-          sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/users-staging.seed.json"
-
-          sshpass -p "$SSH_PASS" ssh -p "$SSH_PORT" $SSH_OPTS "$SSH_USER@$SSH_HOST" "
-            set -e;
-            mkdir -p '$REMOTE_ROOT/../_private' '$REMOTE_ROOT/../images/uploads-staging' '$REMOTE_ROOT/_private' '$REMOTE_ROOT/images/uploads-staging';
-
-            if [ ! -f '$REMOTE_ROOT/../_private/content-staging.json' ]; then
-              mv '$REMOTE_ROOT/../_private/content-staging.seed.json' '$REMOTE_ROOT/../_private/content-staging.json';
-            else
-              rm -f '$REMOTE_ROOT/../_private/content-staging.seed.json';
-            fi
-            if [ ! -f '$REMOTE_ROOT/../_private/users-staging.json' ]; then
-              mv '$REMOTE_ROOT/../_private/users-staging.seed.json' '$REMOTE_ROOT/../_private/users-staging.json';
-            else
-              rm -f '$REMOTE_ROOT/../_private/users-staging.seed.json';
-            fi
-
-            if [ ! -f '$REMOTE_ROOT/_private/content-staging.json' ]; then
-              mv '$REMOTE_ROOT/_private/content-staging.seed.json' '$REMOTE_ROOT/_private/content-staging.json';
-            else
-              rm -f '$REMOTE_ROOT/_private/content-staging.seed.json';
-            fi
-            if [ ! -f '$REMOTE_ROOT/_private/users-staging.json' ]; then
-              mv '$REMOTE_ROOT/_private/users-staging.seed.json' '$REMOTE_ROOT/_private/users-staging.json';
-            else
-              rm -f '$REMOTE_ROOT/_private/users-staging.seed.json';
-            fi
-          "
