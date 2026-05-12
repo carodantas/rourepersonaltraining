@@ -1,7 +1,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # If this folder is published as /api (or /staging/api), route non-files to index.php
+  # Force CMS/API routes through PHP. Otherwise a stray static file (e.g. content.json)
+  # would be served without CORS headers and cross-origin browsers block the response.
+  RewriteRule ^content\.json$ index.php [L]
+  RewriteRule ^content/?$ index.php [L]
+  RewriteRule ^preview(/.*)?$ index.php [L]
+  RewriteRule ^admin(/.*)?$ index.php [L]
+  RewriteRule ^uploads(/.*)?$ index.php [L]
+
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
@@ -16,4 +23,3 @@
   Header set Pragma "no-cache"
   Header set Expires "0"
 </IfModule>
-
