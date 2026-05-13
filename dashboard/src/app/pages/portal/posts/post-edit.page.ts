@@ -52,7 +52,7 @@ export class PostEditPage {
   readonly categories = signal<BlogCategory[]>([]);
 
   readonly form = this.fb.group({
-    // Meta
+    // Meta — only slug is required (URL key). Everything else is optional for drafts.
     id: [''],
     slug: ['', [Validators.required]],
     status: ['draft', [Validators.required]],
@@ -62,15 +62,15 @@ export class PostEditPage {
     heroImage: [''],
 
     // NL (base)
-    titleNl: ['', [Validators.required]],
+    titleNl: [''],
     excerptNl: [''],
-    introNl: ['', [Validators.required]],
+    introNl: [''],
     sectionsNl: this.fb.array([]),
 
-    // EN (translation)
-    titleEn: ['', [Validators.required]],
+    // EN (translation — optional; invalid hidden-tab fields used to block save with no UI hint)
+    titleEn: [''],
     excerptEn: [''],
-    introEn: ['', [Validators.required]],
+    introEn: [''],
     sectionsEn: this.fb.array([])
   });
 
@@ -136,8 +136,8 @@ export class PostEditPage {
 
   private sectionGroup(s?: Partial<BlogPostSection>) {
     return this.fb.group({
-      title: [s?.title ?? '', [Validators.required]],
-      body: [s?.body ?? '', [Validators.required]]
+      title: [s?.title ?? ''],
+      body: [s?.body ?? '']
     });
   }
 
@@ -347,7 +347,11 @@ export class PostEditPage {
     this.info.set(null);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.error.set('Please fix the highlighted fields.');
+      if (this.form.controls.slug.invalid) {
+        this.error.set('Please enter a slug (URL segment) for this post.');
+      } else {
+        this.error.set('Please fix the fields outlined in red.');
+      }
       return;
     }
     if (!this.content?.blog) {

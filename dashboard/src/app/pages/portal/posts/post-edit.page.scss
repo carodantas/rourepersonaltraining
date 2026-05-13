@@ -167,3 +167,11 @@ h4 {
   }
 }
 
+/* Reactive forms: show validation errors after save attempt */
+.form-grid input.ng-invalid.ng-touched,
+.form-grid select.ng-invalid.ng-touched,
+.form-grid textarea.ng-invalid.ng-touched {
+  border-color: #c62828;
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.35);
+}
+

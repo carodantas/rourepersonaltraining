@@ -67,6 +67,11 @@
   box-shadow: var(--shadow-sm), var(--ring);
 }
 
+:host(.ng-invalid.ng-touched) .rte-editor {
+  border-color: #c62828;
+  box-shadow: var(--shadow-sm), 0 0 0 2px rgba(198, 40, 40, 0.35);
+}
+
 .rte-editor:empty::before {
   content: attr(data-placeholder);
   color: rgba(71, 85, 105, 0.8);

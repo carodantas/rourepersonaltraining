@@ -73,8 +73,8 @@ export class CategoriesPage {
   private categoryGroupFromModel(c: BlogCategory) {
     return this.fb.group({
       id: [c.id ?? '', [Validators.required]],
-      nameNl: [c.name ?? '', [Validators.required]],
-      nameEn: [c.i18n?.en?.name ?? '', [Validators.required]]
+      nameNl: [c.name ?? ''],
+      nameEn: [c.i18n?.en?.name ?? '']
     });
   }
 
@@ -82,8 +82,8 @@ export class CategoriesPage {
     this.categoriesArray.push(
       this.fb.group({
         id: ['new-category', [Validators.required]],
-        nameNl: ['New category', [Validators.required]],
-        nameEn: ['New category', [Validators.required]]
+        nameNl: [''],
+        nameEn: ['']
       }) as any
     );
   }
@@ -103,7 +103,7 @@ export class CategoriesPage {
     this.info.set(null);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.error.set('Please fix the highlighted fields.');
+      this.error.set('Each category needs a non-empty ID (e.g. personal-training). Other fields are optional.');
       return;
     }
     if (!this.content) {
