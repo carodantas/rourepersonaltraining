@@ -1,4 +1,5 @@
-/** Production: CMS paths via same-origin `.htaccess` → `api/index.php` (HTTPS as the page). */
+/** Production: same-origin HTTPS — `RewriteRule ^api` → `api/index.php`; see `BlogService.apiUrl`. */
 export const environment = {
   apiPublicOrigin: '',
+  cmsPathPrefix: '/api',
 };

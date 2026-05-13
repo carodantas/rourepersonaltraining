@@ -201,8 +201,11 @@ export class BlogService {
 
   private apiUrl(path: string): string {
     const o = (environment.apiPublicOrigin ?? '').trim().replace(/\/$/, '');
+    const prefix = (environment.cmsPathPrefix ?? '').trim().replace(/\/$/, '');
     const p = path.replace(/^\//, '');
-    return o ? `${o}/${p}` : `/${p}`;
+    if (o) return `${o}/${p}`;
+    if (prefix) return `${prefix}/${p}`;
+    return `/${p}`;
   }
 
   /**
