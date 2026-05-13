@@ -49,22 +49,17 @@ function pathOnlyFromUrl(url: string): string {
   return (url.split(/[?#]/)[0] || '/').replace(/\\/g, '/');
 }
 
-function isBlockedDashboardUrl(url: string): boolean {
-  const p = pathOnlyFromUrl(url);
-  if (BASE_PATH) {
-    if (!p.startsWith(BASE_PATH)) return false;
-    const rest = p.slice(BASE_PATH.length) || '/';
-    const norm = rest.startsWith('/') ? rest : `/${rest}`;
-    return norm === '/dashboard' || norm.startsWith('/dashboard/');
-  }
-  return p === '/dashboard' || p.startsWith('/dashboard/');
-}
+/** On the marketing site (no BASE_PATH), paths that should not exist here redirect to /. */
+const RESERVED_PATHS_TO_HOME = ['dashboard', 'staging', 'staging-api', 'staging-dashboard'] as const;
 
-/** When this Node app is the marketing site (no BASE_PATH), hide /staging on the same origin. */
-function isBlockedStagingOnMarketingHost(url: string): boolean {
+function shouldRedirectReservedPathToHome(url: string): boolean {
   if (BASE_PATH) return false;
   const p = pathOnlyFromUrl(url);
-  return p === '/staging' || p.startsWith('/staging/');
+  for (const seg of RESERVED_PATHS_TO_HOME) {
+    const prefix = `/${seg}`;
+    if (p === prefix || p === `${prefix}/` || p.startsWith(`${prefix}/`)) return true;
+  }
+  return false;
 }
 
 function shouldForwardToPhpUpstream(url: string): boolean {
@@ -80,8 +75,8 @@ function shouldForwardToPhpUpstream(url: string): boolean {
 
 app.use((req, res, next) => {
   const orig = req.originalUrl ?? req.url ?? '/';
-  if (isBlockedDashboardUrl(orig) || isBlockedStagingOnMarketingHost(orig)) {
-    res.status(403).type('text/plain').send('Forbidden');
+  if (shouldRedirectReservedPathToHome(orig)) {
+    res.redirect(301, '/');
     return;
   }
   next();

@@ -1,11 +1,8 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Admin app must not be exposed under the marketing origin (use the dashboard host/path only)
-  RewriteRule ^dashboard(?:/|$) - [F,L]
-
-  # Staging builds must not be reachable on the production marketing host (use staging subdomain / docroot)
-  RewriteRule ^staging(?:/|$) - [F,L]
+  # These app trees are not served on the marketing host; send users to home (/api/ stays allowed below)
+  RewriteRule ^(dashboard|staging|staging-api|staging-dashboard)(?:/|$) / [R=302,L]
 
   # Serve existing files/directories as-is
   RewriteCond %{REQUEST_FILENAME} -f [OR]
