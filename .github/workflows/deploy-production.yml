@@ -1,5 +1,6 @@
 name: Deploy (Production)
 
+# Manual only: GitHub → Actions → this workflow → "Run workflow". Not triggered by push.
 on:
   workflow_dispatch: {}
 

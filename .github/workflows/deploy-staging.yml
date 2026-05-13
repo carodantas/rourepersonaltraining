@@ -1,5 +1,6 @@
 name: Deploy (Staging)
 
+# Automatic deploy on every push to the default branch (merge to main).
 on:
   push:
     branches: [main]
