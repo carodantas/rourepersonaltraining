@@ -9,5 +9,7 @@ export const environment = {
    * Public site origin for dashboard "open preview" links. Empty = same host as the dashboard.
    */
   sitePublicOrigin: '',
+  /** Rewrite media URLs from API host to this origin; empty = no rewrite (dev / same-host API). */
+  mediaPublicOrigin: '',
 };
 

@@ -33,11 +33,45 @@ export class AdminApiService {
   }
 
   private absoluteMaybe(pathOrUrl: string) {
-    // If API returns relative URLs like "/uploads/...", make them absolute for the dashboard domain.
     if (typeof pathOrUrl !== 'string') return pathOrUrl as unknown as string;
-    if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) return pathOrUrl;
-    if (pathOrUrl.startsWith('/')) return `${environment.apiBaseUrl}${pathOrUrl}`;
-    return pathOrUrl;
+    const trimmed = pathOrUrl.trim();
+    if (trimmed === '') return '';
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+    if (trimmed.startsWith('/')) {
+      const base = environment.apiBaseUrl.replace(/\/$/, '');
+      if (!base) return trimmed;
+      try {
+        return new URL(trimmed, `${base}/`).href;
+      } catch {
+        return `${base}${trimmed}`;
+      }
+    }
+    return trimmed;
+  }
+
+  /**
+   * Absolute URL for display/API: same as {@link absoluteMaybe}, then optional origin swap so
+   * uploads match the public site (e.g. `api.*` → `rourepersonaltraining.nl`) when `mediaPublicOrigin` is set.
+   */
+  normalizeMediaUrl(pathOrUrl: string): string {
+    const abs = this.absoluteMaybe(pathOrUrl);
+    const mediaOrigin = (environment.mediaPublicOrigin ?? '').replace(/\/$/, '');
+    if (!mediaOrigin || abs === '') return abs;
+    const isUploadPath = (path: string) => path.includes('/api/uploads/') || path.includes('/uploads/');
+    if (!isUploadPath(abs)) return abs;
+    try {
+      if (abs.startsWith('http://') || abs.startsWith('https://')) {
+        const u = new URL(abs);
+        if (isUploadPath(u.pathname)) {
+          return `${mediaOrigin}${u.pathname}${u.search}${u.hash}`;
+        }
+        return abs;
+      }
+      if (abs.startsWith('/')) return `${mediaOrigin}${abs}`;
+    } catch {
+      /* ignore malformed URLs */
+    }
+    return abs;
   }
 
   login(username: string, password: string) {
@@ -73,7 +107,7 @@ export class AdminApiService {
     form.append('file', file);
     return this.http
       .post<{ ok: boolean; url: string }>(this.url('/admin/upload'), form, { withCredentials: true })
-      .pipe(map(res => ({ ...res, url: this.absoluteMaybe(res.url) })));
+      .pipe(map(res => ({ ...res, url: this.normalizeMediaUrl(res.url) })));
   }
 
   deleteUpload(url: string) {

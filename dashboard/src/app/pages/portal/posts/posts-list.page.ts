@@ -76,6 +76,11 @@ export class PostsListPage {
     void this.router.navigate(['/posts/new']);
   }
 
+  cardSrc(src: string | undefined): string {
+    const n = this.api.normalizeMediaUrl((src ?? '').trim());
+    return n || '/images/sem-imagem.jpg';
+  }
+
   statusLabel(p: BlogPost): string {
     return p.status === 'published' ? 'Published' : 'Draft';
   }

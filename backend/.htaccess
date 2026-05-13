@@ -1,8 +1,13 @@
+
+# When the API vhost is api.* but upload responses should point at the public marketing host.
+<IfModule mod_setenvif.c>
+  SetEnvIf Host "api\.rourepersonaltraining\.nl$" PUBLIC_BASE_URL=https://rourepersonaltraining.nl
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Force CMS/API routes through PHP. Otherwise a stray static file (e.g. content.json)
-  # would be served without CORS headers and cross-origin browsers block the response.
+  # Force CMS/API routes through PHP. Otherwise a stray static file (e.g. content.json)  # would be served without CORS headers and cross-origin browsers block the response.
   RewriteRule ^content\.json$ index.php [L]
   RewriteRule ^content/?$ index.php [L]
   RewriteRule ^preview(/.*)?$ index.php [L]

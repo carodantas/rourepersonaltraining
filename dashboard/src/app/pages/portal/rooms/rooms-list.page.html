@@ -30,7 +30,7 @@
       @for (r of filtered(); track r.id) {
         <button class="item" type="button" (click)="edit(r.id)">
           <div class="thumb">
-            <img [src]="r.images[0] || '/images/sem-imagem.jpg'" alt="" />
+            <img [src]="thumbSrc(r.images[0])" alt="" />
           </div>
           <div class="meta">
             <div class="name">{{ r.name }}</div>

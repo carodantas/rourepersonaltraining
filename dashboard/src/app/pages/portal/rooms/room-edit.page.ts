@@ -241,7 +241,9 @@ export class RoomEditPage {
     (room.packageFeatures ?? []).forEach(v => this.packageFeatures.push(this.fb.control(v)));
 
     this.images.clear();
-    (room.images ?? []).forEach(v => this.images.push(this.fb.control(v)));
+    (room.images ?? []).forEach(v =>
+      this.images.push(this.fb.control(this.api.normalizeMediaUrl((v ?? '').toString().trim())))
+    );
 
     // i18n
     const en = room.i18n?.en ?? null;

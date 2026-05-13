@@ -203,7 +203,9 @@ export class PackageEditPage {
     });
 
     this.images.clear();
-    (pkg.images ?? []).forEach(v => this.images.push(this.fb.control(v)));
+    (pkg.images ?? []).forEach(v =>
+      this.images.push(this.fb.control(this.api.normalizeMediaUrl((v ?? '').toString().trim())))
+    );
 
     const en = pkg.i18n?.en ?? null;
     const es = pkg.i18n?.es ?? null;

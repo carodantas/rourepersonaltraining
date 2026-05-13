@@ -66,5 +66,10 @@ export class RoomsListPage {
   create(): void {
     void this.router.navigate(['/quartos/novo']);
   }
+
+  thumbSrc(src: string | undefined): string {
+    const n = this.api.normalizeMediaUrl((src ?? '').trim());
+    return n || '/images/sem-imagem.jpg';
+  }
 }
 
