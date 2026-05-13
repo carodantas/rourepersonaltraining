@@ -49,6 +49,24 @@ function pathOnlyFromUrl(url: string): string {
   return (url.split(/[?#]/)[0] || '/').replace(/\\/g, '/');
 }
 
+function isBlockedDashboardUrl(url: string): boolean {
+  const p = pathOnlyFromUrl(url);
+  if (BASE_PATH) {
+    if (!p.startsWith(BASE_PATH)) return false;
+    const rest = p.slice(BASE_PATH.length) || '/';
+    const norm = rest.startsWith('/') ? rest : `/${rest}`;
+    return norm === '/dashboard' || norm.startsWith('/dashboard/');
+  }
+  return p === '/dashboard' || p.startsWith('/dashboard/');
+}
+
+/** When this Node app is the marketing site (no BASE_PATH), hide /staging on the same origin. */
+function isBlockedStagingOnMarketingHost(url: string): boolean {
+  if (BASE_PATH) return false;
+  const p = pathOnlyFromUrl(url);
+  return p === '/staging' || p.startsWith('/staging/');
+}
+
 function shouldForwardToPhpUpstream(url: string): boolean {
   const p = pathOnlyFromUrl(url);
   if (p === '/content.json' || p === '/content') return true;
@@ -59,6 +77,15 @@ function shouldForwardToPhpUpstream(url: string): boolean {
   if (p.startsWith('/api/') || p === '/api') return true;
   return false;
 }
+
+app.use((req, res, next) => {
+  const orig = req.originalUrl ?? req.url ?? '/';
+  if (isBlockedDashboardUrl(orig) || isBlockedStagingOnMarketingHost(orig)) {
+    res.status(403).type('text/plain').send('Forbidden');
+    return;
+  }
+  next();
+});
 
 app.use(async (req, res, next) => {
   const orig = req.originalUrl ?? req.url ?? '/';
