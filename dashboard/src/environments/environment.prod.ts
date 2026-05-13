@@ -1,16 +1,12 @@
 export const environment = {
   production: true,
   /**
-   * PHP CMS origin + mount path. Production deploy uses `public_html/api/index.php`, i.e.
-   * `https://rourepersonaltraining.nl/api` so credentialed calls from the dashboard host work.
+   * Production CMS host (subdomain docroot, same pattern as staging-api).
+   * Paths are /admin/..., /content.json, etc. (no extra /api prefix in the URL).
    */
-  apiBaseUrl: 'https://rourepersonaltraining.nl/api',
-  /** Main site origin for preview links from the dashboard */
+  apiBaseUrl: 'https://api.rourepersonaltraining.nl',
   sitePublicOrigin: 'https://rourepersonaltraining.nl',
-  /**
-   * When the API is still reached on another hostname (e.g. `api.*`) but uploads are public on
-   * the main site under `/api/uploads/`, set this to the main HTTPS origin. Empty = no rewrite.
-   */
-  mediaPublicOrigin: '',
+  /** Uploads and public URLs live on the main site under /api/uploads/ */
+  mediaPublicOrigin: 'https://rourepersonaltraining.nl',
 };
 

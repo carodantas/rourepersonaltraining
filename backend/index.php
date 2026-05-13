@@ -33,10 +33,15 @@ if (substr($reqPathForMount, 0, 12) === '/staging/api') {
 }
 $GLOBALS['MOUNT_PREFIX'] = $mountPrefix;
 
-$cookiePath = $mountPrefix;
 $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 $cookieDomainEnv = getenv('SESSION_COOKIE_DOMAIN');
 $cookieDomain = (is_string($cookieDomainEnv) && trim($cookieDomainEnv) !== '') ? trim($cookieDomainEnv) : '';
+// Share session across dashboard / API / apex on this project without extra server env.
+if ($cookieDomain === '' && $httpHost !== '' && preg_match('/(^|\\.)rourepersonaltraining\\.nl$/', $httpHost)) {
+  $cookieDomain = '.rourepersonaltraining.nl';
+}
+// Path must be "/" whenever Domain is set, otherwise api.* docroot routes like /admin/... never match Path=/api.
+$cookiePath = ($cookieDomain !== '') ? '/' : $mountPrefix;
 if (PHP_VERSION_ID >= 70300) {
   $cookieParams = array(
     'lifetime' => 0,
