@@ -8,8 +8,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy to Production (/)
+  prepare-remote:
+    name: Production — prepare server (clean root, preserve trees)
     runs-on: ubuntu-latest
     environment: deploy
 
@@ -27,17 +27,67 @@ jobs:
         -o PubkeyAuthentication=no
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Validate SSH secrets (fail fast if missing)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SSH_HOST:-}" || (echo "Missing SSH_HOST secret" && exit 1)
+          test -n "${SSH_USER:-}" || (echo "Missing SSH_USER secret" && exit 1)
+          test -n "${SSH_PASS:-}" || (echo "Missing SSH_PASS secret (is it set in Environment 'deploy'?)" && exit 1)
+          test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
+          test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
+
+      - name: Clean remote production web root (preserve api, dashboard, staging trees)
+        shell: bash
+        env:
+          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+        run: |
+          set -euo pipefail
+          PARENT_REMOTE="$(dirname "$REMOTE_ROOT")"
+          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
+          PARENT_Q="$(printf '%q' "$PARENT_REMOTE")"
+          sshpass -p "$SSH_PASS" ssh \
+            -p "$SSH_PORT" $SSH_OPTS \
+            "$SSH_USER@$SSH_HOST" \
+            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; PARENT_REMOTE=$PARENT_Q; cd \"\$REMOTE_ROOT\" && find . -mindepth 1 -maxdepth 1 \
+              ! -name .well-known \
+              ! -name api \
+              ! -name dashboard \
+              ! -name staging \
+              ! -name staging-api \
+              ! -name staging-dashboard \
+              -exec rm -rf {} + && mkdir -p \"\$REMOTE_ROOT/api\" \"\$REMOTE_ROOT/staging\" \"\$REMOTE_ROOT/staging-api\" \"\$REMOTE_ROOT/staging-dashboard\" \"\$PARENT_REMOTE/dashboard\" \"\$REMOTE_ROOT/../_private\" \"\$REMOTE_ROOT/../images/uploads\" \"\$REMOTE_ROOT/_private\" \"\$REMOTE_ROOT/images/uploads\"'"
+
+  production-site:
+    name: Production — site (build + upload)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: |
-            roure/package-lock.json
-            dashboard/package-lock.json
+          cache-dependency-path: roure/package-lock.json
 
       - name: Install deps (roure)
         working-directory: roure
@@ -65,6 +115,46 @@ jobs:
             mkdir -p "$ROOT/$p"
             cp "$ROOT/index.html" "$ROOT/$p/index.html"
           done
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Upload site to production via SCP
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -O
+          -P "$SSH_PORT"
+          $SSH_OPTS
+          -r roure/dist/rourepersonaltraining/browser/*
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/"
+
+  production-dashboard:
+    name: Production — dashboard (build + upload)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
 
       - name: Install deps (dashboard)
         working-directory: dashboard
@@ -95,39 +185,6 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Validate SSH secrets (fail fast if missing)
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "${SSH_HOST:-}" || (echo "Missing SSH_HOST secret" && exit 1)
-          test -n "${SSH_USER:-}" || (echo "Missing SSH_USER secret" && exit 1)
-          test -n "${SSH_PASS:-}" || (echo "Missing SSH_PASS secret (is it set in Environment 'deploy'?)" && exit 1)
-          test -n "${SSH_PORT:-}" || (echo "Missing SSH_PORT secret" && exit 1)
-          test -n "${REMOTE_ROOT:-}" || (echo "Missing SSH_PATH secret (REMOTE_ROOT)" && exit 1)
-
-      - name: Clean remote production web root (preserve /staging, /api; dashboard beside public_html)
-        shell: bash
-        env:
-          REMOTE_ROOT: ${{ secrets.SSH_PATH }}
-        run: |
-          set -euo pipefail
-          PARENT_REMOTE="$(dirname "$REMOTE_ROOT")"
-          REMOTE_Q="$(printf '%q' "$REMOTE_ROOT")"
-          PARENT_Q="$(printf '%q' "$PARENT_REMOTE")"
-          sshpass -p "$SSH_PASS" ssh \
-            -p "$SSH_PORT" $SSH_OPTS \
-            "$SSH_USER@$SSH_HOST" \
-            "bash -lc 'REMOTE_ROOT=$REMOTE_Q; PARENT_REMOTE=$PARENT_Q; cd \"\$REMOTE_ROOT\" && find . -mindepth 1 -maxdepth 1 ! -name staging ! -name .well-known ! -name api -exec rm -rf {} + && mkdir -p \"\$REMOTE_ROOT/api\" \"\$PARENT_REMOTE/dashboard\" \"\$REMOTE_ROOT/../_private\" \"\$REMOTE_ROOT/../images/uploads\" \"\$REMOTE_ROOT/_private\" \"\$REMOTE_ROOT/images/uploads\"'"
-
-      - name: Upload site to production via SCP
-        run: >
-          sshpass -p "$SSH_PASS" scp
-          -O
-          -P "$SSH_PORT"
-          $SSH_OPTS
-          -r roure/dist/rourepersonaltraining/browser/*
-          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/"
-
       - name: Upload dashboard to production via SCP (sibling dashboard/ docroot)
         shell: bash
         env:
@@ -138,17 +195,37 @@ jobs:
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS \
             -r dashboard/dist/dashboard/browser/* "$SSH_USER@$SSH_HOST:$DASH_REMOTE/"
 
+  production-api:
+    name: Production — API (upload PHP + seed if missing)
+    runs-on: ubuntu-latest
+    environment: deploy
+    needs: prepare-remote
+
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      REMOTE_ROOT: ${{ secrets.SSH_PATH }}
+      SSH_OPTS: >-
+        -o StrictHostKeyChecking=no
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedAlgorithms=+ssh-rsa
+        -o PreferredAuthentications=password,keyboard-interactive
+        -o PubkeyAuthentication=no
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
       - name: Upload backend code to production API (preserve data)
         run: |
           set -euo pipefail
-          # Upload code files
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/index.php "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/api/index.php"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/.htaccess "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/api/.htaccess"
 
-          # Seed content/users only if missing.
-          # We seed both locations:
-          # - ../_private (preferred)
-          # - ./_private inside public_html (fallback for open_basedir hosts)
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/content.seed.json"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/private/security/users.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/../_private/users.seed.json"
           sshpass -p "$SSH_PASS" scp -O -P "$SSH_PORT" $SSH_OPTS backend/content.json "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/_private/content.seed.json"
@@ -179,4 +256,3 @@ jobs:
               rm -f '$REMOTE_ROOT/_private/users.seed.json';
             fi
           "
-
