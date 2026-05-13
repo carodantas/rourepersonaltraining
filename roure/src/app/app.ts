@@ -7,6 +7,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, skip } from 'rxjs';
 import { TranslationService } from './services/translation.service';
+import { AnalyticsService } from './services/analytics.service';
 import { baseCookieConfig } from './app.config';
 import type { SupportedLocale } from './i18n/locales';
 
@@ -18,6 +19,7 @@ import type { SupportedLocale } from './i18n/locales';
 })
 export class App implements OnInit, AfterViewInit {
   private title = inject(Title);
+  private analytics = inject(AnalyticsService);
   private translation = inject(TranslationService);
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
@@ -105,7 +107,19 @@ export class App implements OnInit, AfterViewInit {
       // ignore
     }
 
-    const cfg = { ...baseCookieConfig, content };
+    const cfg = {
+      ...baseCookieConfig,
+      content,
+      onInitialise: (status: string) => {
+        this.analytics.applyCookieConsentStatus(status);
+      },
+      onStatusChange: (status: string) => {
+        this.analytics.applyCookieConsentStatus(status);
+      },
+      onRevokeChoice: () => {
+        this.analytics.applyCookieConsentStatus('deny');
+      },
+    };
     this.cookieConsentInstance = lib.initialise(cfg);
   }
 }

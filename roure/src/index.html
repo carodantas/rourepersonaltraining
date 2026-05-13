@@ -12,18 +12,27 @@
   <meta property="og:description" content="Private personal training studio in Amsterdam Oost. Tailored fitness programs for strength, health, and long-term results.">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/webp" href="icon-192x192.webp">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google-analytics.com">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&family=Avenir+Next:wght@400&family=Anton&display=swap" rel="stylesheet">
   
-  <!-- Google Analytics -->
+  <!-- Google tag (GA4): Consent Mode defaults + SPA-friendly config (no automatic first page_view; Angular sends one per route) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RT9X7JZQ89"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-RT9X7JZQ89');
+    gtag('consent', 'default', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    gtag('config', 'G-RT9X7JZQ89', { send_page_view: false });
   </script>
   
   <!-- Microsoft Clarity -->
