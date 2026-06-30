@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AdminApiService } from '../../../services/admin-api.service';
@@ -21,6 +21,33 @@ function dateInputToIso(date: string): string | undefined {
   const d = (date ?? '').trim();
   if (!d) return undefined;
   return `${d}T00:00:00Z`;
+}
+
+/** Merge introduction + sections into a single HTML blob for the unified editor. */
+function mergePostContentToHtml(
+  introduction: string | undefined,
+  sections: BlogPostSection[] | undefined
+): string {
+  const parts: string[] = [];
+  const intro = (introduction ?? '').trim();
+  if (intro) parts.push(intro);
+
+  for (const section of sections ?? []) {
+    const title = (section.title ?? '').trim();
+    const body = (section.body ?? '').trim();
+    if (title) parts.push(`<h3>${escapeHtml(title)}</h3>`);
+    if (body) parts.push(body);
+  }
+
+  return parts.join('\n');
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 @Component({
@@ -64,18 +91,13 @@ export class PostEditPage {
     // NL (base)
     titleNl: [''],
     excerptNl: [''],
-    introNl: [''],
-    sectionsNl: this.fb.array([]),
+    contentNl: [''],
 
     // EN (translation — optional; invalid hidden-tab fields used to block save with no UI hint)
     titleEn: [''],
     excerptEn: [''],
-    introEn: [''],
-    sectionsEn: this.fb.array([])
+    contentEn: ['']
   });
-
-  readonly sectionsNl = computed(() => this.form.controls.sectionsNl as FormArray);
-  readonly sectionsEn = computed(() => this.form.controls.sectionsEn as FormArray);
 
   constructor() {
     this.load();
@@ -134,25 +156,6 @@ export class PostEditPage {
   }
 
 
-  private sectionGroup(s?: Partial<BlogPostSection>) {
-    return this.fb.group({
-      title: [s?.title ?? ''],
-      body: [s?.body ?? '']
-    });
-  }
-
-  addSection(locale: Locale): void {
-    // NL controls the structure; always sync to EN
-    this.sectionsNl().push(this.sectionGroup({ title: 'New section', body: '' }));
-    this.sectionsEn().push(this.sectionGroup({ title: '', body: '' }));
-  }
-
-  removeSection(locale: Locale, index: number): void {
-    // NL controls the structure; always sync to EN
-    this.sectionsNl().removeAt(index);
-    this.sectionsEn().removeAt(index);
-  }
-
   normalizeSlug(): void {
     const raw = (this.form.controls.slug.value ?? '').toString();
     this.form.controls.slug.setValue(slugify(raw));
@@ -207,21 +210,22 @@ export class PostEditPage {
       heroImage: '',
       titleNl: '',
       excerptNl: '',
-      introNl: '',
+      contentNl: '',
       titleEn: '',
       excerptEn: '',
-      introEn: ''
+      contentEn: ''
     });
-    this.sectionsNl().clear();
-    this.sectionsEn().clear();
-    this.sectionsNl().push(this.sectionGroup({ title: 'New section', body: '' }));
-    this.sectionsEn().push(this.sectionGroup({ title: 'New section', body: '' }));
   }
 
   private fillForm(p: BlogPost): void {
     const en = p.i18n?.en ?? {};
     const enContent = en.content ?? {};
+    const nlHtml = mergePostContentToHtml(p.content?.introduction, p.content?.sections);
     const enSections = enContent.sections ?? [];
+    const enHtml =
+      enContent.introduction != null || enSections.length > 0
+        ? mergePostContentToHtml(enContent.introduction, enSections)
+        : mergePostContentToHtml(p.content?.introduction, p.content?.sections);
 
     this.form.reset({
       id: p.id ?? '',
@@ -233,22 +237,11 @@ export class PostEditPage {
       heroImage: this.api.normalizeMediaUrl((p.heroImage ?? '').trim()),
       titleNl: p.title ?? '',
       excerptNl: p.excerpt ?? '',
-      introNl: p.content?.introduction ?? '',
+      contentNl: nlHtml,
       titleEn: en.title ?? p.title ?? '',
       excerptEn: en.excerpt ?? p.excerpt ?? '',
-      introEn: enContent.introduction ?? p.content?.introduction ?? ''
+      contentEn: enHtml
     });
-
-    this.sectionsNl().clear();
-    for (const s of p.content?.sections ?? []) this.sectionsNl().push(this.sectionGroup(s));
-
-    this.sectionsEn().clear();
-    if (enSections.length > 0) {
-      for (const s of enSections) this.sectionsEn().push(this.sectionGroup(s));
-    } else {
-      // default: copy NL -> EN for convenience
-      for (const s of p.content?.sections ?? []) this.sectionsEn().push(this.sectionGroup(s));
-    }
   }
 
   clearImage(controlName: 'cardImage' | 'heroImage'): void {
@@ -363,9 +356,6 @@ export class PostEditPage {
     const nowIso = new Date().toISOString();
     const slug = slugify(values.slug ?? '');
 
-    const baseSections = (this.sectionsNl().getRawValue() as BlogPostSection[]) ?? [];
-    const enSections = (this.sectionsEn().getRawValue() as BlogPostSection[]) ?? [];
-
     const id =
       (values.id ?? '').trim() ||
       `post_${slug || Math.random().toString(16).slice(2)}`;
@@ -383,16 +373,16 @@ export class PostEditPage {
       title: (values.titleNl ?? '').trim(),
       excerpt: (values.excerptNl ?? '').trim() || undefined,
       content: {
-        introduction: (values.introNl ?? '').trim(),
-        sections: baseSections,
+        introduction: (values.contentNl ?? '').trim(),
+        sections: [],
       },
       i18n: {
         en: {
           title: (values.titleEn ?? '').trim() || undefined,
           excerpt: (values.excerptEn ?? '').trim() || undefined,
           content: {
-            introduction: (values.introEn ?? '').trim() || undefined,
-            sections: enSections
+            introduction: (values.contentEn ?? '').trim() || undefined,
+            sections: [],
           }
         }
       }

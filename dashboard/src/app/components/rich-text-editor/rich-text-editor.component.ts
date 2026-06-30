@@ -6,8 +6,12 @@ import {
   Input,
   ViewChild,
   forwardRef,
+  inject,
+  signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { AdminApiService } from '../../services/admin-api.service';
 
 function normalizeHtml(html: string): string {
   const raw = (html ?? '').toString();
@@ -39,13 +43,20 @@ function normalizeHtml(html: string): string {
   ],
 })
 export class RichTextEditorComponent implements ControlValueAccessor {
+  private readonly api = inject(AdminApiService);
+
   @Input() placeholder = 'Write…';
 
   @ViewChild('editable', { static: true })
   private editableRef!: ElementRef<HTMLDivElement>;
 
-  disabled = false;
+  @ViewChild('imageInput')
+  private imageInputRef?: ElementRef<HTMLInputElement>;
 
+  disabled = false;
+  readonly uploading = signal(false);
+
+  private savedRange: Range | null = null;
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
 
@@ -83,7 +94,77 @@ export class RichTextEditorComponent implements ControlValueAccessor {
   }
 
   onBlur(): void {
+    this.saveSelection();
     this.onTouched();
+  }
+
+  onSelectionChange(): void {
+    this.saveSelection();
+  }
+
+  private saveSelection(): void {
+    const sel = window.getSelection();
+    const el = this.editableRef?.nativeElement;
+    if (!sel || sel.rangeCount === 0 || !el) return;
+    const range = sel.getRangeAt(0);
+    if (el.contains(range.commonAncestorContainer)) {
+      this.savedRange = range.cloneRange();
+    }
+  }
+
+  private restoreSelection(): boolean {
+    const el = this.editableRef?.nativeElement;
+    if (!el || !this.savedRange) return false;
+    el.focus();
+    const sel = window.getSelection();
+    if (!sel) return false;
+    sel.removeAllRanges();
+    sel.addRange(this.savedRange);
+    return true;
+  }
+
+  pickImage(): void {
+    if (this.disabled || this.uploading()) return;
+    this.saveSelection();
+    this.imageInputRef?.nativeElement?.click();
+  }
+
+  onImagePicked(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    if (input) input.value = '';
+    if (!file) return;
+
+    this.uploading.set(true);
+    this.api.upload(file).subscribe({
+      next: (res) => {
+        this.uploading.set(false);
+        this.insertImageAtCursor(res.url);
+      },
+      error: () => {
+        this.uploading.set(false);
+      },
+    });
+  }
+
+  private insertImageAtCursor(url: string): void {
+    if (this.disabled || !url) return;
+    const el = this.editableRef?.nativeElement;
+    if (!el) return;
+
+    el.focus();
+    if (!this.restoreSelection()) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+    }
+
+    // eslint-disable-next-line deprecation/deprecation
+    document.execCommand('insertImage', false, url);
+    this.onInput();
   }
 
   private focus(): void {
