@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  /** PHP CMS API (subdomain; plain HTTP until TLS is enabled). */
-  apiBaseUrl: 'http://staging-api.rourepersonaltraining.nl',
+  /** Same HTTPS origin as staging-dashboard — avoids mixed-content blocks in the browser. */
+  apiBaseUrl: 'https://rourepersonaltraining.nl/staging-api',
   /** Public marketing site origin (preview links). */
-  sitePublicOrigin: 'http://staging.rourepersonaltraining.nl',
-  mediaPublicOrigin: '',
+  sitePublicOrigin: 'https://rourepersonaltraining.nl/staging',
+  mediaPublicOrigin: 'https://rourepersonaltraining.nl',
 };
 

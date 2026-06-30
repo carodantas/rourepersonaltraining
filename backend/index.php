@@ -25,8 +25,13 @@ $httpHost = isset($_SERVER['HTTP_HOST']) ? strtolower((string)$_SERVER['HTTP_HOS
 $mountPrefix = '/api';
 if (substr($reqPathForMount, 0, 12) === '/staging/api') {
   $mountPrefix = '/staging/api';
+} elseif (substr($reqPathForMount, 0, 13) === '/staging-api') {
+  $mountPrefix = '/staging-api';
 } elseif (substr($reqPathForMount, 0, 4) === '/api') {
   $mountPrefix = '/api';
+} elseif ($httpHost === 'staging-api.rourepersonaltraining.nl' || $httpHost === 'api.rourepersonaltraining.nl') {
+  // Subdomain docroot: paths are /admin/..., /content.json, etc.
+  $mountPrefix = '/';
 } else {
   // fallback if routed unexpectedly
   $mountPrefix = '/';
@@ -186,6 +191,7 @@ $domainRoot = null;
 }
 
 $isStaging = ($mountPrefix === '/staging/api')
+  || ($mountPrefix === '/staging-api')
   || ($httpHost === 'staging-api.rourepersonaltraining.nl')
   || (getenv('ROURE_STAGING') === '1');
 

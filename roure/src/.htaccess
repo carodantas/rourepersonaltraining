@@ -1,16 +1,17 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # These app trees are not served on the marketing host; send users to home (/api/ stays allowed below)
-  RewriteRule ^(dashboard|staging|staging-api|staging-dashboard)(?:/|$) / [R=302,L]
+  # Dashboard lives on dashboard.*; block accidental /dashboard/ on the marketing host
+  RewriteRule ^dashboard(?:/|$) / [R=302,L]
+
+  # CMS API paths — before filesystem short-circuit (api/ and staging-api/ are real directories)
+  RewriteRule ^api(?:/|$) api/index.php [L]
+  RewriteRule ^staging-api(?:/|$) staging-api/index.php [L]
 
   # Serve existing files/directories as-is
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
-
-  # Legacy: /api/... still hits api/index.php (PHP sees full /api/... URI)
-  RewriteRule ^api(?:/|$) api/index.php [L]
 
   # CMS + uploads on same host as the public site (no /api prefix)
   RewriteRule ^content\.json$ api/index.php [L,QSA]
