@@ -1,7 +1,8 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Dashboard lives on dashboard.*; block accidental /dashboard/ on the marketing host
+  # Block /dashboard/ only on the marketing host (dashboard.* uses public_html/dashboard/ as docroot)
+  RewriteCond %{HTTP_HOST} ^(www\.)?rourepersonaltraining\.nl$ [NC]
   RewriteRule ^dashboard(?:/|$) / [R=302,L]
 
   # CMS API paths — before filesystem short-circuit (api/ and staging-api/ are real directories)
