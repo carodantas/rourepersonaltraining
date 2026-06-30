@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -22,8 +22,8 @@ export class BlogPostComponent {
   private readonly blog = inject(BlogService);
   private readonly destroyRef = inject(DestroyRef);
 
-  slug: string | null = null;
-  article: BlogPostView | null = null;
+  readonly article = signal<BlogPostView | null>(null);
+  private readonly slug = signal<string | null>(null);
 
   constructor() {
     const locale$ = toObservable(this.blog.localeSignal);
@@ -32,21 +32,22 @@ export class BlogPostComponent {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         switchMap(([params, query, locale]) => {
-          this.slug = params.get('slug');
+          this.slug.set(params.get('slug'));
           const previewToken = query.get('preview');
-          if (!this.slug) return of(null);
+          const slug = this.slug();
+          if (!slug) return of(null);
           if (previewToken) {
             return this.blog.getPreviewPostByToken(locale, previewToken);
           }
-          return this.blog.getPostBySlug(locale, this.slug);
+          return this.blog.getPostBySlug(locale, slug);
         })
       )
       .subscribe((post) => {
-        this.article = post;
-        if (this.slug && !post) {
+        this.article.set(post);
+        if (this.slug() && !post) {
           void this.router.navigate(['/blog']);
-      }
-    });
+        }
+      });
   }
 }
 
