@@ -163,35 +163,9 @@
                 <textarea formControlName="excerptNl" rows="2" placeholder="Brief summary in Dutch"></textarea>
               </label>
               <label>
-                <span>Introduction</span>
-                <app-rich-text-editor formControlName="introNl" placeholder="Opening paragraph in Dutch"></app-rich-text-editor>
+                <span>Content</span>
+                <app-rich-text-editor formControlName="contentNl" placeholder="Full post content in Dutch"></app-rich-text-editor>
               </label>
-            </div>
-
-            <div class="sections" formArrayName="sectionsNl">
-              <div class="sections-head">
-                <h4>Sections</h4>
-                <button class="btn btn-secondary" type="button" (click)="addSection('nl')">Add section</button>
-              </div>
-
-              @for (s of sectionsNl().controls; track $index) {
-                <div class="section-card" [formGroupName]="$index">
-                  <div class="section-actions">
-                    <div class="muted mono">#{{ $index + 1 }}</div>
-                    <button class="btn btn-danger" type="button" (click)="removeSection('nl', $index)">Remove</button>
-                  </div>
-                  <div class="form-grid">
-                    <label>
-                      <span>Section title</span>
-                      <input type="text" formControlName="title" placeholder="Section heading" />
-                    </label>
-                    <label>
-                      <span>Body</span>
-                      <app-rich-text-editor formControlName="body" placeholder="Section content"></app-rich-text-editor>
-                    </label>
-                  </div>
-                </div>
-              }
             </div>
           </div>
         }
@@ -208,34 +182,9 @@
                 <textarea formControlName="excerptEn" rows="2" placeholder="Brief summary in English"></textarea>
               </label>
               <label>
-                <span>Introduction</span>
-                <app-rich-text-editor formControlName="introEn" placeholder="Opening paragraph in English"></app-rich-text-editor>
+                <span>Content</span>
+                <app-rich-text-editor formControlName="contentEn" placeholder="Full post content in English"></app-rich-text-editor>
               </label>
-            </div>
-
-            <div class="sections" formArrayName="sectionsEn">
-              <div class="sections-head">
-                <h4>Sections</h4>
-                <p class="muted hint">Sections mirror the Dutch structure. Add or remove sections in the NL tab.</p>
-              </div>
-
-              @for (s of sectionsEn().controls; track $index) {
-                <div class="section-card" [formGroupName]="$index">
-                  <div class="section-actions">
-                    <div class="muted mono">#{{ $index + 1 }}</div>
-                  </div>
-                  <div class="form-grid">
-                    <label>
-                      <span>Section title</span>
-                      <input type="text" formControlName="title" placeholder="Section heading" />
-                    </label>
-                    <label>
-                      <span>Body</span>
-                      <app-rich-text-editor formControlName="body" placeholder="Section content"></app-rich-text-editor>
-                    </label>
-                  </div>
-                </div>
-              }
             </div>
           </div>
         }
