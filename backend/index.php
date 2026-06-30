@@ -39,6 +39,9 @@ if (substr($reqPathForMount, 0, 12) === '/staging/api') {
 $GLOBALS['MOUNT_PREFIX'] = $mountPrefix;
 
 $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+if (!$secureCookie && !empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+  $secureCookie = (strtolower((string)$_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+}
 $cookieDomainEnv = getenv('SESSION_COOKIE_DOMAIN');
 $cookieDomain = (is_string($cookieDomainEnv) && trim($cookieDomainEnv) !== '') ? trim($cookieDomainEnv) : '';
 // Share session across dashboard / API / apex on this project without extra server env.

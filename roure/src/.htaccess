@@ -5,8 +5,8 @@
   RewriteRule ^dashboard(?:/|$) / [R=302,L]
 
   # CMS API paths — before filesystem short-circuit (api/ and staging-api/ are real directories)
-  RewriteRule ^api(?:/|$) api/index.php [L]
-  RewriteRule ^staging-api(?:/|$) staging-api/index.php [L]
+  RewriteRule ^api(?:/.*)?$ api/index.php [L,QSA]
+  RewriteRule ^staging-api(?:/.*)?$ staging-api/index.php [L,QSA]
 
   # Serve existing files/directories as-is
   RewriteCond %{REQUEST_FILENAME} -f [OR]

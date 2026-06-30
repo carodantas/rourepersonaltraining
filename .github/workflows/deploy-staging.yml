@@ -220,3 +220,12 @@ jobs:
           }
           upload_if_absent router.php
           upload_if_absent content.json
+
+      - name: Sync public_html .htaccess (routes /staging-api and /api on main host)
+        run: >
+          sshpass -p "$SSH_PASS" scp
+          -O
+          -P "$SSH_PORT"
+          $SSH_OPTS
+          roure/src/.htaccess
+          "$SSH_USER@$SSH_HOST:$REMOTE_ROOT/.htaccess"
