@@ -143,7 +143,7 @@ jobs:
         working-directory: dashboard
         run: npm ci
 
-      - name: Build dashboard (staging)
+      - name: Build dashboard (staging, base-href=/staging-dashboard/)
         working-directory: dashboard
         run: npm run build -- --configuration=staging
 

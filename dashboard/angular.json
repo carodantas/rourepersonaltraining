@@ -33,6 +33,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/dashboard/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -54,6 +55,7 @@
               "outputHashing": "all"
             },
             "staging": {
+              "baseHref": "/staging-dashboard/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

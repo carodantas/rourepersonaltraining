@@ -605,25 +605,28 @@ function verify_password_and_maybe_upgrade($user, $password, $usersPath) {
   $plain = isset($user['password']) ? $user['password'] : null;
 
   $ok = false;
+  $usedPlain = false;
   if (is_string($hash) && $hash !== '') {
     $ok = password_verify($password, $hash);
-  } elseif (is_string($plain) && $plain !== '') {
+  }
+  // Fallback to plaintext bootstrap password when hash is missing or stale (seed/migration).
+  if (!$ok && is_string($plain) && $plain !== '') {
     $ok = hash_equals($plain, $password);
-    // Upgrade to passwordHash on successful login
-    if ($ok) {
-      $user['passwordHash'] = password_hash($password, PASSWORD_DEFAULT);
-      unset($user['password']);
+    $usedPlain = $ok;
+  }
+  if ($ok && $usedPlain) {
+    $user['passwordHash'] = password_hash($password, PASSWORD_DEFAULT);
+    unset($user['password']);
 
-      $data = read_json_file($usersPath);
-      if (is_array($data) && isset($data['users']) && is_array($data['users'])) {
-        foreach ($data['users'] as $idx => $u) {
-          $uName = is_array($u) && isset($u['username']) ? $u['username'] : null;
-          $meName = isset($user['username']) ? $user['username'] : null;
-          if ($uName === $meName) {
-            $data['users'][$idx] = $user;
-            write_json_atomic($usersPath, $data);
-            break;
-          }
+    $data = read_json_file($usersPath);
+    if (is_array($data) && isset($data['users']) && is_array($data['users'])) {
+      foreach ($data['users'] as $idx => $u) {
+        $uName = is_array($u) && isset($u['username']) ? $u['username'] : null;
+        $meName = isset($user['username']) ? $user['username'] : null;
+        if ($uName === $meName) {
+          $data['users'][$idx] = $user;
+          write_json_atomic($usersPath, $data);
+          break;
         }
       }
     }

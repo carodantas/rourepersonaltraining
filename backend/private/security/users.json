@@ -3,8 +3,7 @@
         {
             "username": "admin",
             "role": "admin",
-            "password": "admin123",
-            "passwordHash": "$2y$12$Y.pgSmsQonqspusyS0HKHO7p2cPn7fEX8s6Tva/s8flPI68lTA5Rq",
+            "passwordHash": "$2y$12$ngYQ4So.BFB/eutKIXP7b.XXpv9DmxIpc3M6VSqTT4109EsGvDlSe",
             "id": "u_13ad8aa3763c602e",
             "active": true,
             "name": "",
