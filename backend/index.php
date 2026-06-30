@@ -99,6 +99,8 @@ $allowedOrigins = array(
   'https://vistabela.fraiptech.com.br',
   'http://staging-dashboard.rourepersonaltraining.nl',
   'https://staging-dashboard.rourepersonaltraining.nl',
+  'http://dashboard.rourepersonaltraining.nl',
+  'https://dashboard.rourepersonaltraining.nl',
   'http://staging.rourepersonaltraining.nl',
   'https://staging.rourepersonaltraining.nl',
   'http://rourepersonaltraining.nl',

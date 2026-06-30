@@ -159,7 +159,7 @@ jobs:
         working-directory: dashboard
         run: npm ci
 
-      - name: Build dashboard (production, base-href=/dashboard/, docroot public_html/dashboard/)
+      - name: Build dashboard (production, base-href=/, subdomain dashboard.rourepersonaltraining.nl)
         working-directory: dashboard
         run: npm run build -- --configuration=production
 
