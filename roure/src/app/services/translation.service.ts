@@ -12,9 +12,10 @@ import { programsTranslations } from '../i18n/pages/programs.i18n';
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
-  private _locale: SupportedLocale = DEFAULT_LOCALE;
-  private readonly _localeChanges$ = new BehaviorSubject<SupportedLocale>(DEFAULT_LOCALE);
-  readonly localeSignal = signal<SupportedLocale>(DEFAULT_LOCALE);
+  private readonly initialLocale = this.readPersistedLocale() ?? DEFAULT_LOCALE;
+  private _locale: SupportedLocale = this.initialLocale;
+  private readonly _localeChanges$ = new BehaviorSubject<SupportedLocale>(this.initialLocale);
+  readonly localeSignal = signal<SupportedLocale>(this.initialLocale);
 
   private readonly dictionaries: Array<Record<SupportedLocale, Record<string, string>>> = [
     headerTranslations,
@@ -26,12 +27,6 @@ export class TranslationService {
     methodsTranslations,
     programsTranslations
   ];
-
-  constructor() {
-    this._locale = this.readPersistedLocale() ?? DEFAULT_LOCALE;
-    this._localeChanges$.next(this._locale);
-    this.localeSignal.set(this._locale);
-  }
 
   get locale(): SupportedLocale {
     return this._locale;
